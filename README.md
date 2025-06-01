@@ -43,6 +43,6 @@ npm run dev
 ## 💬 Support & Contact
 
 Got a suggestion, idea, or feedback?
-You can find ways to reach me on my [GitHub profile](https://github.com/AMN2080) — feel free to reach out.
+You can find ways to reach me on my [GitHub profile](https://github.com/NedaMani) — feel free to reach out.
 
 I'm always happy to chat about anything🤠(as long as time allows)
