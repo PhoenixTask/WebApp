@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@import url("./style/fonts.css");
+@import url("./style/custom-colors.css");
+@import url("./style/custom-styles.css");
+
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark --prefersdark,
+    cupcake;
+}
+
+@plugin "daisyui/theme" {
+  name: "default";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-base-100: oklch(98% 0.02 240);
+  --color-base-200: oklch(0.98 0.0108 256.69);
+  --color-base-300: oklch(0.96 0.0227 241.88);
+  --color-base-content: oklch(20% 0.05 240);
+  --color-primary: oklch(55% 0.3 240);
+  --color-primary-content: oklch(98% 0.01 240);
+  --color-secondary: oklch(0.71 0.134 224.19);
+  --color-secondary-content: oklch(98% 0.01 200);
+  --color-accent: oklch(65% 0.25 160);
+  --color-accent-content: oklch(98% 0.01 160);
+  --color-neutral: oklch(0.57 0.0574 240.41);
+  --color-neutral-content: oklch(98% 0.01 240);
+  --color-info: oklch(70% 0.2 220);
+  --color-info-content: oklch(98% 0.01 220);
+  --color-success: oklch(65% 0.25 140);
+  --color-success-content: oklch(98% 0.01 140);
+  --color-warning: oklch(80% 0.25 80);
+  --color-warning-content: oklch(20% 0.05 80);
+  --color-error: oklch(65% 0.3 30);
+  --color-error-content: oklch(98% 0.01 30);
+}
+
+@theme {
+  --font-IranYekan: "IRANYekan", sans-serif;
+  --color-mint: var(--color-mint);
+  --color-ocean: var(--color-ocean);
+  --color-sun: var(--color-sun);
+  --color-forest: var(--color-forest);
+  --color-sand: var(--color-sand);
+  --color-rose: var(--color-rose);
+  --color-cherry: var(--color-cherry);
+  --color-grape: var(--color-grape);
+  --color-lavender: var(--color-lavender);
+  --color-coal: var(--color-coal);
+  --color-stone: var(--color-stone);
+}
