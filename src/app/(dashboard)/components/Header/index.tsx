@@ -16,10 +16,8 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             textSize="S"
             weight="600"
             className={clsx(
-              "px-5 flex items-center gap-1",
-              location === "list"
-                ? "text-primary hover:text-primary"
-                : "text-neutral"
+              "px-5 flex items-center gap-1 hover:text-primary/70",
+              location === "list" ? "text-primary" : "text-neutral"
             )}
           >
             <Icon iconName="ListView" />
@@ -30,10 +28,8 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             textSize="S"
             weight="600"
             className={clsx(
-              "px-5 flex items-center gap-1",
-              location === "column"
-                ? "text-primary hover:text-primary"
-                : "text-neutral"
+              "px-5 flex items-center gap-1 hover:text-primary/70",
+              location === "column" ? "text-primary" : "text-neutral"
             )}
           >
             <Icon iconName="ColumnView" />
@@ -44,10 +40,8 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             textSize="S"
             weight="600"
             className={clsx(
-              "px-5 flex items-center gap-1",
-              location === "calendar"
-                ? "text-primary hover:text-primary"
-                : "text-neutral"
+              "px-5 flex items-center gap-1 hover:text-primary/70",
+              location === "calendar" ? "text-primary" : "text-neutral"
             )}
           >
             <Icon iconName="Calendar" />
@@ -64,9 +58,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             <Icon iconName="DarkMode" />
           </Button>
 
-          <div className="pr-5 py-1">
-            {/* <Share /> todo: share Modal */}
-          </div>
+          <div className="pr-5 py-1">{/* <Share /> todo: share Modal */}</div>
         </div>
       </div>
       <div className="flex items-center justify-between font-medium py-4.5 gap-4 border-y border-neutral">
