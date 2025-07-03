@@ -36,7 +36,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html dir="rtl" lang="fa" data-theme="default">
       <body className="font-IranYekan">
-        <Toaster position="bottom-right" />
+        <Toaster position="top-left" />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
