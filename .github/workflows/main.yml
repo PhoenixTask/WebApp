@@ -16,7 +16,7 @@ jobs:
           BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          MESSAGE="🚀 A new commit was pushed to the main branch! 🎉
+          MESSAGE="🚀 A new commit was pushed to: ${{ github.ref_name }}
           📂 Repository: <b>${{ github.repository }}</b>
           ✉️ Commit Message: <i>${{ github.event.head_commit.message }}</i>
           👤 Author: <code>${{ github.event.head_commit.author.name }}</code>
