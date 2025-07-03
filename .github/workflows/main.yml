@@ -2,7 +2,7 @@ name: Telegram Commit Notification
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, dev ]
 
 jobs:
   notify:
