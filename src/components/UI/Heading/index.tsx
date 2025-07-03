@@ -13,6 +13,7 @@ const Size = {
   S: "text-2xl",
   M: "text-3xl",
   L: "text-4xl",
+  XL: "text-7xl",
 };
 
 interface Props {
