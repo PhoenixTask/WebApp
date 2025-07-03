@@ -12,6 +12,7 @@ import { schema, schemaType } from "@/schemas/modals/project";
 import Icon from "@/components/Icon";
 import { useCreateProject } from "@/hooks/useProjects";
 import useActiveState from "@/store/useActiveState";
+import { useEffect, useRef } from "react";
 
 interface CreateProjectModalProps {
   onClose: () => void;
@@ -26,6 +27,7 @@ export default function CreateProjectModal({
     setValue,
     watch,
     formState: { errors, isValid },
+    setFocus,
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -40,6 +42,11 @@ export default function CreateProjectModal({
   const { activeWorkspaceId } = useActiveState();
 
   const { mutateAsync: CreateProjectAPI } = useCreateProject();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setFocus("name"), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>

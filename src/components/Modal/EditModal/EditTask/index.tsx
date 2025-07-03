@@ -25,6 +25,7 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
     setValue,
     watch,
     formState: { errors, isValid },
+    setFocus,
     reset,
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
@@ -78,6 +79,11 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
     };
     getTaskData();
   });
+
+  useEffect(() => {
+    const timer = setTimeout(() => setFocus("name"), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Modal size="lg" onClose={onClose} closeIcon={<Icon iconName="Close" />}>

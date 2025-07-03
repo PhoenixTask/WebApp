@@ -13,7 +13,7 @@ import { useEditWorkspace } from "@/hooks/useWorkspaces";
 import Icon from "@/components/Icon";
 import useActiveState from "@/store/useActiveState";
 import { GetOneWorkspaceAPI } from "@/services/workspace";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface EditWorkspaceModalProps {
   onClose: () => void;
@@ -28,6 +28,7 @@ export default function EditWorkspaceModal({
     setValue,
     watch,
     formState: { errors, isValid },
+    setFocus,
     reset,
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
@@ -48,6 +49,11 @@ export default function EditWorkspaceModal({
     };
     getWorkspaceData();
   }, [activeWorkspaceId, reset]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setFocus("name"), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>

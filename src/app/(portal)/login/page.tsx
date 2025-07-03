@@ -8,15 +8,21 @@ import { schema, schemaType } from "@/schemas/login";
 import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
 import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
+import { useEffect } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<schemaType>({ resolver: zodResolver(schema) });
   const { loginHandler, isLoading } = useAuth();
+
+  useEffect(() => {
+    setFocus("username");
+  }, []);
 
   return (
     <div className="backdrop-blur-md text-base-content bg-base-100/60 max-w-xl w-full shadow-xl p-6 rounded-3xl">

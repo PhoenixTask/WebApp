@@ -13,7 +13,7 @@ import Icon from "@/components/Icon";
 import { useEditProject } from "@/hooks/useProjects";
 import useActiveState from "@/store/useActiveState";
 import { GetOneProjectAPI } from "@/services/project";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface EditProjectModalProps {
   onClose: () => void;
@@ -26,6 +26,7 @@ export default function EditProjectModal({ onClose }: EditProjectModalProps) {
     setValue,
     watch,
     formState: { errors, isValid },
+    setFocus,
     reset,
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
@@ -47,6 +48,11 @@ export default function EditProjectModal({ onClose }: EditProjectModalProps) {
     };
     getProjectData();
   }, [activeProjectId, reset]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setFocus("name"), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>

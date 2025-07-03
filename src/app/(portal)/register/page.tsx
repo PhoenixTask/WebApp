@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { chooseRandomName } from "@/functions/chooseRandomName";
+import { useEffect } from "react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -17,8 +18,13 @@ export default function RegisterPage() {
     register,
     handleSubmit,
     formState: { errors },
+    setFocus,
   } = useForm<schemaType>({ resolver: zodResolver(schema) });
   const { registerHandler, isLoading } = useAuth();
+
+  useEffect(() => {
+    setFocus("username");
+  }, []);
 
   return (
     <div className="backdrop-blur-md text-base-content bg-base-100/60 max-w-xl w-full shadow-xl p-6 rounded-3xl">

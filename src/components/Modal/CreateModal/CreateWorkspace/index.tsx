@@ -11,6 +11,7 @@ import {
 import { schema, schemaType } from "@/schemas/modals/workspace";
 import { useCreateWorkspace } from "@/hooks/useWorkspaces";
 import Icon from "@/components/Icon";
+import { useEffect } from "react";
 
 interface CreateWorkspaceModalProps {
   onClose: () => void;
@@ -25,6 +26,7 @@ export default function CreateWorkspaceModal({
     setValue,
     watch,
     formState: { errors, isValid },
+    setFocus,
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -37,6 +39,11 @@ export default function CreateWorkspaceModal({
   const color = watch("color");
 
   const { mutateAsync: CreateWorkspaceAPI } = useCreateWorkspace();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setFocus("name"), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>

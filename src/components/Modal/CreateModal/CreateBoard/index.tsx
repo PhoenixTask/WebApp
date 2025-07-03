@@ -12,6 +12,7 @@ import { schema, schemaType } from "@/schemas/modals/board";
 import Icon from "@/components/Icon";
 import { useCreateBoard } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
+import { useEffect } from "react";
 
 interface CreateBoardModalProps {
   onClose: () => void;
@@ -23,6 +24,7 @@ export default function CreateBoardModal({ onClose }: CreateBoardModalProps) {
     handleSubmit,
     setValue,
     watch,
+    setFocus,
     formState: { errors, isValid },
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
@@ -38,6 +40,11 @@ export default function CreateBoardModal({ onClose }: CreateBoardModalProps) {
   const { activeProjectId } = useActiveState();
 
   const { mutateAsync: CreateBoardAPI } = useCreateBoard();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setFocus("name"), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/Icon";
 import { Button, ErrorMessage, Heading, Input, Modal } from "@/components/UI";
 import { schema, schemaType } from "@/schemas/modals/task";
@@ -24,6 +24,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
     setValue,
     watch,
     formState: { errors, isValid },
+    setFocus,
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -50,6 +51,11 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
 
   const { activeBoardId } = useActiveState();
   const { mutateAsync: CreateTaskAPI } = useCreateTask();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setFocus("name"), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Modal size="lg" onClose={onClose} closeIcon={<Icon iconName="Close" />}>
@@ -129,7 +135,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
 
   async function onSubmit(data: schemaType) {
     if (!activeBoardId) return;
-    CreateTaskAPI({ ...data,  boardId: activeBoardId });
+    CreateTaskAPI({ ...data, boardId: activeBoardId });
     onClose();
   }
 }
