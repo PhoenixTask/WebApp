@@ -6,7 +6,7 @@
 **Phoenix Task** is a lightweight and fun task management application built with modern web technologies.  
 The frontend is developed using **Next.js**, and the backend is powered by **ASP.NET Core** — hosted in a separate repository:
 
-🔗 Backend Repository: [PhoenixTaskApi](https://github.com/ErfanMelon/PhoenixTaskApi)
+🔗 Backend Repository: [PhoenixTask dotnet-backend](https://github.com/PhoenixTask/dotnet-backend)
 
 ## 🚀 Overview
 
@@ -25,13 +25,13 @@ You can either host it as-is, or fork and customize it to fit your own needs.
 ### Frontend
 
 ```bash
-git clone https://github.com/AMN2080/PhoenixTask
-cd PhoenixTask
+git clone https://github.com/PhoenixTask/WebApp.git
+cd WebApp
 npm install
 npm run dev
 ```
 
-> Make sure to set up the backend from [PhoenixTaskApi](https://github.com/ErfanMelon/PhoenixTaskApi) and configure the API URL properly in the frontend.
+> Make sure to set up the backend from [PhoenixTask dotnet-backend](https://github.com/PhoenixTask/dotnet-backend) and configure the API URL properly in the frontend.
 
 ## 🧪 Features (WIP)
 

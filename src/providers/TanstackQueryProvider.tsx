@@ -15,7 +15,7 @@ const client = new QueryClient({
   },
 });
 
-function QueryProvider({ children }: { children: React.ReactNode }) {
+export default function QueryProvider({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={client}>
       <ReactQueryDevtools initialIsOpen={false} />
@@ -23,5 +23,3 @@ function QueryProvider({ children }: { children: React.ReactNode }) {
     </QueryClientProvider>
   );
 }
-
-export default QueryProvider;
