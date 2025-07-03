@@ -44,7 +44,7 @@ export default function ListViewPage() {
   }
 
   return (
-    <div className="px-2.5 w-full flex flex-col items-center gap-2">
+    <div className="p-2.5 w-full flex flex-col items-center gap-2">
       <Button
         onClick={() => openModal("create-board")}
         variant="outline"

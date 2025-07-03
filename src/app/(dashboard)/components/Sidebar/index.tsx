@@ -13,7 +13,7 @@ export default function DashboardSidebar() {
   const router = useRouter();
   const { openModal } = useModal();
 
-  const { data: workspaces, isLoading, isError, error } = useWorkspaces();
+  const { data: workspaces, isLoading, isError } = useWorkspaces();
 
   const { data: userInfo } = useUserInfo();
 
@@ -22,7 +22,7 @@ export default function DashboardSidebar() {
       direction="col"
       justifyContent="between"
       alignItems="center"
-      className="h-screen py-10 shadow-lg border-l border-neutral"
+      className="h-screen overflow-hidden py-10 shadow-lg border-l border-neutral"
     >
       <div className="flex flex-col justify-center gap-2 w-72">
         <Heading
@@ -44,17 +44,24 @@ export default function DashboardSidebar() {
           <span>ایجاد میزکار جدید</span>
         </Button>
 
-        {workspaces && <WorkspaceMenu workspaces={workspaces} />}
-      </div>
-
-      {/* Loading/Error */}
-      {isLoading && <Icon iconName="Loading" />}
-      {isError && (
-        <div className="flex flex-col items-center font-bold text-error">
-          <span>اوپس...😵‍💫</span>
-          <span>نمی‌تونم به سرور متصل بشم</span>
+        <div
+          className="h-[670px] overflow-y-auto"
+          dir="ltr"
+          style={{ scrollbarGutter: "stable" }}
+        >
+          <div dir="rtl">
+            {/* Loading/Error */}
+            {isLoading && <Icon iconName="Loading" />}
+            {isError && (
+              <div className="flex flex-col items-center mt-10 font-bold text-error">
+                <span>اوپس...😵‍💫</span>
+                <span>نمی‌تونم به سرور متصل بشم</span>
+              </div>
+            )}
+            {workspaces && <WorkspaceMenu workspaces={workspaces} />}
+          </div>
         </div>
-      )}
+      </div>
 
       <div>
         <Link
