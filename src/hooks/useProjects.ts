@@ -1,0 +1,70 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  CreateProjectAPI,
+  GetProjectAPI,
+  DeleteProjectAPI,
+  EditProjectAPI,
+} from "@/services/project";
+import { CreateProjectType, EditProjectType } from "@/types/project";
+import toast from "react-hot-toast";
+import errorToast from "@/functions/errorToast";
+
+export const useProjects = (workspaceId: string | null) => {
+  return useQuery({
+    queryKey: ["projects", workspaceId],
+    queryFn: () => {
+      if (workspaceId === null) {
+        return Promise.resolve([]);
+      }
+      return GetProjectAPI({ id: workspaceId });
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useCreateProject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateProjectType) => CreateProjectAPI(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      toast.success("پروژه با موفقیت ایجاد شد.");
+    },
+    onError: (error) => {
+      errorToast(error);
+    }
+  });
+};
+
+export const useDeleteProject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => {
+      return DeleteProjectAPI({ id });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      toast.success("پروژه با موفقیت حذف شد.");
+    },
+    onError: (error) => {
+      errorToast(error);
+    }
+  });
+};
+
+export const useEditProject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ data, id }: EditProjectType) => EditProjectAPI({ data, id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      toast.success("پروژه با موفقیت ویرایش شد.");
+    },
+    onError: (error) => {
+      errorToast(error);
+    }
+  });
+};
