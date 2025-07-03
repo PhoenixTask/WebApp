@@ -21,7 +21,9 @@ export default function Modal() {
 
   const currentModal = modalStack[modalStack.length - 1];
 
-  const renderModal = (modalType: string) => {
+  return <>{renderModal(currentModal.type)}</>;
+
+  function renderModal(modalType: string) {
     switch (modalType) {
       case "create-workspace":
         return <CreateWorkspace onClose={closeModal} />;
@@ -50,7 +52,5 @@ export default function Modal() {
       default:
         return null;
     }
-  };
-
-  return <>{renderModal(currentModal.type)}</>;
+  }
 }

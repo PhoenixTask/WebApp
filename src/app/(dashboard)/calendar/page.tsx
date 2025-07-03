@@ -1,5 +1,3 @@
-function CalendarViewPage() {
+export default function CalendarViewPage() {
   return <>نمایش تقویمی</>;
 }
-
-export default CalendarViewPage;

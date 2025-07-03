@@ -7,7 +7,7 @@ import clsx from "clsx";
 import useModal from "@/store/useModal";
 import { colorVariant } from "@/functions/colorInterpretation";
 
-interface WorkspaceSidebar {
+type WorkspaceSidebar = {
   workspaces: WorkspaceType[];
 }
 

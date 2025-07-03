@@ -17,11 +17,6 @@ export default function DashboardSidebar() {
 
   const { data: userInfo } = useUserInfo();
 
-  const clickProfile = () => {
-    removeTokens();
-    router.push("/login");
-  };
-
   return (
     <Flex
       direction="col"
@@ -92,4 +87,9 @@ export default function DashboardSidebar() {
       </div>
     </Flex>
   );
+
+  function clickProfile() {
+    removeTokens();
+    router.push("/login");
+  }
 }
