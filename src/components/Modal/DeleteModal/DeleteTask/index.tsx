@@ -8,7 +8,7 @@ interface DeleteTaskModalProps {
 }
 
 export default function DeleteTaskModal({ onClose }: DeleteTaskModalProps) {
-  const { activeTaskId, storeActiveTask } = useActiveState();
+  const { activeTaskId, forgetActiveTask } = useActiveState();
   const { mutateAsync: DeleteTaskAPI } = useDeleteTask();
 
   return (
@@ -29,7 +29,7 @@ export default function DeleteTaskModal({ onClose }: DeleteTaskModalProps) {
 
   async function handleDelete() {
     DeleteTaskAPI(activeTaskId!);
-    storeActiveTask(null);
+    forgetActiveTask();
     onClose();
   }
 }

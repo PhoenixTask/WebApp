@@ -8,7 +8,7 @@ interface DeleteBoardModalProps {
 }
 
 export default function DeleteBoardModal({ onClose }: DeleteBoardModalProps) {
-  const { activeBoardId, storeActiveBoard, storeActiveTask } = useActiveState();
+  const { activeBoardId, forgetActiveBoard } = useActiveState();
   const { mutateAsync: DeleteBoardAPI } = useDeleteBoard();
 
   return (
@@ -29,8 +29,7 @@ export default function DeleteBoardModal({ onClose }: DeleteBoardModalProps) {
 
   async function handleDelete() {
     DeleteBoardAPI(activeBoardId!);
-    storeActiveBoard(null);
-    storeActiveTask(null);
+    forgetActiveBoard();
     onClose();
   }
 }

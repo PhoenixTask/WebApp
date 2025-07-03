@@ -10,13 +10,7 @@ interface DeleteWorkspaceModalProps {
 export default function DeleteWorkspaceModal({
   onClose,
 }: DeleteWorkspaceModalProps) {
-  const {
-    activeWorkspaceId,
-    storeActiveWorkspace,
-    storeActiveProject,
-    storeActiveBoard,
-    storeActiveTask,
-  } = useActiveState();
+  const { activeWorkspaceId, forgetActiveWorkspace } = useActiveState();
   const { mutateAsync: DeleteWorkspaceAPI } = useDeleteWorkspace();
 
   return (
@@ -37,10 +31,7 @@ export default function DeleteWorkspaceModal({
 
   async function handleDelete() {
     DeleteWorkspaceAPI(activeWorkspaceId!);
-    storeActiveWorkspace(null);
-    storeActiveProject(null);
-    storeActiveBoard(null);
-    storeActiveTask(null);
+    forgetActiveWorkspace();
     onClose();
   }
 }
