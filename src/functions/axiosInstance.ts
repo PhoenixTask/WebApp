@@ -59,7 +59,10 @@ Axios.interceptors.response.use(
 
     console.log(error);
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      (error.response?.status === 401 && !originalRequest._retry) ||
+      error.code === "ERR_NETWORK"
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
