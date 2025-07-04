@@ -77,8 +77,10 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
 
       reset({ name, description, priority, deadLine });
     };
-    getTaskData();
-  });
+    if (activeTaskId) {
+      getTaskData();
+    }
+  }, [activeTaskId, reset]);
 
   useEffect(() => {
     const timer = setTimeout(() => setFocus("name"), 100);
