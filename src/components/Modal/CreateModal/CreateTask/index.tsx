@@ -103,6 +103,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
             />
           </div>
           <PersianDatePicker onChange={handleDatePickerChange} />
+          <ErrorMessage error={errors.deadLine} />
 
           <Button
             type="submit"

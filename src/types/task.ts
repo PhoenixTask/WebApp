@@ -6,7 +6,6 @@ export type TaskType = {
   order?: number;
   isComplete?: boolean;
   description?: string;
-  boardId?: string;
 };
 
 export type TaskIdType = {
@@ -15,7 +14,7 @@ export type TaskIdType = {
 
 export type EditTaskType = {
   id: string;
-  data: Omit<TaskType, "id">;
+  data: Omit<TaskType, "id"> & { boardId: string };
 };
 
 export type CreateTaskType = {

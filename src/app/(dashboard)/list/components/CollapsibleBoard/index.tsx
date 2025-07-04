@@ -39,7 +39,7 @@ export default function CollapsibleBoard({
           "text-center collapse-title font-semibold text-base-100 rounded-t-lg",
           colorVariant(boardColor).bg
         )}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleClickBoard}
       >
         <Flex alignItems="center" gap="XS" className="w-16">
           <Button
@@ -133,31 +133,32 @@ export default function CollapsibleBoard({
     </div>
   );
 
+  function handleClickBoard() {
+    storeActiveBoard(boardId);
+    setIsOpen(!isOpen);
+  }
+
   function handleCreateTask() {
     storeActiveBoard(boardId);
     openModal("create-task");
   }
 
   function handleDeleteBoard(e: React.MouseEvent, id: string) {
-    e.stopPropagation();
     storeActiveBoard(id);
     openModal("delete-board");
   }
 
   function handleEditBoard(e: React.MouseEvent, id: string) {
-    e.stopPropagation();
     storeActiveBoard(id);
     openModal("edit-board");
   }
 
   function handleDeleteTask(e: React.MouseEvent, id: string) {
-    e.stopPropagation();
     storeActiveTask(id);
     openModal("delete-task");
   }
 
   function handleEditTask(e: React.MouseEvent, id: string) {
-    e.stopPropagation();
     storeActiveTask(id);
     openModal("edit-task");
   }

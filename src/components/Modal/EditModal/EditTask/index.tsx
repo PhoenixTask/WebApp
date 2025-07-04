@@ -36,6 +36,7 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
   const buttonRef = useRef<HTMLDivElement>(null);
 
   const priority = watch("priority") ?? 0;
+  const deadLine = watch("deadLine");
 
   const priorityColors = [
     "text-neutral",
@@ -45,24 +46,8 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
     "text-error",
   ];
 
-  const { activeTaskId } = useActiveState();
+  const { activeTaskId, activeBoardId } = useActiveState();
   const { mutateAsync: EditTaskAPI } = useEditTask();
-
-  const handleDatePickerChange = ({
-    year,
-    month,
-    day,
-    hour,
-    minute,
-  }: DateObject) => {
-    const miladiDate = newDate(year, month.number, day, hour, minute);
-    const miladiString = DateToString(miladiDate);
-
-    setValue("deadLine", miladiString, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
 
   const orderRef = useRef<number>(0);
 
@@ -132,8 +117,12 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
               }}
             />
           </div>
-          <PersianDatePicker onChange={handleDatePickerChange} />
-
+          {/* اضافه کردن پراپ value به PersianDatePicker */}
+          <PersianDatePicker
+            onChange={handleDatePickerChange}
+            value={deadLine}
+          />
+          {/* ... بقیه کد */}
           <Button
             type="submit"
             size="small"
@@ -147,11 +136,32 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
     </Modal>
   );
 
+  function handleDatePickerChange({
+    year,
+    month,
+    day,
+    hour,
+    minute,
+  }: DateObject) {
+    const miladiDate = newDate(year, month.number, day, hour, minute);
+    const miladiString = DateToString(miladiDate);
+
+    setValue("deadLine", miladiString, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  }
+
   async function onSubmit(data: schemaType) {
+    console.log(activeBoardId);
+
+    if (!activeBoardId) return;
+
     EditTaskAPI({
-      data: { ...data, order: orderRef.current },
+      data: { ...data, order: orderRef.current, boardId: activeBoardId },
       id: activeTaskId!,
     });
+
     onClose();
   }
 }

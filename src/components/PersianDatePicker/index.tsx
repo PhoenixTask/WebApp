@@ -6,16 +6,19 @@ import TimePicker from "react-multi-date-picker/plugins/time_picker";
 
 type PersianDatePickerProps = {
   onChange: (date: any) => void;
+  value?: string;
 };
 
 export default function PersianDatePicker({
   onChange,
+  value,
 }: PersianDatePickerProps) {
   const today = new DateObject({ calendar: persian, locale: persian_fa });
 
   return (
     <DatePicker
       inputClass="py-1 text-center cursor-pointer shadow border border-base-300 rounded-2xl hover:bg-base-300 focus:outline-none"
+      value={value ? new Date(value) : null}
       onChange={onChange}
       calendar={persian}
       locale={persian_fa}
