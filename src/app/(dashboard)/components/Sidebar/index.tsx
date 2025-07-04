@@ -8,9 +8,12 @@ import WorkspaceMenu from "./WorkspaceMenu";
 import useModal from "@/store/useModal";
 import { useUserInfo } from "@/hooks/useUser";
 import { removeTokens } from "@/functions/tokenManager";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DashboardSidebar() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const { openModal } = useModal();
 
   const { data: workspaces, isLoading, isError } = useWorkspaces();
@@ -96,6 +99,7 @@ export default function DashboardSidebar() {
   );
 
   function clickProfile() {
+    queryClient.clear();
     removeTokens();
     router.push("/login");
   }
