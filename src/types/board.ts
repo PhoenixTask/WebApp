@@ -13,7 +13,7 @@ export type BoardAndTasksType = BoardType & {
 };
 
 export type BoardsAndTasksType = {
-  data: [BoardAndTasksType[]];
+  data: BoardAndTasksType[];
   page: number;
   total: number;
 };

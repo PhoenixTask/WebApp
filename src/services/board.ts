@@ -17,7 +17,7 @@ export const GetBoardAPI = async ({
 
 export const GetBoardsAndTasksAPI = async ({
   id: projectId,
-}: ProjectIdType): Promise<BoardsAndTasksType[]> => {
+}: ProjectIdType): Promise<BoardsAndTasksType> => {
   const response = await Axios.get(`/v1/project/${projectId}/get-board-task`);
   return response.data;
 };

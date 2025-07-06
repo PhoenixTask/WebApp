@@ -6,7 +6,12 @@ import {
   DeleteBoardAPI,
   EditBoardAPI,
 } from "@/services/board";
-import { BoardType, BoardsAndTasksType, CreateBoardType, EditBoardType } from "@/types/board";
+import {
+  BoardType,
+  BoardsAndTasksType,
+  CreateBoardType,
+  EditBoardType,
+} from "@/types/board";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
 
@@ -27,15 +32,19 @@ export const useBoards = (projectId: string | null) => {
 export const useBoardsAndTasks = (projectId: string | null) => {
   return useQuery({
     queryKey: ["boards-and-tasks", projectId],
-    queryFn: () => {
+    queryFn: (): Promise<BoardsAndTasksType> => {
       if (projectId === null) {
-        return [];
+        return Promise.resolve({
+          data: [],
+          page: 0,
+          total: 0,
+        });
       }
       return GetBoardsAndTasksAPI({ id: projectId });
     },
     staleTime: 1000 * 60 * 5,
   });
-}
+};
 
 export const useCreateBoard = () => {
   const queryClient = useQueryClient();
@@ -61,7 +70,7 @@ export const useCreateBoard = () => {
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
   });
 };
 
@@ -77,7 +86,7 @@ export const useDeleteBoard = () => {
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
   });
 };
 
@@ -93,6 +102,6 @@ export const useEditBoard = () => {
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
   });
 };
