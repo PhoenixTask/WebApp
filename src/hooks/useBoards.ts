@@ -2,10 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CreateBoardAPI,
   GetBoardAPI,
+  GetBoardsAndTasksAPI,
   DeleteBoardAPI,
   EditBoardAPI,
 } from "@/services/board";
-import { BoardType, CreateBoardType, EditBoardType } from "@/types/board";
+import { BoardType, BoardsAndTasksType, CreateBoardType, EditBoardType } from "@/types/board";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
 
@@ -22,6 +23,19 @@ export const useBoards = (projectId: string | null) => {
     select: (boards) => boards.sort((a, b) => a.order! - b.order!),
   });
 };
+
+export const useBoardsAndTasks = (projectId: string | null) => {
+  return useQuery({
+    queryKey: ["boards-and-tasks", projectId],
+    queryFn: () => {
+      if (projectId === null) {
+        return [];
+      }
+      return GetBoardsAndTasksAPI({ id: projectId });
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+}
 
 export const useCreateBoard = () => {
   const queryClient = useQueryClient();
