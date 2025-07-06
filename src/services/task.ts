@@ -4,7 +4,6 @@ import {
   CreateTaskType,
   TaskIdType,
   EditTaskType,
-  BoardAndTasksType,
 } from "@/types/task";
 import { ProjectIdType } from "@/types/project";
 import { BoardIdType } from "@/types/board";
@@ -33,12 +32,5 @@ export const EditTaskAPI = async ({ data, id }: EditTaskType) => {
 
 export const GetOneTaskAPI = async ({ id }: TaskIdType) => {
   const response = await Axios.get(`/v1/task/${id}`);
-  return response.data;
-};
-
-export const GetBoardsAndTasksAPI = async ({
-  id: projectId,
-}: ProjectIdType): Promise<BoardAndTasksType[]> => {
-  const response = await Axios.get(`/v1/project/${projectId}/get-board-task`);
   return response.data;
 };
