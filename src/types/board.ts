@@ -8,12 +8,12 @@ export type BoardType = {
   isArchive?: boolean;
 };
 
+export type BoardAndTasksType = BoardType & {
+  taskResponses: TaskType[];
+};
+
 export type BoardsAndTasksType = {
-  data: [
-    BoardType & {
-      taskResponses: TaskType[];
-    },
-  ];
+  data: [BoardAndTasksType[]];
   page: number;
   total: number;
 };
