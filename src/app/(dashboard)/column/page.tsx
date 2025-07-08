@@ -1,7 +1,7 @@
 "use client";
 
 import useActiveState from "@/store/useActiveState";
-import { useBoardsAndTasks } from "@/hooks/useBoards";
+import { useBoardsAndTasks, useEditOrderBoard } from "@/hooks/useBoards";
 import { Button } from "@/components/UI";
 import {
   DndContext,
@@ -32,6 +32,7 @@ export default function ColumnViewPage() {
   const { activeWorkspaceId, activeProjectId } = useActiveState();
 
   const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
+  const { mutateAsync: EditOrderBoardAPI } = useEditOrderBoard();
 
   const { openModal } = useModal();
 

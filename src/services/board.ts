@@ -5,6 +5,7 @@ import {
   BoardsAndTasksType,
   CreateBoardType,
   EditBoardType,
+  EditBoardOrderType,
 } from "@/types/board";
 import { ProjectIdType } from "@/types/project";
 
@@ -34,6 +35,11 @@ export const DeleteBoardAPI = async ({ id }: BoardIdType) => {
 
 export const EditBoardAPI = async ({ data, id }: EditBoardType) => {
   const response = await Axios.put(`/v1/board/${id}`, data);
+  return response.data;
+};
+
+export const EditBoardOrderAPI = async (data: EditBoardOrderType) => {
+  const response = await Axios.patch("/v1/board/update-order", data);
   return response.data;
 };
 

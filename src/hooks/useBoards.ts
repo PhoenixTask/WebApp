@@ -5,12 +5,14 @@ import {
   GetBoardsAndTasksAPI,
   DeleteBoardAPI,
   EditBoardAPI,
+  EditBoardOrderAPI,
 } from "@/services/board";
 import {
   BoardType,
   BoardsAndTasksType,
   CreateBoardType,
   EditBoardType,
+  EditBoardOrderType,
 } from "@/types/board";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
@@ -65,7 +67,7 @@ export const useCreateBoard = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("ستون با موفقیت ایجاد شد.");
     },
     onError: (error) => {
@@ -81,7 +83,7 @@ export const useDeleteBoard = () => {
     mutationFn: (id: string) => DeleteBoardAPI({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("ستون با موفقیت حذف شد.");
     },
     onError: (error) => {
@@ -97,8 +99,23 @@ export const useEditBoard = () => {
     mutationFn: ({ data, id }: EditBoardType) => EditBoardAPI({ data, id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("ستون با موفقیت ویرایش شد.");
+    },
+    onError: (error) => {
+      errorToast(error);
+    },
+  });
+};
+
+export const useEditOrderBoard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: EditBoardOrderType) => EditBoardOrderAPI(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["boards"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
     },
     onError: (error) => {
       errorToast(error);

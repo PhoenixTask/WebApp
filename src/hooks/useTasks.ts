@@ -35,12 +35,12 @@ export const useCreateTask = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("تسک با موفقیت ایجاد شد.");
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
   });
 };
 
@@ -51,12 +51,12 @@ export const useDeleteTask = () => {
     mutationFn: (id: string) => DeleteTaskAPI({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("تسک با موفقیت حذف شد.");
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
   });
 };
 
@@ -67,11 +67,11 @@ export const useEditTask = () => {
     mutationFn: ({ data, id }: EditTaskType) => EditTaskAPI({ data, id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("تسک با موفقیت ویرایش شد.");
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
   });
 };

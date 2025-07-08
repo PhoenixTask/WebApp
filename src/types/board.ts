@@ -33,3 +33,8 @@ export type EditBoardType = {
   id: string;
   data: Omit<BoardType, "id">;
 };
+
+export type EditBoardOrderType = {
+  boardId: string;
+  order: number;
+};
