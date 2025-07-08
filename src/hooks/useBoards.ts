@@ -44,6 +44,20 @@ export const useBoardsAndTasks = (projectId: string | null) => {
       }
       return GetBoardsAndTasksAPI({ id: projectId });
     },
+    select: (boardsAndTasks) => {
+      return {
+        data: [...boardsAndTasks.data]
+          .sort((a, b) => a.order! - b.order!)
+          .map((board) => ({
+            ...board,
+            taskResponses: [...board.taskResponses].sort(
+              (a, b) => a.order! - b.order!
+            ),
+          })),
+        page: boardsAndTasks.page,
+        total: boardsAndTasks.total,
+      };
+    },
     staleTime: 1000 * 60 * 5,
   });
 };

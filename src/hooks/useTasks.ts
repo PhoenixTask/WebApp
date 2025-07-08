@@ -4,9 +4,16 @@ import {
   GetTaskAPI,
   DeleteTaskAPI,
   EditTaskAPI,
-  GetBoardsAndTasksAPI,
+  EditTaskBoardAPI,
+  EditTaskOrderAPI,
 } from "@/services/task";
-import { CreateTaskType, EditTaskType, TaskType } from "@/types/task";
+import {
+  CreateTaskType,
+  EditTaskType,
+  TaskType,
+  EditTaskBoardType,
+  EditTaskOrderType,
+} from "@/types/task";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
 
@@ -69,6 +76,35 @@ export const useEditTask = () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("تسک با موفقیت ویرایش شد.");
+    },
+    onError: (error) => {
+      errorToast(error);
+    },
+  });
+};
+
+export const useEditTaskBoard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: EditTaskBoardType) => EditTaskBoardAPI(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+    },
+    onError: (error) => {
+      errorToast(error);
+    },
+  });
+};
+
+export const useEditTaskOrder = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: EditTaskOrderType) => EditTaskOrderAPI(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
     },
     onError: (error) => {
       errorToast(error);

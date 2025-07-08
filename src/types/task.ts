@@ -25,3 +25,13 @@ export type CreateTaskType = {
   priority: number;
   order?: number;
 };
+
+export type EditTaskOrderType = {
+  taskId: string;
+  order: number;
+};
+
+export type EditTaskBoardType = {
+  taskId: string;
+  boardId: string;
+};

@@ -4,8 +4,9 @@ import {
   CreateTaskType,
   TaskIdType,
   EditTaskType,
+  EditTaskOrderType,
+  EditTaskBoardType,
 } from "@/types/task";
-import { ProjectIdType } from "@/types/project";
 import { BoardIdType } from "@/types/board";
 
 export const GetTaskAPI = async ({
@@ -27,6 +28,16 @@ export const DeleteTaskAPI = async ({ id }: TaskIdType) => {
 
 export const EditTaskAPI = async ({ data, id }: EditTaskType) => {
   const response = await Axios.put(`/v1/task/${id}`, data);
+  return response.data;
+};
+
+export const EditTaskBoardAPI = async (data: EditTaskBoardType) => {
+  const response = await Axios.patch("/v1/task/update-board", data);
+  return response.data;
+};
+
+export const EditTaskOrderAPI = async (data: EditTaskOrderType) => {
+  const response = await Axios.patch("/v1/task/update-order", data);
   return response.data;
 };
 
