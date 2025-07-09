@@ -176,9 +176,9 @@ export default function ColumnViewPage() {
 
         const updatedBoards = boardsAndTasksData.map((board) => {
           if (board.id === sourceBoardId)
-            return { ...board, tasks: updatedSourceTasks };
+            return { ...board, taskResponses: updatedSourceTasks };
           if (board.id === destBoardId)
-            return { ...board, tasks: updatedDestTasks };
+            return { ...board, taskResponses: updatedDestTasks };
           return board;
         });
 
@@ -227,7 +227,7 @@ export default function ColumnViewPage() {
           return {
             ...board,
             taskResponses: arrayMove(
-              board.taskResponses,
+              [...board.taskResponses],
               activeIndex,
               overIndex
             ),
