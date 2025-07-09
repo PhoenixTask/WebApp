@@ -98,7 +98,7 @@ export default function BoardColumn({
       <div className="flex flex-col gap-y-4">
         <SortableContext items={tasksId}>
           {taskResponses.map((task) => (
-            <TaskBox key={task.id} {...task} />
+            <TaskBox key={task.id} boardId={id} {...task} />
           ))}
         </SortableContext>
         <Button

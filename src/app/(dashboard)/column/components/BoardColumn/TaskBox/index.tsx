@@ -10,14 +10,19 @@ import useModal from "@/store/useModal";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
+type TastBoxProps = TaskType & {
+  boardId?: string;
+};
+
 export default function TaskBox({
+  boardId = "",
   id,
   name,
   deadLine,
   priority,
   description,
   order,
-}: TaskType) {
+}: TastBoxProps) {
   const [show, setShow] = useState(false);
   const { storeActiveTask } = useActiveState();
   const { openModal } = useModal();
@@ -33,7 +38,7 @@ export default function TaskBox({
     id,
     data: {
       type: "Task",
-      Task: { id, name, deadLine, priority, description, order },
+      Task: { id, name, deadLine, priority, description, order, boardId },
     },
   });
 

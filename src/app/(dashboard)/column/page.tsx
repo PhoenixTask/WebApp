@@ -31,9 +31,9 @@ import { TaskType } from "@/types/task";
 export default function ColumnViewPage() {
   const { activeWorkspaceId, activeProjectId } = useActiveState();
   const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
-  const { mutateAsync: editBoardOrder } = useEditOrderBoard();
-  const { mutateAsync: editTaskOrder } = useEditTaskOrder();
-  const { mutateAsync: editTaskBoard } = useEditTaskBoard();
+  const { mutateAsync: EditBoardOrderAPI } = useEditOrderBoard();
+  const { mutateAsync: EditTaskOrderAPI } = useEditTaskOrder();
+  const { mutateAsync: EditTaskBoardAPI } = useEditTaskBoard();
   const { openModal } = useModal();
 
   const [boardsAndTasksData, setBoardsAndTasksData] = useState<
@@ -56,7 +56,7 @@ export default function ColumnViewPage() {
   }, [boardsAndTasks]);
 
   const boardsId = useMemo(
-    () => boardsAndTasksData.map((b) => b.id),
+    () => boardsAndTasksData.map((board) => board.id),
     [boardsAndTasksData]
   );
 
@@ -93,7 +93,7 @@ export default function ColumnViewPage() {
           ))}
         </SortableContext>
 
-        <DragOverlay dropAnimation={null}>
+        <DragOverlay>
           {dragStartBoard && <BoardColumn {...dragStartBoard} />}
           {dragStartTask && <TaskBox {...dragStartTask} />}
         </DragOverlay>
@@ -145,7 +145,7 @@ export default function ColumnViewPage() {
       const newOrder = arrayMove(boardsAndTasksData, oldIndex, newIndex);
       setBoardsAndTasksData(newOrder);
 
-      await editBoardOrder({
+      await EditBoardOrderAPI({
         boardId: active.id as string,
         order: newIndex,
       });
@@ -184,7 +184,7 @@ export default function ColumnViewPage() {
 
         setBoardsAndTasksData(updatedBoards);
 
-        await editTaskBoard({
+        await EditTaskBoardAPI({
           taskId: taskToMove.id,
           boardId: destBoardId,
         });
@@ -203,8 +203,8 @@ export default function ColumnViewPage() {
       const activeTask = active.data.current?.Task;
       const overTask = over.data.current?.Task;
 
-      const activeBoardId = active.data.current?.sourceBoardId;
-      const overBoardId = over.data.current?.sourceBoardId;
+      const activeBoardId = active.data.current?.Task?.boardId;
+      const overBoardId = over.data.current?.Task?.boardId;
 
       if (!activeTask || !overTask || !activeBoardId || !overBoardId) return;
 
@@ -222,24 +222,22 @@ export default function ColumnViewPage() {
         (t) => t.id === overTask.id
       );
 
-      const updatedTasks = arrayMove(
-        sourceBoard.taskResponses,
-        activeIndex,
-        overIndex
-      );
-
-      const updatedBoards = boardsAndTasksData.map((board) => {
-        if (board.id === activeBoardId) {
-          return { ...board, tasks: updatedTasks };
-        }
-        return board;
+      setBoardsAndTasksData((boardsAndTasksData) => {
+        return boardsAndTasksData.map((board) => {
+          return {
+            ...board,
+            taskResponses: arrayMove(
+              board.taskResponses,
+              activeIndex,
+              overIndex
+            ),
+          };
+        });
       });
 
-      setBoardsAndTasksData(updatedBoards);
-
-      editTaskOrder({
+      EditTaskOrderAPI({
         taskId: activeTask.id,
-        order: overIndex,
+        order: overTask.order,
       });
     }
   }
