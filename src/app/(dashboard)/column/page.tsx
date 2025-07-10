@@ -215,26 +215,6 @@ export default function ColumnViewPage() {
 
       if (!sourceBoard || !targetBoard) return;
 
-      const activeIndex = sourceBoard.taskResponses.findIndex(
-        (t) => t.id === activeTask.id
-      );
-      const overIndex = targetBoard.taskResponses.findIndex(
-        (t) => t.id === overTask.id
-      );
-
-      setBoardsAndTasksData((boardsAndTasksData) => {
-        return boardsAndTasksData.map((board) => {
-          return {
-            ...board,
-            taskResponses: arrayMove(
-              [...board.taskResponses],
-              activeIndex,
-              overIndex
-            ),
-          };
-        });
-      });
-
       EditTaskOrderAPI({
         taskId: activeTask.id,
         order: overTask.order,
