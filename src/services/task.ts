@@ -4,9 +4,9 @@ import {
   CreateTaskType,
   TaskIdType,
   EditTaskType,
-  BoardAndTasksType,
+  EditTaskOrderType,
+  EditTaskBoardType,
 } from "@/types/task";
-import { ProjectIdType } from "@/types/project";
 import { BoardIdType } from "@/types/board";
 
 export const GetTaskAPI = async ({
@@ -31,14 +31,17 @@ export const EditTaskAPI = async ({ data, id }: EditTaskType) => {
   return response.data;
 };
 
-export const GetOneTaskAPI = async ({ id }: TaskIdType) => {
-  const response = await Axios.get(`/v1/task/${id}`);
+export const EditTaskBoardAPI = async (data: EditTaskBoardType) => {
+  const response = await Axios.patch("/v1/task/update-board", data);
   return response.data;
 };
 
-export const GetBoardsAndTasksAPI = async ({
-  id: projectId,
-}: ProjectIdType): Promise<BoardAndTasksType[]> => {
-  const response = await Axios.get(`/v1/project/${projectId}/get-board-task`);
+export const EditTaskOrderAPI = async (data: EditTaskOrderType) => {
+  const response = await Axios.patch("/v1/task/update-order", data);
+  return response.data;
+};
+
+export const GetOneTaskAPI = async ({ id }: TaskIdType) => {
+  const response = await Axios.get(`/v1/task/${id}`);
   return response.data;
 };

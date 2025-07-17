@@ -1,9 +1,21 @@
+import { TaskType } from "./task";
+
 export type BoardType = {
   id: string;
   name: string;
   color: string;
   order?: number;
   isArchive?: boolean;
+};
+
+export type BoardAndTasksType = BoardType & {
+  taskResponses: TaskType[];
+};
+
+export type BoardsAndTasksType = {
+  data: BoardAndTasksType[];
+  page: number;
+  total: number;
 };
 
 export type BoardIdType = {
@@ -20,4 +32,9 @@ export type CreateBoardType = {
 export type EditBoardType = {
   id: string;
   data: Omit<BoardType, "id">;
+};
+
+export type EditBoardOrderType = {
+  boardId: string;
+  order: number;
 };

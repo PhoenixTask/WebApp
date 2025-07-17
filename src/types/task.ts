@@ -26,15 +26,12 @@ export type CreateTaskType = {
   order?: number;
 };
 
-export type BoardAndTasksType = {
-  data: {
-    id: string;
-    name: string;
-    color: string;
-    order: number;
-    isArchive: boolean;
-    taskResponses: TaskType[];
-  };
-  page: number;
-  total: number;
+export type EditTaskOrderType = {
+  taskId: string;
+  order: number;
+};
+
+export type EditTaskBoardType = {
+  taskId: string;
+  boardId: string;
 };

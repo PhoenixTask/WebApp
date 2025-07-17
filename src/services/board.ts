@@ -2,8 +2,10 @@ import Axios from "@/functions/axiosInstance";
 import {
   BoardIdType,
   BoardType,
+  BoardsAndTasksType,
   CreateBoardType,
   EditBoardType,
+  EditBoardOrderType,
 } from "@/types/board";
 import { ProjectIdType } from "@/types/project";
 
@@ -11,6 +13,13 @@ export const GetBoardAPI = async ({
   id: projectId,
 }: ProjectIdType): Promise<BoardType[]> => {
   const response = await Axios.get(`/v1/project/${projectId}/board`);
+  return response.data;
+};
+
+export const GetBoardsAndTasksAPI = async ({
+  id: projectId,
+}: ProjectIdType): Promise<BoardsAndTasksType> => {
+  const response = await Axios.get(`/v1/project/${projectId}/get-board-task`);
   return response.data;
 };
 
@@ -26,6 +35,11 @@ export const DeleteBoardAPI = async ({ id }: BoardIdType) => {
 
 export const EditBoardAPI = async ({ data, id }: EditBoardType) => {
   const response = await Axios.put(`/v1/board/${id}`, data);
+  return response.data;
+};
+
+export const EditBoardOrderAPI = async (data: EditBoardOrderType) => {
+  const response = await Axios.patch("/v1/board/update-order", data);
   return response.data;
 };
 
