@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import QueryProvider from "@/providers/TanstackQueryProvider";
 import "@/assets/globals.css";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -37,7 +38,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
     <html dir="rtl" lang="fa" data-theme="default">
       <body className="font-IranYekan">
         <Toaster position="top-left" />
-        <QueryProvider>{children}</QueryProvider>
+        <ThemeProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

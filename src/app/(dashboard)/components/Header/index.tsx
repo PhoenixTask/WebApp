@@ -1,12 +1,15 @@
 import Icon from "@/components/Icon";
 import { Button, Input, Link } from "@/components/UI";
 import clsx from "clsx";
+import { ThemeContext } from "@/context/ThemeContext";
+import { useContext } from "react";
 
 type DashboardHeaderProps = {
   location: string;
 };
 
 export default function DashboardHeader({ location }: DashboardHeaderProps) {
+  const { toggleTheme } = useContext(ThemeContext);
   return (
     <>
       <div className="flex justify-between shadow">
@@ -50,6 +53,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
         </div>
         <div className="flex items-center justify-center">
           <Button
+            onClick={toggleTheme}
             mode="child"
             className="flex justify-center items-center transition-colors duration-300 hover:text-neutral hover:bg-base-100 p-2 bg-neutral text-base-100 border rounded-full"
           >
