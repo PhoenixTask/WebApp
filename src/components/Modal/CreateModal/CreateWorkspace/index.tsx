@@ -13,9 +13,9 @@ import { useCreateWorkspace } from "@/hooks/useWorkspaces";
 import Icon from "@/components/Icon";
 import { useEffect } from "react";
 
-interface CreateWorkspaceModalProps {
+type CreateWorkspaceModalProps = {
   onClose: () => void;
-}
+};
 
 export default function CreateWorkspaceModal({
   onClose,

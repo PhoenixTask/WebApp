@@ -1,9 +1,9 @@
 import { Flex } from "@/components/UI";
 import AuthHeader from "./components/AuthHeader";
 
-interface AuthLayoutProps {
+type AuthLayoutProps = {
   children: React.ReactNode;
-}
+};
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
@@ -16,7 +16,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       <section className="flex justify-center items-center mt-32 z-50 -m-4">
         {children}
       </section>
-      <div className="absolute top-96 w-full h-screen -z-10 -skew-y-6 bg-gradient-to-l from-primary to-secondary"></div>
+      <div className="absolute top-96 w-screen h-screen -z-10 -skew-y-6 bg-gradient-to-l from-primary to-secondary" />
     </Flex>
   );
 }

@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 import QueryProvider from "@/providers/TanstackQueryProvider";
 import "@/assets/globals.css";
 
-interface RootLayoutProps {
+type RootLayoutProps = {
   children: React.ReactNode;
 }
 

@@ -3,14 +3,14 @@ import RouterLink from "next/link";
 import { fontWeight, fontSize } from "../sharedStyles";
 import clsx from "clsx";
 
-interface Props {
+type Props = {
   className?: string;
   children: ReactNode;
   to: string;
   weight?: keyof typeof fontWeight;
   underline?: boolean;
   textSize?: keyof typeof fontSize;
-}
+};
 
 const Link = ({
   children,

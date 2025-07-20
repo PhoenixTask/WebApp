@@ -3,9 +3,9 @@ import { Button, Heading, Modal } from "@/components/UI";
 import { useDeleteBoard } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
 
-interface DeleteBoardModalProps {
+type DeleteBoardModalProps = {
   onClose: () => void;
-}
+};
 
 export default function DeleteBoardModal({ onClose }: DeleteBoardModalProps) {
   const { activeBoardId, forgetActiveBoard } = useActiveState();

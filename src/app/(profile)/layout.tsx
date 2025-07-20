@@ -2,7 +2,7 @@
 import { Flex } from "@/components/UI";
 import ProfileSidebar from "./components/Sidebar";
 
-interface ProfileLayoutProps {
+type ProfileLayoutProps = {
   children: React.ReactNode;
 }
 export default function ProfileLayout({ children }: ProfileLayoutProps) {

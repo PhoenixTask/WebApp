@@ -17,14 +17,14 @@ const sizeStyles = {
   small: "w-32 py-1 text-sm",
 };
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   mode?: "warning-bubble" | "error-bubble" | "child";
   loading?: boolean;
   variant?: keyof typeof variantStyles;
   size?: keyof typeof sizeStyles;
   textSize?: keyof typeof fontSize;
   weight?: keyof typeof fontWeight;
-}
+};
 
 const Button = forwardRef<HTMLButtonElement, Props>(
   (
