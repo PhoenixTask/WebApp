@@ -20,7 +20,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             weight="600"
             className={clsx(
               "px-5 flex items-center gap-1 hover:text-primary/70",
-              location === "list" ? "text-primary" : "text-neutral"
+              location === "list" ? "text-primary" : "text-base-content"
             )}
           >
             <Icon iconName="ListView" />
@@ -32,7 +32,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             weight="600"
             className={clsx(
               "px-5 flex items-center gap-1 hover:text-primary/70",
-              location === "column" ? "text-primary" : "text-neutral"
+              location === "column" ? "text-primary" : "text-base-content"
             )}
           >
             <Icon iconName="ColumnView" />
@@ -44,7 +44,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             weight="600"
             className={clsx(
               "px-5 flex items-center gap-1 hover:text-primary/70",
-              location === "calendar" ? "text-primary" : "text-neutral"
+              location === "calendar" ? "text-primary" : "text-base-content"
             )}
           >
             <Icon iconName="Calendar" />
@@ -55,7 +55,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
           <Button
             onClick={toggleTheme}
             mode="child"
-            className="flex justify-center items-center transition-colors duration-300 hover:text-neutral hover:bg-base-100 p-2 bg-neutral text-base-100 border rounded-full"
+            className="flex justify-center items-center transition-colors duration-300 hover:text-neutral-content  hover:bg-base-100 p-2 bg-neutral text-neutral-content border rounded-full"
           >
             {/* todo: DarkMode functionality */}
             {/* <Icon iconName="LightMode" /> */}
