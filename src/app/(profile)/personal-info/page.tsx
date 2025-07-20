@@ -28,6 +28,7 @@ export default function PersonalInfoPage() {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       email: userInfo.email,
+      username: userInfo.username,
     });
   }, [userInfo]);
 
@@ -68,10 +69,16 @@ export default function PersonalInfoPage() {
           </Flex>
 
           <Flex direction="col" gap="S">
-            <Input disabled label="نام کاربری" id="username" />
+            <Input
+              disabled
+              label="نام کاربری"
+              id="username"
+              {...register("username")}
+            />
+            {/* <ErrorMessage error={errors.username} /> */}
 
             <Input disabled label="ایمیل" id="email" {...register("email")} />
-            <ErrorMessage error={errors.email} />
+            {/* <ErrorMessage error={errors.email} /> */}
 
             <Input
               label="نام"

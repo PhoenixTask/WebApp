@@ -39,7 +39,7 @@ export const EditBoardAPI = async ({ data, id }: EditBoardType) => {
 };
 
 export const EditBoardOrderAPI = async (data: EditBoardOrderType) => {
-  const response = await Axios.patch("/v1/board/update-order", data);
+  const response = await Axios.patch("/v2/board/update-order", data);
   return response.data;
 };
 

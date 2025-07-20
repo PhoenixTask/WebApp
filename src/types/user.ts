@@ -27,6 +27,7 @@ export type UserInfoType = {
   email: string;
   firstName: string;
   lastName: string;
+  username: string;
 };
 
 export type EditUserInfoType = {

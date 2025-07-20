@@ -5,6 +5,7 @@ const errorMessages = {
   invalidEmail: "ایمیل نامعتبر است.",
   firstNameRequired: "نام را وارد کنید.",
   lastNameRequired: "نام خانوادگی را وارد کنید.",
+  username: "نام‌کاربری نامعتبر است.",
 };
 
 const schema = z.object({
@@ -14,6 +15,7 @@ const schema = z.object({
     .string()
     .min(1, errorMessages.emailRequired)
     .email(errorMessages.invalidEmail),
+  username: z.string().min(3, errorMessages.username),
 });
 
 type schemaType = z.infer<typeof schema>;
