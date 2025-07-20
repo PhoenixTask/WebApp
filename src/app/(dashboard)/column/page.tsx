@@ -71,6 +71,13 @@ export default function ColumnViewPage() {
   if (boardsAndTasksData.length === 0) {
     return (
       <div className="px-2.5 w-full flex flex-col items-center gap-5">
+        <Button
+          onClick={() => openModal("create-board")}
+          variant="outline"
+          size="small"
+        >
+          ایجاد ستون
+        </Button>
         <p className="m-auto">{NO_BOARD_MSG}</p>
       </div>
     );
@@ -145,9 +152,13 @@ export default function ColumnViewPage() {
       const newOrder = arrayMove(boardsAndTasksData, oldIndex, newIndex);
       setBoardsAndTasksData(newOrder);
 
+      const sendOrder = newOrder.map(({ id }, index) => ({
+        id,
+        order: index + 1,
+      }));
+
       await EditBoardOrderAPI({
-        boardId: active.id as string,
-        order: newIndex,
+        boards: sendOrder,
       });
     }
 
@@ -215,10 +226,10 @@ export default function ColumnViewPage() {
 
       if (!sourceBoard || !targetBoard) return;
 
-      EditTaskOrderAPI({
-        taskId: activeTask.id,
-        order: overTask.order,
-      });
+      // EditTaskOrderAPI({
+      //   taskId: activeTask.id,
+      //   order: overTask.order,
+      // });
     }
   }
 }

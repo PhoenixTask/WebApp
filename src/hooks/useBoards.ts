@@ -12,7 +12,7 @@ import {
   BoardsAndTasksType,
   CreateBoardType,
   EditBoardType,
-  EditBoardOrderType,
+  EditBoardOrdersType,
 } from "@/types/board";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
@@ -126,7 +126,7 @@ export const useEditOrderBoard = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: EditBoardOrderType) => EditBoardOrderAPI(data),
+    mutationFn: (data: EditBoardOrdersType) => EditBoardOrderAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
