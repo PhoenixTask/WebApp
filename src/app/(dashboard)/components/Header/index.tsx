@@ -9,7 +9,7 @@ type DashboardHeaderProps = {
 };
 
 export default function DashboardHeader({ location }: DashboardHeaderProps) {
-  const { toggleTheme } = useContext(ThemeContext);
+  const { toggleTheme, theme } = useContext(ThemeContext);
   return (
     <>
       <div className="flex justify-between shadow">
@@ -58,8 +58,11 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             className="flex justify-center items-center transition-colors duration-300 hover:text-neutral-content  hover:bg-base-100 p-2 bg-neutral text-neutral-content border rounded-full"
           >
             {/* todo: DarkMode functionality */}
-            {/* <Icon iconName="LightMode" /> */}
-            <Icon iconName="DarkMode" />
+            {theme === "light" ? (
+              <Icon iconName="DarkMode" />
+            ) : (
+              <Icon iconName="LightMode" />
+            )}
           </Button>
 
           <div className="pr-5 py-1">{/* <Share /> todo: share Modal */}</div>

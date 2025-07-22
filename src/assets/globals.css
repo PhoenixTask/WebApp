@@ -52,12 +52,12 @@
   --color-stone: var(--color-stone);
 }
 
-/*A set of Tailwind CSS styles for designing the calendar page. */
-
+/* ====================
+   Base styles (Light Mode)
+==================== */
 .fc-header-toolbar {
   display: inline-block;
   padding: 4px 4px;
-
   @apply space-x-8;
 }
 
@@ -70,7 +70,7 @@
 }
 
 .fc-view {
-  @apply w-full h-full lg:h-3/4 xl:h-2/3 bg-white;
+  @apply w-full h-full lg:h-3/4 xl:h-2/3 bg-white dark:bg-base-100;
 }
 
 .fc-h-event {
@@ -78,20 +78,21 @@
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-  @apply bg-violet-100;
+  @apply bg-violet-100 dark:bg-violet-900/40;
 }
 
 .fc .fc-button {
-  @apply bg-violet-800 hover:bg-violet-900;
+  @apply bg-violet-800 hover:bg-violet-900 text-white dark:bg-violet-600 dark:hover:bg-violet-700;
 }
 
 .fc .fc-button-primary:not(:disabled).fc-button-active {
-  @apply bg-violet-600;
+  @apply bg-violet-600 dark:bg-violet-500;
 }
 
 .fc .fc-button-primary:disabled {
-  @apply bg-violet-600;
+  @apply bg-violet-600 dark:bg-violet-700 opacity-50;
 }
+
 .fc-v-event {
   @apply bg-violet-500 border border-violet-600;
 }

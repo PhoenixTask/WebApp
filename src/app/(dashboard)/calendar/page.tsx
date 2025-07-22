@@ -6,13 +6,21 @@ import interactionPlugin, {
   DropArg,
 } from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { ChangeEvent, Fragment, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from "react";
 import { start } from "repl";
 import { title } from "process";
 import { number } from "zod";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import { EventSourceInput } from "@fullcalendar/core/index.js";
+import Button from "@/components/UI/Button";
+import useModal from "@/store/useModal";
+import useActiveState from "@/store/useActiveState";
+import { useBoards, useBoardsAndTasks } from "@/hooks/useBoards";
+import { NO_BOARD_MSG, NO_PROJECT_MSG } from "@/constants";
+import CreateTaskModal from "@/components/Modal/CreateModal/CreateTask";
+import DeleteTaskModal from "@/components/Modal/DeleteModal/DeleteTask";
+
 interface Event {
   title: string;
   start: Date | string;
@@ -21,13 +29,7 @@ interface Event {
 }
 
 export default function CalendarViewPage() {
-  const [events, setEvents] = useState([
-    { title: "event 1", id: "1" },
-    { title: "event 2", id: "2" },
-    { title: "event 3", id: "3" },
-    { title: "event 4", id: "4" },
-    { title: "event 5", id: "5" },
-  ]);
+  const [currentBoardIndex, setCurrentBoardIndex] = useState(0);
 
   const [allEvents, setAllEvents] = useState<Event[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -40,28 +42,12 @@ export default function CalendarViewPage() {
     id: 0,
   });
 
-  useEffect(() => {
-    let draggableEl = document.getElementById("draggable-el");
-    if (draggableEl) {
-      new Draggable(draggableEl, {
-        itemSelector: ".fc-event",
-        eventData: function (eventEl) {
-          let title = eventEl.getAttribute("title");
-          let id = eventEl.getAttribute("data");
-          let start = eventEl.getAttribute("start");
-          return { title, id, start };
-        },
-      });
-    }
-  }, []);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const { activeTaskId, storeActiveTask } = useActiveState();
 
   function handleDateClick(arg: { date: Date; allDay: boolean }) {
-    setNewEvent({
-      ...newEvent,
-      start: arg.date,
-      allDay: arg.allDay,
-      id: new Date().getTime(),
-    });
+    setSelectedDate(arg.date);
     setShowModal(true);
   }
 
@@ -77,8 +63,8 @@ export default function CalendarViewPage() {
   }
 
   function handleDeleteModal(data: { event: { id: string } }) {
+    storeActiveTask(data.event.id);
     setShowDeleteModal(true);
-    setIdToDelete(Number(data.event.id));
   }
 
   function handleDelete() {
@@ -107,6 +93,71 @@ export default function CalendarViewPage() {
   function handleChange(e: ChangeEvent<HTMLInputElement>): void {
     throw new Error("Function not implemented.");
   }
+
+  const { activeWorkspaceId, activeProjectId } = useActiveState();
+
+  const { data: boards } = useBoards(activeProjectId);
+
+  const { openModal } = useModal();
+
+  const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
+
+  useEffect(() => {
+    let draggableEl = document.getElementById("draggable-el");
+    if (draggableEl) {
+      new Draggable(draggableEl, {
+        itemSelector: ".fc-event",
+        eventData: function (eventEl) {
+          let title = eventEl.getAttribute("title");
+          let id = eventEl.getAttribute("data-id");
+          return { title, id };
+        },
+      });
+    }
+  }, [boardsAndTasks, currentBoardIndex]);
+
+  const handlePrevBoard = () => {
+    setCurrentBoardIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  };
+
+  const handleNextBoard = () => {
+    if (!boardsAndTasks?.data) return;
+    setCurrentBoardIndex((prev) =>
+      prev < boardsAndTasks.data.length - 1 ? prev + 1 : prev
+    );
+  };
+
+  if (!activeProjectId || !activeWorkspaceId) {
+    return (
+      <div className="px-2.5 w-full flex flex-col items-center gap-2">
+        <div className="m-auto">
+          <p>{NO_PROJECT_MSG}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (boards?.length === 0) {
+    return (
+      <div className="px-2.5 w-full flex flex-col items-center gap-5">
+        {/* create new board */}
+        <Button
+          onClick={() => openModal("create-board")}
+          variant="outline"
+          size="small"
+        >
+          ایجاد ستون
+        </Button>
+        <div className="m-auto">
+          <p>{NO_BOARD_MSG}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!boardsAndTasks?.data?.length) return <div>در حال بارگذاری...</div>;
+
+  const currentBoard = boardsAndTasks.data[currentBoardIndex];
 
   return (
     <>
@@ -143,184 +194,62 @@ export default function CalendarViewPage() {
 
           <div
             id="draggable-el"
-            className="ml-8 w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-violet-50"
+            className="ml-8 w-full border p-2 rounded-md mt-16 lg:h-1/2 
+             bg-base-100 text-base-content border-base-300"
           >
-            <h1 className="font-bold text-lg text-center">Drag Event</h1>
-            {events.map((event) => (
-              <div
-                className="fc-event border-2 p-1 m-2 w-full rounded-md ml-auto text-center bg-white"
-                title={event.title}
-                key={event.id}
-              >
-                {event.title}
-              </div>
-            ))}
+            {boardsAndTasks?.data.length > 0 && (
+              <>
+                {/* دکمه‌های چپ و راست */}
+                <div className="flex items-center justify-between px-2 mb-2">
+                  <button onClick={handlePrevBoard} className="text-xl">
+                    {"←"}
+                  </button>
+                  <h1 className="font-bold text-md text-center">
+                    {boardsAndTasks.data[currentBoardIndex].name}
+                  </h1>
+                  <button onClick={handleNextBoard} className="text-xl">
+                    {"→"}
+                  </button>
+                </div>
+
+                {/* لیست تسک‌های این بورد */}
+                <div className="space-y-2 overflow-y-auto max-h-60 pr-2">
+                  {boardsAndTasks.data[currentBoardIndex].taskResponses
+                    ?.length > 0 ? (
+                    boardsAndTasks.data[currentBoardIndex].taskResponses.map(
+                      (task) => (
+                        <div
+                          title={task.name}
+                          data-id={task.id}
+                          key={task.id}
+                          className="fc-event p-2 rounded-md border text-sm 
+             bg-base-200 text-base-content border-base-300"
+                        >
+                          {task.name}
+                        </div>
+                      )
+                    )
+                  ) : (
+                    <div className="text-gray-500 text-sm text-center">
+                      تسکی وجود ندارد
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
 
-        <Transition.Root show={showDeleteModal} as={Fragment}>
-          <Dialog
-            as="div"
-            className="relative z-10"
-            onClose={setShowDeleteModal}
-          >
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
+        {showDeleteModal && activeTaskId && (
+          <DeleteTaskModal onClose={() => setShowDeleteModal(false)} />
+        )}
 
-            <div className="fixed inset-0 z-10 overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                  enterTo="opacity-100 translate-y-0 sm:scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                >
-                  <Dialog.Panel
-                    className="relative transform overflow-hidden rounded-lg
-                   bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
-                  >
-                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                      <div className="sm:flex sm:items-start">
-                        <div
-                          className="mx-auto flex h-12 w-12 flex-shrink-0 items-center 
-                      justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
-                        >
-                          <ExclamationTriangleIcon
-                            className="h-6 w-6 text-red-600"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                          <Dialog.Title
-                            as="h3"
-                            className="text-base font-semibold leading-6 text-gray-900"
-                          >
-                            Delete Event
-                          </Dialog.Title>
-                          <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                              Are you sure you want to delete this event?
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm 
-                      font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                        onClick={handleDelete}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        type="button"
-                        className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 
-                      shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                        onClick={handleCloseModal}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </Dialog.Panel>
-                </Transition.Child>
-              </div>
-            </div>
-          </Dialog>
-        </Transition.Root>
-        <Transition.Root show={showModal} as={Fragment}>
-          <Dialog as="div" className="relative z-10" onClose={setShowModal}>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
-
-            <div className="fixed inset-0 z-10 overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                  enterTo="opacity-100 translate-y-0 sm:scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                >
-                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                    <div>
-                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                        <CheckIcon
-                          className="h-6 w-6 text-green-600"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div className="mt-3 text-center sm:mt-5">
-                        <Dialog.Title
-                          as="h3"
-                          className="text-base font-semibold leading-6 text-gray-900"
-                        >
-                          Add Event
-                        </Dialog.Title>
-                        <form action="submit" onSubmit={handleSubmit}>
-                          <div className="mt-2">
-                            <input
-                              type="text"
-                              name="title"
-                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 
-                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
-                            focus:ring-2 
-                            focus:ring-inset focus:ring-violet-600 
-                            sm:text-sm sm:leading-6"
-                              value={newEvent.title}
-                              onChange={(e) => handleChange(e)}
-                              placeholder="Title"
-                            />
-                          </div>
-                          <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                            <button
-                              type="submit"
-                              className="inline-flex w-full justify-center rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2 disabled:opacity-25"
-                              disabled={newEvent.title === ""}
-                            >
-                              Create
-                            </button>
-                            <button
-                              type="button"
-                              className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
-                              onClick={handleCloseModal}
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </Dialog.Panel>
-                </Transition.Child>
-              </div>
-            </div>
-          </Dialog>
-        </Transition.Root>
+        {showModal && (
+          <CreateTaskModal
+            onClose={() => setShowModal(false)}
+            selectedDate={selectedDate}
+          />
+        )}
       </main>
     </>
   );

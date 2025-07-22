@@ -8,16 +8,20 @@ import { useCreateTask } from "@/hooks/useTasks";
 import PriorityPopover from "@/components/PriorityPopover";
 import useActiveState from "@/store/useActiveState";
 import PersianDatePicker from "@/components/PersianDatePicker";
-import { newDate } from "date-fns-jalali";
+import { format, newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
 import { DateToString } from "@/functions/date";
 import { priorityLabel } from "@/constants";
 
 type CreateTaskModalProps = {
   onClose: () => void;
+  selectedDate?: Date | null;
 };
 
-export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
+export default function CreateTaskModal({
+  onClose,
+  selectedDate,
+}: CreateTaskModalProps) {
   const {
     register,
     handleSubmit,
@@ -56,6 +60,13 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
     const timer = setTimeout(() => setFocus("name"), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Set selected date from calendar as default deadline if provided
+  useEffect(() => {
+    if (selectedDate) {
+      setValue("deadLine", format(selectedDate, "yyyy-MM-dd'T'HH:mm"));
+    }
+  }, [selectedDate]);
 
   return (
     <Modal size="lg" onClose={onClose} closeIcon={<Icon iconName="Close" />}>
