@@ -6,14 +6,12 @@ import interactionPlugin, {
   DropArg,
 } from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/UI/Button";
 import useModal from "@/store/useModal";
 import useActiveState from "@/store/useActiveState";
 import { useBoards, useBoardsAndTasks } from "@/hooks/useBoards";
 import { NO_BOARD_MSG, NO_PROJECT_MSG } from "@/constants";
-import CreateTaskModal from "@/components/Modal/CreateModal/CreateTask";
-import DeleteTaskModal from "@/components/Modal/DeleteModal/DeleteTask";
 
 interface Event {
   title: string;
@@ -23,32 +21,15 @@ interface Event {
 }
 
 export default function CalendarViewPage() {
-  const { activeWorkspaceId, activeProjectId, activeBoardId } =
-    useActiveState();
+  const { activeWorkspaceId, activeProjectId } = useActiveState();
   const [currentBoardIndex, setCurrentBoardIndex] = useState(0);
   const [allEvents, setAllEvents] = useState<Event[]>([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [idToDelete, setIdToDelete] = useState<number | null>(null);
-  const [newEvent, setNewEvent] = useState<Event>({
-    title: "",
-    start: "",
-    allDay: false,
-    id: 0,
-  });
-  const { openModal, closeModal, modalStack } = useModal();
+  const { openModal } = useModal();
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
-  const { activeTaskId, storeActiveTask } = useActiveState();
-
-  const isCreateModalOpen = modalStack.some(
-    (modal) => modal.type === "create-task",
-  );
+  const { storeActiveTask, storeActiveBoard } = useActiveState();
 
   function addEvent(data: DropArg) {
     const event = {
-      ...newEvent,
       start: data.date.toISOString(),
       title: data.draggedEl.innerText,
       allDay: data.allDay,
@@ -87,7 +68,7 @@ export default function CalendarViewPage() {
   const handleNextBoard = () => {
     if (!boardsAndTasks?.data) return;
     setCurrentBoardIndex((prev) =>
-      prev < boardsAndTasks.data.length - 1 ? prev + 1 : prev,
+      prev < boardsAndTasks.data.length - 1 ? prev + 1 : prev
     );
   };
 
@@ -101,8 +82,10 @@ export default function CalendarViewPage() {
   }));
 
   function handleDateClick(arg: { date: Date; allDay: boolean }) {
-    setSelectedDate(arg.date);
-    openModal("create-task");
+    if (!boardsAndTasks?.data) return;
+    storeActiveBoard(boardsAndTasks.data[currentBoardIndex].id);
+    openModal("create-task", { selectedDate: arg.date });
+    console.log(arg);
   }
 
   if (!activeProjectId || !activeWorkspaceId) {
@@ -135,7 +118,6 @@ export default function CalendarViewPage() {
 
   if (!boardsAndTasks?.data?.length) return <div>در حال بارگذاری...</div>;
 
-  const currentBoard = boardsAndTasks.data[currentBoardIndex];
   return (
     <>
       <nav
@@ -167,13 +149,6 @@ export default function CalendarViewPage() {
               drop={(data) => addEvent(data)}
               eventClick={(data) => handleDeleteModal(data)}
             />
-
-            {isCreateModalOpen && (
-              <CreateTaskModal
-                selectedDate={selectedDate} // پاس دادن تاریخ از state محلی
-                onClose={closeModal} // پاس دادن تابع بستن از هوک
-              />
-            )}
           </div>
 
           <div
@@ -211,7 +186,7 @@ export default function CalendarViewPage() {
                         >
                           {task.name}
                         </div>
-                      ),
+                      )
                     )
                   ) : (
                     <div className="text-gray-500 text-sm text-center">

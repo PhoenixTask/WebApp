@@ -61,13 +61,6 @@ export default function CreateTaskModal({
     return () => clearTimeout(timer);
   }, []);
 
-  // Set selected date from calendar as default deadline if provided
-  useEffect(() => {
-    if (selectedDate) {
-      setValue("deadLine", format(selectedDate, "yyyy-MM-dd'T'HH:mm"));
-    }
-  }, [selectedDate]);
-
   return (
     <Modal size="lg" onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
@@ -113,7 +106,10 @@ export default function CreateTaskModal({
               }}
             />
           </div>
-          <PersianDatePicker onChange={handleDatePickerChange} />
+          <PersianDatePicker
+            value={selectedDate && DateToString(selectedDate)}
+            onChange={handleDatePickerChange}
+          />
           <ErrorMessage error={errors.deadLine} />
 
           <Button

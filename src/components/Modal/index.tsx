@@ -32,7 +32,12 @@ export default function Modal() {
       case "create-board":
         return <CreateBoard onClose={closeModal} />;
       case "create-task":
-        return <CreateTask onClose={closeModal} />;
+        return (
+          <CreateTask
+            onClose={closeModal}
+            selectedDate={currentModal.props?.selectedDate}
+          />
+        );
       case "delete-workspace":
         return <DeleteWorkspace onClose={closeModal} />;
       case "delete-project":

@@ -6,7 +6,7 @@ import TimePicker from "react-multi-date-picker/plugins/time_picker";
 
 type PersianDatePickerProps = {
   onChange: (date: any) => void;
-  value?: string;
+  value?: string | null;
 };
 
 export default function PersianDatePicker({
