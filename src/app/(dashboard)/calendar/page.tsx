@@ -7,12 +7,6 @@ import interactionPlugin, {
 } from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from "react";
-import { start } from "repl";
-import { title } from "process";
-import { number } from "zod";
-import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
-import { EventSourceInput } from "@fullcalendar/core/index.js";
 import Button from "@/components/UI/Button";
 import useModal from "@/store/useModal";
 import useActiveState from "@/store/useActiveState";
@@ -25,12 +19,13 @@ interface Event {
   title: string;
   start: Date | string;
   allDay: boolean;
-  id: number;
+  id: number | String;
 }
 
 export default function CalendarViewPage() {
+  const { activeWorkspaceId, activeProjectId, activeBoardId } =
+    useActiveState();
   const [currentBoardIndex, setCurrentBoardIndex] = useState(0);
-
   const [allEvents, setAllEvents] = useState<Event[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -41,15 +36,15 @@ export default function CalendarViewPage() {
     allDay: false,
     id: 0,
   });
+  const { openModal, closeModal, modalStack } = useModal();
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const { activeTaskId, storeActiveTask } = useActiveState();
 
-  function handleDateClick(arg: { date: Date; allDay: boolean }) {
-    setSelectedDate(arg.date);
-    setShowModal(true);
-  }
+  const isCreateModalOpen = modalStack.some(
+    (modal) => modal.type === "create-task",
+  );
 
   function addEvent(data: DropArg) {
     const event = {
@@ -64,41 +59,10 @@ export default function CalendarViewPage() {
 
   function handleDeleteModal(data: { event: { id: string } }) {
     storeActiveTask(data.event.id);
-    setShowDeleteModal(true);
+    openModal("delete-task");
   }
-
-  function handleDelete() {
-    setAllEvents(
-      allEvents.filter((event) => Number(event.id) !== Number(idToDelete))
-    );
-    setShowDeleteModal(false);
-    setIdToDelete(null);
-  }
-
-  function handleCloseModal() {
-    setNewEvent({
-      title: "",
-      start: "",
-      allDay: false,
-      id: 0,
-    });
-    setShowDeleteModal(false);
-    setIdToDelete(null);
-  }
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    throw new Error("Function not implemented.");
-  }
-
-  function handleChange(e: ChangeEvent<HTMLInputElement>): void {
-    throw new Error("Function not implemented.");
-  }
-
-  const { activeWorkspaceId, activeProjectId } = useActiveState();
 
   const { data: boards } = useBoards(activeProjectId);
-
-  const { openModal } = useModal();
 
   const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
 
@@ -123,9 +87,23 @@ export default function CalendarViewPage() {
   const handleNextBoard = () => {
     if (!boardsAndTasks?.data) return;
     setCurrentBoardIndex((prev) =>
-      prev < boardsAndTasks.data.length - 1 ? prev + 1 : prev
+      prev < boardsAndTasks.data.length - 1 ? prev + 1 : prev,
     );
   };
+
+  const tasksFromServer =
+    boardsAndTasks?.data.flatMap((board) => board.taskResponses) ?? [];
+
+  const calendarEvents = tasksFromServer.map((task) => ({
+    id: task.id,
+    title: task.name,
+    start: task.deadLine, // فرض بر اینکه deadline وجود دارد
+  }));
+
+  function handleDateClick(arg: { date: Date; allDay: boolean }) {
+    setSelectedDate(arg.date);
+    openModal("create-task");
+  }
 
   if (!activeProjectId || !activeWorkspaceId) {
     return (
@@ -158,7 +136,6 @@ export default function CalendarViewPage() {
   if (!boardsAndTasks?.data?.length) return <div>در حال بارگذاری...</div>;
 
   const currentBoard = boardsAndTasks.data[currentBoardIndex];
-
   return (
     <>
       <nav
@@ -180,7 +157,7 @@ export default function CalendarViewPage() {
                 center: "title",
                 right: "resourceTimelineWook, dayGridMonth,timeGridWeek",
               }}
-              events={allEvents}
+              events={calendarEvents}
               nowIndicator={true}
               editable={true}
               droppable={true}
@@ -190,16 +167,23 @@ export default function CalendarViewPage() {
               drop={(data) => addEvent(data)}
               eventClick={(data) => handleDeleteModal(data)}
             />
+
+            {isCreateModalOpen && (
+              <CreateTaskModal
+                selectedDate={selectedDate} // پاس دادن تاریخ از state محلی
+                onClose={closeModal} // پاس دادن تابع بستن از هوک
+              />
+            )}
           </div>
 
           <div
             id="draggable-el"
-            className="ml-8 w-full border p-2 rounded-md mt-16 lg:h-1/2 
+            className="ml-8 w-full border p-2 rounded-md mt-16 lg:h-1/2
              bg-base-100 text-base-content border-base-300"
           >
             {boardsAndTasks?.data.length > 0 && (
               <>
-                {/* دکمه‌های چپ و راست */}
+                {/* دکمههای چپ و راست */}
                 <div className="flex items-center justify-between px-2 mb-2">
                   <button onClick={handlePrevBoard} className="text-xl">
                     {"←"}
@@ -212,7 +196,7 @@ export default function CalendarViewPage() {
                   </button>
                 </div>
 
-                {/* لیست تسک‌های این بورد */}
+                {/* لیست تسکهای این بورد */}
                 <div className="space-y-2 overflow-y-auto max-h-60 pr-2">
                   {boardsAndTasks.data[currentBoardIndex].taskResponses
                     ?.length > 0 ? (
@@ -222,12 +206,12 @@ export default function CalendarViewPage() {
                           title={task.name}
                           data-id={task.id}
                           key={task.id}
-                          className="fc-event p-2 rounded-md border text-sm 
+                          className="fc-event p-2 rounded-md border text-sm
              bg-base-200 text-base-content border-base-300"
                         >
                           {task.name}
                         </div>
-                      )
+                      ),
                     )
                   ) : (
                     <div className="text-gray-500 text-sm text-center">
@@ -239,17 +223,6 @@ export default function CalendarViewPage() {
             )}
           </div>
         </div>
-
-        {showDeleteModal && activeTaskId && (
-          <DeleteTaskModal onClose={() => setShowDeleteModal(false)} />
-        )}
-
-        {showModal && (
-          <CreateTaskModal
-            onClose={() => setShowModal(false)}
-            selectedDate={selectedDate}
-          />
-        )}
       </main>
     </>
   );
