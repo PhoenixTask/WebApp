@@ -5,8 +5,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema, schemaType } from "@/schemas/personalInfo";
 import { useEffect } from "react";
-import { useUserInfo, useEditUserInfo } from "@/hooks/useUser";
+import {
+  useUserInfo,
+  useEditUserInfo,
+  useUploadProfile,
+  useGetProfile,
+} from "@/hooks/useUser";
 import Icon from "@/components/Icon";
+import { getUserId } from "@/functions/tokenManager";
 
 export default function PersonalInfoPage() {
   const {
@@ -21,6 +27,10 @@ export default function PersonalInfoPage() {
   const { data: userInfo } = useUserInfo();
   const { mutateAsync: EditUserInfoAPI } = useEditUserInfo();
 
+  const { mutateAsync: UploadProfileAPI } = useUploadProfile();
+  const userId = getUserId();
+  const { data: userProfile } = useGetProfile(userId as string);
+
   useEffect(() => {
     if (!userInfo) return;
 
@@ -30,7 +40,7 @@ export default function PersonalInfoPage() {
       email: userInfo.email,
       username: userInfo.username,
     });
-  }, [userInfo]);
+  }, [userInfo, reset]);
 
   return (
     <div className="w-96 mr-14">
@@ -51,7 +61,16 @@ export default function PersonalInfoPage() {
                 alignItems="center"
                 className="overflow-hidden bg-base-300 text-base-content rounded-full text-2xl p-2"
               >
-                <Icon width={50} height={50} iconName="Profile" />
+                {/* how to fix this? */}
+                {userProfile ? (
+                  <img
+                    src=""
+                    alt="Profile"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  <Icon width={50} height={50} iconName="Profile" />
+                )}
               </Flex>
             </div>
             <Flex direction="col" justifyContent="center" gap="S">
@@ -61,7 +80,13 @@ export default function PersonalInfoPage() {
               >
                 ویرایش تصویر پروفایل
               </label>
-              <input hidden type="file" id="img" />
+              <input
+                hidden
+                type="file"
+                accept="image/*"
+                id="img"
+                onChange={handleProfileImageUpload}
+              />{" "}
               <span className="text-xs text-neutral">
                 این تصویر برای عموم قابل نمایش است.
               </span>
@@ -106,6 +131,25 @@ export default function PersonalInfoPage() {
       </Flex>
     </div>
   );
+
+  async function handleProfileImageUpload(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const fullBase64String = reader.result as string;
+        const base64Content = fullBase64String.split(",")[1];
+
+        await UploadProfileAPI({
+          base64File: base64Content,
+          fileName: file.name,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   function onSubmit(data: schemaType) {
     const { firstName, lastName } = data;
