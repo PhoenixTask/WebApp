@@ -12,6 +12,7 @@ import useModal from "@/store/useModal";
 import useActiveState from "@/store/useActiveState";
 import { useBoards, useBoardsAndTasks } from "@/hooks/useBoards";
 import { NO_BOARD_MSG, NO_PROJECT_MSG } from "@/constants";
+import { useEditTask } from "@/hooks/useTasks";
 
 interface Event {
   title: string;
@@ -25,17 +26,22 @@ export default function CalendarViewPage() {
   const [currentBoardIndex, setCurrentBoardIndex] = useState(0);
   const [allEvents, setAllEvents] = useState<Event[]>([]);
   const { openModal } = useModal();
-
+  const { mutateAsync: editTaskAPI } = useEditTask();
+  const [localCalendarEvents, setLocalCalendarEvents] = useState<Event[]>([]);
   const { storeActiveTask, storeActiveBoard } = useActiveState();
 
-  function addEvent(data: DropArg) {
-    const event = {
-      start: data.date.toISOString(),
-      title: data.draggedEl.innerText,
-      allDay: data.allDay,
-      id: new Date().getTime(),
-    };
-    setAllEvents([...allEvents, event]);
+  function handleDrop(data: DropArg) {
+    const taskId = data.draggedEl.getAttribute("data-id");
+    const newDeadline = data.date.toISOString();
+    if (!taskId) return;
+
+    const updatedEvents = localCalendarEvents.map((event) => {
+      if (event.id === taskId) {
+        return { ...event, start: newDeadline };
+      }
+      return event;
+    });
+    setLocalCalendarEvents(updatedEvents);
   }
 
   function handleDeleteModal(data: { event: { id: string } }) {
@@ -147,7 +153,7 @@ export default function CalendarViewPage() {
               selectable={true}
               selectMirror={true}
               dateClick={handleDateClick}
-              drop={(data) => addEvent(data)}
+              drop={(data) => handleDrop(data)}
               eventClick={(data) => handleDeleteModal(data)}
             />
           </div>

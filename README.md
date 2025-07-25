@@ -9,7 +9,7 @@ The frontend is developed using **Next.js**, and the backend is powered by **ASP
 🔗 Backend Repository: [PhoenixTask dotnet-backend](https://github.com/PhoenixTask/dotnet-backend)
 
 ## 🚀 Overview
-
+ 
 This project began as a fun and experimental initiative by a couple of developers who wanted to build a simple yet scalable task manager.  
 While the main intention was exploration and enjoyment, **Phoenix Task** has the potential to evolve into a dedicated task management system for internal company use.
 

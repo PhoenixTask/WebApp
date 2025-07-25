@@ -14,7 +14,7 @@ import { useCreateBoard } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
 import { useEffect } from "react";
 
-interface CreateBoardModalProps {
+type CreateBoardModalProps = {
   onClose: () => void;
 }
 

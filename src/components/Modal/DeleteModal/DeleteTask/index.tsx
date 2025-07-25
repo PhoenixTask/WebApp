@@ -3,9 +3,9 @@ import { Button, Heading, Modal } from "@/components/UI";
 import { useDeleteTask } from "@/hooks/useTasks";
 import useActiveState from "@/store/useActiveState";
 
-interface DeleteTaskModalProps {
+type DeleteTaskModalProps = {
   onClose: () => void;
-}
+};
 
 export default function DeleteTaskModal({ onClose }: DeleteTaskModalProps) {
   const { activeTaskId, forgetActiveTask } = useActiveState();

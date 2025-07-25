@@ -2,9 +2,9 @@ import { forwardRef, InputHTMLAttributes } from "react";
 import Icon from "@/components/Icon";
 import clsx from "clsx";
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+type Props = InputHTMLAttributes<HTMLInputElement> & {
   connectorId: string;
-}
+};
 
 const CheckBox = forwardRef<HTMLInputElement, Props>(
   ({ connectorId, className = "", children, ...rest }, ref) => {

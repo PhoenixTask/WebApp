@@ -4,7 +4,7 @@ import DashboardHeader from "./components/Header";
 import DashboardSidebar from "./components/Sidebar";
 import { usePathname } from "next/navigation";
 
-interface AuthLayoutProps {
+type AuthLayoutProps = {
   children: React.ReactNode;
 }
 

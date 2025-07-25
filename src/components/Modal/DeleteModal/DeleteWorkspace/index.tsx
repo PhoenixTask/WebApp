@@ -3,9 +3,9 @@ import { Button, Heading, Modal } from "@/components/UI";
 import { useDeleteWorkspace } from "@/hooks/useWorkspaces";
 import useActiveState from "@/store/useActiveState";
 
-interface DeleteWorkspaceModalProps {
+type DeleteWorkspaceModalProps = {
   onClose: () => void;
-}
+};
 
 export default function DeleteWorkspaceModal({
   onClose,

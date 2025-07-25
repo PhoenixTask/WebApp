@@ -15,9 +15,9 @@ import useActiveState from "@/store/useActiveState";
 import { GetOneWorkspaceAPI } from "@/services/workspace";
 import { useEffect, useRef } from "react";
 
-interface EditWorkspaceModalProps {
+type EditWorkspaceModalProps = {
   onClose: () => void;
-}
+};
 
 export default function EditWorkspaceModal({
   onClose,
