@@ -26,7 +26,7 @@ export default function PersonalInfoPage() {
   });
 
   const { data: userInfo } = useUserInfo();
-  
+
   const { mutateAsync: EditUserInfoAPI } = useEditUserInfo();
 
   const { mutateAsync: UploadProfileAPI } = useUploadProfile();
@@ -44,6 +44,10 @@ export default function PersonalInfoPage() {
       username: userInfo.username,
     });
   }, [userInfo, reset]);
+
+  useEffect(() => {
+    console.log(userProfileURL);
+  }, []);
 
   return (
     <div className="w-96 mr-14">
