@@ -34,7 +34,11 @@ export type EditBoardType = {
   data: Omit<BoardType, "id">;
 };
 
-export type EditBoardOrderType = {
-  boardId: string;
+type BoardOrderType = {
+  id: string;
   order: number;
+};
+
+export type EditBoardOrdersType = {
+  boards: BoardOrderType[];
 };

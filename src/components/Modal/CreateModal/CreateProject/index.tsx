@@ -14,7 +14,7 @@ import { useCreateProject } from "@/hooks/useProjects";
 import useActiveState from "@/store/useActiveState";
 import { useEffect, useRef } from "react";
 
-interface CreateProjectModalProps {
+type CreateProjectModalProps = {
   onClose: () => void;
 }
 

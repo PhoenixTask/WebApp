@@ -26,9 +26,13 @@ export type CreateTaskType = {
   order?: number;
 };
 
-export type EditTaskOrderType = {
-  taskId: string;
+type TaskOrderType = {
+  id: string;
   order: number;
+};
+
+export type EditTaskOrderType = {
+  tasks: TaskOrderType[];
 };
 
 export type EditTaskBoardType = {

@@ -3,9 +3,9 @@ import { Button, Heading, Modal } from "@/components/UI";
 import { useDeleteProject } from "@/hooks/useProjects";
 import useActiveState from "@/store/useActiveState";
 
-interface DeleteProjectModalProps {
+type DeleteProjectModalProps = {
   onClose: () => void;
-}
+};
 
 export default function DeleteProjectModal({
   onClose,

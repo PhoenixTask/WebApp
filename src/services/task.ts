@@ -37,7 +37,7 @@ export const EditTaskBoardAPI = async (data: EditTaskBoardType) => {
 };
 
 export const EditTaskOrderAPI = async (data: EditTaskOrderType) => {
-  const response = await Axios.patch("/v1/task/update-order", data);
+  const response = await Axios.patch("/v2/task/update-order", data);
   return response.data;
 };
 

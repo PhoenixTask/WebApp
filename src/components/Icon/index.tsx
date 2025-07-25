@@ -3,10 +3,10 @@ import * as IconMap from "./icons";
 
 export type IconName = keyof typeof IconMap;
 
-interface IconProps extends SVGProps<SVGSVGElement> {
+type IconProps = SVGProps<SVGSVGElement> & {
   iconName: IconName;
   fallback?: React.ReactNode;
-}
+};
 
 export default function Icon({
   iconName,

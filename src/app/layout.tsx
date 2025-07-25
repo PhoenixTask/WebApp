@@ -4,7 +4,7 @@ import QueryProvider from "@/providers/TanstackQueryProvider";
 import "@/assets/globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 
-interface RootLayoutProps {
+type RootLayoutProps = {
   children: React.ReactNode;
 }
 

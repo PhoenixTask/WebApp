@@ -34,13 +34,13 @@ const alignMap = {
   between: "items-between",
 };
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+type Props = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
   direction?: keyof typeof FlexDirection;
   gap?: keyof typeof FlexGap;
   justifyContent?: "start" | "end" | "center" | "between" | "around" | "evenly";
   alignItems?: "start" | "end" | "center" | "baseline" | "stretch" | "between";
-}
+};
 
 const Flex = ({
   children,

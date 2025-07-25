@@ -1,6 +1,6 @@
 import { FieldError } from "react-hook-form";
 
-interface ErrorMessageProps {
+type ErrorMessageProps = {
   error: FieldError | undefined;
 }
 

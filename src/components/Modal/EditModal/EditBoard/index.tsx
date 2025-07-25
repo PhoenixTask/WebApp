@@ -15,9 +15,9 @@ import useActiveState from "@/store/useActiveState";
 import { GetOneBoardAPI } from "@/services/board";
 import { useEffect, useRef } from "react";
 
-interface EditBoardModalProps {
+type EditBoardModalProps = {
   onClose: () => void;
-}
+};
 
 export default function EditBoardModal({ onClose }: EditBoardModalProps) {
   const {

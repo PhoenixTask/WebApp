@@ -15,9 +15,9 @@ import useActiveState from "@/store/useActiveState";
 import { GetOneProjectAPI } from "@/services/project";
 import { useEffect, useRef } from "react";
 
-interface EditProjectModalProps {
+type EditProjectModalProps = {
   onClose: () => void;
-}
+};
 
 export default function EditProjectModal({ onClose }: EditProjectModalProps) {
   const {

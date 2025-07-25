@@ -27,9 +27,15 @@ export type UserInfoType = {
   email: string;
   firstName: string;
   lastName: string;
+  username: string;
 };
 
 export type EditUserInfoType = {
   firstName: string;
   lastName: string;
+};
+
+export type UploadProfileType = {
+  base64File: string;
+  fileName: string;
 };

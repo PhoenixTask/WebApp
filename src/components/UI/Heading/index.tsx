@@ -16,14 +16,14 @@ const Size = {
   XL: "text-7xl",
 };
 
-interface Props {
+type Props = {
   as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   children: ReactNode;
   align?: keyof typeof TextAlign;
   size?: keyof typeof Size;
   weight?: keyof typeof fontWeight;
   className?: string;
-}
+};
 
 const Heading: FC<Props> = ({
   as,
