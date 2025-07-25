@@ -1,6 +1,6 @@
 name: Telegram Commit Notification
 
-on:[push]
+on: [push]
 
 jobs:
   notify:
