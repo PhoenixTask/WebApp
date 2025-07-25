@@ -46,6 +46,7 @@ export default function CalendarViewPage() {
   const { data: boards } = useBoards(activeProjectId);
 
   const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
+  console.log(boardsAndTasks);
 
   useEffect(() => {
     let draggableEl = document.getElementById("draggable-el");
@@ -68,7 +69,7 @@ export default function CalendarViewPage() {
   const handleNextBoard = () => {
     if (!boardsAndTasks?.data) return;
     setCurrentBoardIndex((prev) =>
-      prev < boardsAndTasks.data.length - 1 ? prev + 1 : prev
+      prev < boardsAndTasks.data.length - 1 ? prev + 1 : prev,
     );
   };
 
@@ -78,7 +79,7 @@ export default function CalendarViewPage() {
   const calendarEvents = tasksFromServer.map((task) => ({
     id: task.id,
     title: task.name,
-    start: task.deadLine, // فرض بر اینکه deadline وجود دارد
+    start: task.deadLine,
   }));
 
   function handleDateClick(arg: { date: Date; allDay: boolean }) {
@@ -86,6 +87,8 @@ export default function CalendarViewPage() {
     storeActiveBoard(boardsAndTasks.data[currentBoardIndex].id);
     openModal("create-task", { selectedDate: arg.date });
     console.log(arg);
+    console.log(useBoardsAndTasks);
+    console.log(boards);
   }
 
   if (!activeProjectId || !activeWorkspaceId) {
@@ -115,8 +118,6 @@ export default function CalendarViewPage() {
       </div>
     );
   }
-
-  if (!boardsAndTasks?.data?.length) return <div>در حال بارگذاری...</div>;
 
   return (
     <>
@@ -186,7 +187,7 @@ export default function CalendarViewPage() {
                         >
                           {task.name}
                         </div>
-                      )
+                      ),
                     )
                   ) : (
                     <div className="text-gray-500 text-sm text-center">
