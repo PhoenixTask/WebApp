@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { LoginType, RegisterType, EditUserInfoType } from "@/types/user";
+import { LoginType, RegisterType, EditUserInfoType, UploadProfileType } from "@/types/user";
 import {
   EditUserInfoAPI,
+  GetProfileAPI,
   GetUserInfoAPI,
   LoginAPI,
   RegisterAPI,
+  UploadProfileAPI,
 } from "@/services/user";
 import {
   setAccessToken,
@@ -89,5 +91,25 @@ export const useEditUserInfo = () => {
 };
 
 export const useUploadProfile = () => {
-  
-}
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: UploadProfileType) => UploadProfileAPI(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      toast.success("تصویر پروفایل با موفقیت آپلود شد.");
+    },
+    onError: (error) => {
+      errorToast(error);
+    },
+  });
+};
+
+export const useGetProfile = (userId: string) => {
+  return useQuery({
+    queryKey: ["user-profile", userId],
+    queryFn: () => GetProfileAPI(userId),
+    enabled: !!userId,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+};
