@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { LoginType, RegisterType, EditUserInfoType, UploadProfileType } from "@/types/user";
+import {
+  LoginType,
+  RegisterType,
+  EditUserInfoType,
+  UploadProfileType,
+} from "@/types/user";
 import {
   EditUserInfoAPI,
   GetProfileAPI,
@@ -16,6 +21,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
+import { convertFileToBase64 } from "@/functions/convertFileToBase64";
 
 type AuthCallbacks = {
   onSuccess?: () => void;
@@ -90,10 +96,19 @@ export const useEditUserInfo = () => {
   });
 };
 
+
 export const useUploadProfile = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data: UploadProfileType) => UploadProfileAPI(data),
+    mutationFn: async (file: File) => {
+      const base64 = await convertFileToBase64(file, false);
+      const payload = {
+        base64File: base64,
+        fileName: file.name,
+      };
+      return UploadProfileAPI(payload);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
       toast.success("تصویر پروفایل با موفقیت آپلود شد.");
@@ -107,7 +122,12 @@ export const useUploadProfile = () => {
 export const useGetProfile = (userId: string) => {
   return useQuery({
     queryKey: ["user-profile", userId],
-    queryFn: () => GetProfileAPI(userId),
+    queryFn: async () => {
+      const userProfile = await GetProfileAPI(userId);
+      const imageUrl = URL.createObjectURL(userProfile as Blob);
+
+      return imageUrl;
+    },
     enabled: !!userId,
     staleTime: Infinity,
     refetchOnWindowFocus: false,

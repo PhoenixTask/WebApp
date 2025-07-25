@@ -40,6 +40,8 @@ export const UploadProfileAPI = async (data: UploadProfileType) => {
 };
 
 export const GetProfileAPI = async (userId: string) => {
-  const Response = await Axios.get(`/v1/user/download?userId=${userId}`);
+  const Response = await Axios.get(`/v1/user/download?userId=${userId}`, {
+    responseType: "blob",
+  });
   return Response.data;
 };

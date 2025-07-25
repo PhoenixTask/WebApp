@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Flex, Link, Button, Heading } from "@/components/UI";
 import Icon from "@/components/Icon";
 import { useWorkspaces } from "@/hooks/useWorkspaces";
 import WorkspaceMenu from "./WorkspaceMenu";
 import useModal from "@/store/useModal";
-import { useUserInfo } from "@/hooks/useUser";
-import { removeTokens } from "@/functions/tokenManager";
+import { useGetProfile, useUserInfo } from "@/hooks/useUser";
+import { getUserId, removeTokens } from "@/functions/tokenManager";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function DashboardSidebar() {
@@ -17,6 +18,9 @@ export default function DashboardSidebar() {
   const { openModal } = useModal();
 
   const { data: workspaces, isLoading, isError } = useWorkspaces();
+
+  const userId = getUserId();
+  const { data: userProfileURL } = useGetProfile(userId!);
 
   const { data: userInfo } = useUserInfo();
 
@@ -73,13 +77,19 @@ export default function DashboardSidebar() {
           textSize="M"
           to="/personal-info"
         >
-          <Flex
-            justifyContent="center"
-            alignItems="center"
-            className="overflow-hidden bg-base-300 text-base-content rounded-full text-2xl p-2"
-          >
-            <Icon iconName="Profile" />
-          </Flex>
+          <div className="relative w-10 h-10 overflow-hidden bg-base-300 text-base-content flex justify-center items-center rounded-full">
+            {userProfileURL ? (
+              <Image
+                src={userProfileURL}
+                alt="تصویر پروفایل"
+                width={100}
+                height={100}
+                objectFit="cover"
+              />
+            ) : (
+              <Icon width={50} height={50} iconName="Profile" />
+            )}
+          </div>
 
           {userInfo && userInfo.firstName && userInfo.lastName
             ? `${userInfo.firstName} ${userInfo.lastName}`
