@@ -34,3 +34,8 @@ export type EditUserInfoType = {
   firstName: string;
   lastName: string;
 };
+
+export type UploadProfileType = {
+  base64File: string;
+  fileName: string;
+};

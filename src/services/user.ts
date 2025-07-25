@@ -6,6 +6,7 @@ import {
   UserInfoType,
   LoginReturnsType,
   RefreshType,
+  UploadProfileType,
 } from "@/types/user";
 
 export const RegisterAPI = async (data: RegisterType) => {
@@ -31,4 +32,14 @@ export const GetUserInfoAPI = async (): Promise<UserInfoType> => {
 export const EditUserInfoAPI = async (data: EditUserInfoType) => {
   const response = await Axios.put("/v1/user", data);
   return response.data;
+};
+
+export const UploadProfileAPI = async (data: UploadProfileType) => {
+  const response = await Axios.post("/v1/user/upload", data);
+  return response.data;
+};
+
+export const GetProfileAPI = async (userId: string) => {
+  const Response = await Axios.get(`/v1/user/download?userId=${userId}`);
+  return Response.data;
 };

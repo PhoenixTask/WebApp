@@ -19,7 +19,7 @@ export default function PersonalInfoPage() {
   });
 
   const { data: userInfo } = useUserInfo();
-  const { mutateAsync: editUserInfo } = useEditUserInfo();
+  const { mutateAsync: EditUserInfoAPI } = useEditUserInfo();
 
   useEffect(() => {
     if (!userInfo) return;
@@ -109,6 +109,6 @@ export default function PersonalInfoPage() {
 
   function onSubmit(data: schemaType) {
     const { firstName, lastName } = data;
-    editUserInfo({ firstName, lastName });
+    EditUserInfoAPI({ firstName, lastName });
   }
 }

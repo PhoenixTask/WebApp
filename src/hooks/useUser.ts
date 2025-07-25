@@ -87,3 +87,7 @@ export const useEditUserInfo = () => {
     },
   });
 };
+
+export const useUploadProfile = () => {
+  
+}
