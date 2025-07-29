@@ -143,7 +143,7 @@ export default function CreateTaskModal({
 
   async function onSubmit(data: schemaType) {
     if (!activeBoardId) return;
-    CreateTaskAPI({ ...data, boardId: activeBoardId });
+    await CreateTaskAPI({ ...data, boardId: activeBoardId });
     onClose();
   }
 }
