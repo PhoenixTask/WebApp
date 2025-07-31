@@ -11,7 +11,7 @@ import interactionPlugin, {
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { EventDropArg } from "@fullcalendar/core";
 import { toast } from "react-hot-toast";
-
+import dayjs from "dayjs";
 import { useBoardsAndTasks } from "@/hooks/useBoards";
 import { useEditTask, useTasks } from "@/hooks/useTasks";
 import useActiveState from "@/store/useActiveState";
@@ -20,27 +20,22 @@ import { isBefore, startOfDay } from "date-fns-jalali";
 import useModal from "@/store/useModal";
 import { TaskType } from "@/types/task";
 import { BoardAndTasksType } from "@/types/board";
-
+import faLocale from "@fullcalendar/core/locales/fa";
+import { DateToString, MiladiToShamsi } from "@/functions/date";
 export default function CalendarViewPage() {
-  const [tasksData, setTasksData] = useState<TaskType[]>([]);
-  const { activeProjectId, activeWorkspaceId, activeBoardId } =
-    useActiveState();
+  const [tasksData, setTasksData] = useState<BoardAndTasksType[]>([]);
+  const { openModal } = useModal();
+
+  const {
+    activeProjectId,
+    activeWorkspaceId,
+    activeBoardId,
+    storeActiveBoard,
+  } = useActiveState();
   const { data: boardsAndTasks, isLoading } =
     useBoardsAndTasks(activeProjectId);
 
-  const { data: tasks } = activeBoardId
-    ? useTasks(activeBoardId)
-    : { data: [] };
-  // console.log(tasks);
-  const { openModal } = useModal();
-
-  useEffect(() => {
-    if (tasks) {
-      setTasksData(tasks);
-    }
-  }, [tasks]);
-
-  if (!activeProjectId || !activeWorkspaceId || activeBoardId) {
+  if (!activeProjectId || !activeWorkspaceId) {
     return (
       <div className="px-2.5 w-full flex flex-col items-center gap-2">
         <p className="m-auto">{NO_PROJECT_MSG}</p>
@@ -48,24 +43,31 @@ export default function CalendarViewPage() {
     );
   }
 
+  // console.log(tasks);
+
+  const events = boardsAndTasks
+    ? boardsAndTasks.data.flatMap((board) =>
+        (board.taskResponses || []).map((task) => ({
+          id: task.id,
+          title: task.name, // نه name، باید title باشه
+          start: new Date(task.deadLine),
+        }))
+      )
+    : [];
+  console.log(events);
+  console.log("boardsAndTasks in calendar:", boardsAndTasks);
   return (
     <div className="w-full h-full  justify-center items-center flex">
       <div className="w-full h-full max-w-6xl   mt-5">
         <FullCalendar
+          locale={faLocale}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
+          initialDate={new Date()}
           editable
           droppable
           selectable
-          events={
-            tasks
-              ? tasks.map((t) => ({
-                  id: t.id,
-                  title: t.name,
-                  start: t.deadLine, // فیلد تاریخ
-                }))
-              : []
-          }
+          events={events}
           dateClick={handleDateClick}
           eventDrop={handleEventDrop}
           drop={handleExternalDrop}
@@ -87,7 +89,6 @@ export default function CalendarViewPage() {
       alert("امکان ساخت تسک روی روزهای گذشته وجود ندارد.");
       return;
     }
-    console.log(arg.date);
     openModal("create-task", {
       selectedDate: arg.date,
     });

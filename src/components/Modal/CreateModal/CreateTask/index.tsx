@@ -12,6 +12,8 @@ import { format, newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
 import { DateToString } from "@/functions/date";
 import { priorityLabel } from "@/constants";
+import { useBoards, useBoardsAndTasks } from "@/hooks/useBoards";
+import { string } from "zod";
 
 type CreateTaskModalProps = {
   onClose: () => void;
@@ -39,7 +41,6 @@ export default function CreateTaskModal({
     },
     mode: "onChange",
   });
-
   const [openPopover, setOpenPopover] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
 
@@ -53,8 +54,12 @@ export default function CreateTaskModal({
     "text-error",
   ];
 
-  const { activeBoardId } = useActiveState();
+  const { activeBoardId, storeActiveBoard, activeProjectId } = useActiveState();
   const { mutateAsync: CreateTaskAPI } = useCreateTask();
+  const { data: boardsAndTasks, isLoading } =
+    useBoardsAndTasks(activeProjectId);
+  console.log("boardsAndTasks in modal:", boardsAndTasks);
+  const boards = boardsAndTasks?.data || [];
 
   useEffect(() => {
     const timer = setTimeout(() => setFocus("name"), 100);
@@ -67,6 +72,27 @@ export default function CreateTaskModal({
         ساخت تسک جدید
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-row items-center mb-2">
+          <label
+            htmlFor="board-select"
+            className="ml-2 text-sm font-medium text-gray-700"
+          >
+            انتخاب بورد:
+          </label>
+          <select
+            id="board-select"
+            value={activeBoardId || ""}
+            onClick={(e) => storeActiveBoard(e.target.value)}
+            className="w-52 px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
+          >
+            {boards?.map((board) => (
+              <option key={board.id} value={String(board.id)}>
+                {board.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="form-control mb-4 w-52">
           <Input withLabel={false} label="عنوان تسک" {...register("name")} />
           <ErrorMessage error={errors.name} />
@@ -144,6 +170,7 @@ export default function CreateTaskModal({
   async function onSubmit(data: schemaType) {
     if (!activeBoardId) return;
     await CreateTaskAPI({ ...data, boardId: activeBoardId });
+
     onClose();
   }
 }
