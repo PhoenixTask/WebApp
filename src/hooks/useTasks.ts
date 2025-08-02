@@ -6,6 +6,7 @@ import {
   EditTaskAPI,
   EditTaskBoardAPI,
   EditTaskOrderAPI,
+  getTasksByDeadlineAPI,
 } from "@/services/task";
 import {
   CreateTaskType,
@@ -16,6 +17,7 @@ import {
 } from "@/types/task";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
+import { DeadlineParams } from "@/types/board";
 
 export const useTasks = (boardId: string) => {
   return useQuery({
@@ -109,5 +111,18 @@ export const useEditTaskOrder = () => {
     onError: (error) => {
       errorToast(error);
     },
+  });
+};
+
+
+export const useTasksByDeadline = ({ ProjectId, Start, End }: DeadlineParams) => {
+  const queryClient = useQueryClient();
+  return useQuery({
+    queryKey: ["tasks-by-deadline", ProjectId, Start, End],
+    queryFn: () => {
+      if (!ProjectId || !Start || !End) return Promise.resolve([]);
+      return getTasksByDeadlineAPI({ ProjectId, Start, End });
+    }
+
   });
 };

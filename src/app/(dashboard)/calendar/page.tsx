@@ -11,12 +11,17 @@ import interactionPlugin, {
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { EventDropArg } from "@fullcalendar/core";
 import { toast } from "react-hot-toast";
-import dayjs from "dayjs";
 import { useBoardsAndTasks } from "@/hooks/useBoards";
-import { useEditTask, useTasks } from "@/hooks/useTasks";
+import { useEditTask, useTasks, useTasksByDeadline } from "@/hooks/useTasks";
 import useActiveState from "@/store/useActiveState";
 import { NO_PROJECT_MSG } from "@/constants";
-import { isBefore, startOfDay } from "date-fns-jalali";
+import {
+  endOfMonth,
+  format,
+  isBefore,
+  startOfDay,
+  startOfMonth,
+} from "date-fns";
 import useModal from "@/store/useModal";
 import { TaskType } from "@/types/task";
 import { BoardAndTasksType } from "@/types/board";
@@ -35,6 +40,21 @@ export default function CalendarViewPage() {
   const { data: boardsAndTasks, isLoading } =
     useBoardsAndTasks(activeProjectId);
 
+  const today = new Date();
+
+  const startDate = format(startOfMonth(today), "yyyy/MM/dd");
+  const endDate = format(endOfMonth(today), "yyyy/MM/dd");
+  const start = toDbDateRaw(startDate); // "8/1/2025"
+  const end = toDbDateRaw(endDate);
+  console.log("today is: ", today);
+  console.log("start is: ", start);
+  console.log("end is: ", end);
+  const { data: tasks } = useTasksByDeadline({
+    ProjectId: activeProjectId ?? "",
+    Start: "2025/01/01",
+    End: "2045/12/31",
+  });
+
   if (!activeProjectId || !activeWorkspaceId) {
     return (
       <div className="px-2.5 w-full flex flex-col items-center gap-2">
@@ -45,17 +65,13 @@ export default function CalendarViewPage() {
 
   // console.log(tasks);
 
-  const events = boardsAndTasks
-    ? boardsAndTasks.data.flatMap((board) =>
-        (board.taskResponses || []).map((task) => ({
-          id: task.id,
-          title: task.name, // نه name، باید title باشه
-          start: new Date(task.deadLine),
-        }))
-      )
-    : [];
+  const events = ((tasks as TaskType[]) || []).map((task) => ({
+    id: task.id,
+    title: task.name,
+    start: new Date(task.deadLine),
+  }));
+
   console.log(events);
-  console.log("boardsAndTasks in calendar:", boardsAndTasks);
   return (
     <div className="w-full h-full  justify-center items-center flex">
       <div className="w-full h-full max-w-6xl   mt-5">
@@ -100,5 +116,13 @@ export default function CalendarViewPage() {
 
   function handleEventDrop(arg: EventDropArg): void {
     console.log("handleEventDrop", arg);
+  }
+
+  function toDbDateRaw(date: Date | string): string {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1; // بدون صفر اضافه
+    const day = d.getDate(); // بدون صفر اضافه
+    return `${month}/${day}/${year}`;
   }
 }

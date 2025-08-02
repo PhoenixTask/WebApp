@@ -7,7 +7,7 @@ import {
   EditTaskOrderType,
   EditTaskBoardType,
 } from "@/types/task";
-import { BoardIdType } from "@/types/board";
+import { BoardIdType, DeadlineParams } from "@/types/board";
 
 export const GetTaskAPI = async ({
   id: boardId,
@@ -43,5 +43,17 @@ export const EditTaskOrderAPI = async (data: EditTaskOrderType) => {
 
 export const GetOneTaskAPI = async ({ id }: TaskIdType) => {
   const response = await Axios.get(`/v1/task/${id}`);
+  return response.data;
+};
+
+
+export const getTasksByDeadlineAPI = async ({
+  ProjectId,
+  Start,
+  End,
+}: DeadlineParams) => {
+  const response = await Axios.get(`/v1/task/get-by-deadline`, {
+    params: { ProjectId, Start, End },
+  });
   return response.data;
 };

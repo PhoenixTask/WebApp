@@ -12,17 +12,18 @@ export default function HomeHero() {
       >
         <defs>
           <linearGradient
-            id="fire-gradient"
+            id="phoenix-gradient"
             x1="0"
             y1="0"
             x2="1440"
             y2="600"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#FF9800" />
-            <stop offset="0.3" stopColor="#FF3C00" />
-            <stop offset="0.7" stopColor="#AF19D3" />
-            <stop offset="1" stopColor="#FFB300" />
+            <stop stopColor="#4FC3F7" />
+            <stop offset="0.2" stopColor="#FF9800" />
+            <stop offset="0.5" stopColor="#F06292" />
+            <stop offset="0.8" stopColor="#AF19D3" />
+            <stop offset="1" stopColor="#FFE082" />
           </linearGradient>
           <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="40" result="coloredBlur" />
@@ -34,17 +35,17 @@ export default function HomeHero() {
         </defs>
         <path
           d="M0,300 Q360,420 720,250 T1440,280 L1440,600 L0,600Z"
-          fill="url(#fire-gradient)"
+          fill="url(#phoenix-gradient)"
           filter="url(#glow)"
-          opacity="0.8"
+          opacity="0.9"
         />
       </svg>
-      {/* محتوای Hero */}
+
       <div className="relative z-10 max-w-2xl mx-auto text-center">
         <h1 className="text-3xl md:text-5xl font-extrabold mb-4 text-base-content drop-shadow-lg">
           Phoenix Task
         </h1>
-        <p className="text-base md:text-xl text-base-content/80 mb-8">
+        <p className="text-base md:text-xl text-base-content/90 mb-8">
           ققنوس شو! کارهات رو با انرژی دوباره سازمان‌دهی کن و به اهدافت پرواز
           کن.
           <br />
@@ -53,7 +54,8 @@ export default function HomeHero() {
         </p>
         <a
           href="/about"
-          className="inline-block bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 text-white px-8 py-3 rounded-full shadow-lg font-bold tracking-wide transition-all hover:scale-105 hover:shadow-2xl"
+          className="inline-block bg-gradient-to-r from-sky-400 via-orange-400 via-pink-400 to-purple-500 text-white px-8 py-3 rounded-full shadow-lg font-bold tracking-wide transition-all hover:scale-105 hover:shadow-2xl"
+          style={{ minWidth: 180 }}
         >
           همین الان شروع کن
         </a>
