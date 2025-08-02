@@ -12,12 +12,11 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  prefersdark: false;
   color-scheme: light;
   --color-base-100: oklch(98% 0.02 240);
   --color-base-200: oklch(0.98 0.0108 256.69);
   --color-base-300: oklch(0.96 0.0227 241.88);
-  --color-base-content: oklch(20% 0.05 240);
+  --color-base-content: oklch(0.3932 0.0574 240.41);
   --color-primary: oklch(55% 0.3 240);
   --color-primary-content: oklch(98% 0.01 240);
   --color-secondary: oklch(0.71 0.134 224.19);
@@ -38,9 +37,6 @@
 
 @plugin "daisyui/theme" {
   name: "dark";
-  prefersdark: true;
-  default: true;
-  prefersdark: false;
   color-scheme: dark;
   --color-base-100: oklch(12% 0.01 240);
   --color-base-200: oklch(16% 0.015 240);
@@ -77,52 +73,4 @@
   --color-lavender: var(--color-lavender);
   --color-coal: var(--color-coal);
   --color-stone: var(--color-stone);
-}
-
-/* ====================
-   Base styles (Light Mode)
-==================== */
-.fc-header-toolbar {
-  display: flex;
-  padding: 4px 4px;
-
-  @apply justify-center space-x-8;
-}
-
-/* حذف margin زیاد روزها که باعث اسکرول افقی می‌شد */
-.fc-day {
-  @apply m-1; /* یا حتی m-0, هر چقدر که زیباتره */
-}
-
-.fc-scrollgrid-sync-table {
-  @apply w-full;
-}
-
-.fc-view {
-  @apply w-full h-full lg:h-3/4 xl:h-2/3 bg-white dark:bg-base-100;
-}
-
-/* بقیه استایل‌ها هم عالیه */
-.fc-h-event {
-  @apply bg-violet-500 border border-violet-600;
-}
-
-.fc .fc-daygrid-day.fc-day-today {
-  @apply bg-violet-100 dark:bg-violet-900/40;
-}
-
-.fc .fc-button {
-  @apply bg-violet-800 hover:bg-violet-900 text-white dark:bg-violet-600 dark:hover:bg-violet-700;
-}
-
-.fc .fc-button-primary:not(:disabled).fc-button-active {
-  @apply bg-violet-600 dark:bg-violet-500;
-}
-
-.fc .fc-button-primary:disabled {
-  @apply bg-violet-600 dark:bg-violet-700 opacity-50;
-}
-
-.fc-v-event {
-  @apply bg-violet-500 border border-violet-600;
 }
