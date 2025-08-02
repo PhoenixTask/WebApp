@@ -1,41 +1,94 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import QueryProvider from "@/providers/TanstackQueryProvider";
+import localFont from "next/font/local";
 import "@/assets/globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 
-type RootLayoutProps = {
-  children: React.ReactNode;
-}
+const IranYekan = localFont({
+  src: [
+    {
+      path: "./fonts/IRANYekanX-Thin.woff2",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-UltraLight.woff2",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-ExtraBold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--local-font-IranYekan",
+});
 
 export const metadata: Metadata = {
   title: "فونیکس تسک",
   description: "a web-app for everything",
   icons: {
     icon: [
-      { url: "/favicon/favicon-16x16.png", sizes: "16x16" },
-      { url: "/favicon/favicon-32x32.png", sizes: "32x32" },
-      { url: "/favicon/favicon.ico" },
+      { url: "/logo/favicon-16x16.png", sizes: "16x16" },
+      { url: "/logo/favicon-32x32.png", sizes: "32x32" },
+      { url: "/logo/favicon.ico" },
     ],
-    apple: "/favicon/apple-touch-icon.png",
+    apple: "/logo/apple-touch-icon.png",
     other: [
       {
         rel: "icon",
-        url: "/favicon/android-chrome-192x192.png",
+        url: "/logo/android-chrome-192x192.png",
         sizes: "192x192",
       },
       {
         rel: "icon",
-        url: "/favicon/android-chrome-512x512.png",
+        url: "/logo/android-chrome-512x512.png",
         sizes: "512x512",
       },
     ],
   },
 };
 
+type RootLayoutProps = {
+  children: React.ReactNode;
+};
+
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html dir="rtl" lang="fa" data-theme="default">
+    <html
+      dir="rtl"
+      lang="fa"
+      data-theme="default"
+      className={IranYekan.variable}
+    >
       <body className="font-IranYekan">
         <Toaster position="top-left" />
         <ThemeProvider>

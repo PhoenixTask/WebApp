@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url("./style/fonts.css");
 @import url("./style/custom-colors.css");
 @import url("./style/custom-styles.css");
 
@@ -66,7 +65,7 @@
 }
 
 @theme {
-  --font-IranYekan: "IRANYekan", sans-serif;
+  --font-IranYekan: var(--local-font-IranYekan), sans-serif;
   --color-mint: var(--color-mint);
   --color-ocean: var(--color-ocean);
   --color-sun: var(--color-sun);
