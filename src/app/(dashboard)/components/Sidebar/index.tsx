@@ -84,7 +84,7 @@ export default function DashboardSidebar() {
                 alt="تصویر پروفایل"
                 width={100}
                 height={100}
-                objectFit="cover"
+                className="object-cover"
               />
             ) : (
               <Icon width={50} height={50} iconName="Profile" />
