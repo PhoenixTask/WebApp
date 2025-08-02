@@ -19,6 +19,7 @@ export const setUserId = (userId: string) => {
 };
 
 export const getUserId = () => {
+  if (typeof localStorage === "undefined") return null;
   return localStorage.getItem("User-Id");
 };
 
