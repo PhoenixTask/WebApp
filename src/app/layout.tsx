@@ -51,10 +51,6 @@ const IranYekan = localFont({
   variable: "--local-font-IranYekan",
 });
 
-type RootLayoutProps = {
-  children: React.ReactNode;
-};
-
 export const metadata: Metadata = {
   title: "فونیکس تسک",
   description: "a web-app for everything",
@@ -78,6 +74,10 @@ export const metadata: Metadata = {
       },
     ],
   },
+};
+
+type RootLayoutProps = {
+  children: React.ReactNode;
 };
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
