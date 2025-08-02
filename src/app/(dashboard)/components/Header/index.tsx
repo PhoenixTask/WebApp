@@ -51,21 +51,18 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             <span>نمایش تقویم</span>
           </Link>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center px-5">
           <Button
             onClick={toggleTheme}
             mode="child"
-            className="flex justify-center items-center transition-colors duration-300 hover:text-neutral-content  hover:bg-base-100 p-2 bg-neutral text-neutral-content border rounded-full"
+            className="flex justify-center items-center transition-colors duration-300 hover:text-base-content hover:bg-base-100 p-2 bg-base-content text-base-300 border rounded-full"
           >
-            {/* todo: DarkMode functionality */}
             {theme === "light" ? (
               <Icon iconName="DarkMode" />
             ) : (
               <Icon iconName="LightMode" />
             )}
           </Button>
-
-          <div className="pr-5 py-1">{/* <Share /> todo: share Modal */}</div>
         </div>
       </div>
       <div className="flex items-center justify-between font-medium py-4.5 gap-4 border-y border-neutral">
