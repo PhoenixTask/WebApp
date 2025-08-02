@@ -1,11 +1,59 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import QueryProvider from "@/providers/TanstackQueryProvider";
+import localFont from "next/font/local";
 import "@/assets/globals.css";
+
+const IranYekan = localFont({
+  src: [
+    {
+      path: "./fonts/IRANYekanX-Thin.woff2",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-UltraLight.woff2",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-ExtraBold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "./fonts/IRANYekanX-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--local-font-IranYekan",
+});
 
 type RootLayoutProps = {
   children: React.ReactNode;
-}
+};
 
 export const metadata: Metadata = {
   title: "فونیکس تسک",
@@ -34,7 +82,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html dir="rtl" lang="fa" data-theme="default">
+    <html
+      dir="rtl"
+      lang="fa"
+      data-theme="default"
+      className={IranYekan.variable}
+    >
       <body className="font-IranYekan">
         <Toaster position="top-left" />
         <QueryProvider>{children}</QueryProvider>
