@@ -96,7 +96,6 @@ export const useEditUserInfo = () => {
   });
 };
 
-
 export const useUploadProfile = () => {
   const queryClient = useQueryClient();
 
@@ -124,11 +123,12 @@ export const useGetProfile = (userId: string) => {
     queryKey: ["user-profile", userId],
     queryFn: async () => {
       const userProfile = await GetProfileAPI(userId);
+      if(userProfile.size === 0) return null
+
       const imageUrl = URL.createObjectURL(userProfile as Blob);
 
       return imageUrl;
     },
-    enabled: !!userId,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
