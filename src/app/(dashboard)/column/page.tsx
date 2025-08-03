@@ -221,24 +221,27 @@ export default function ColumnViewPage() {
       }
     }
   }
-}
 
-function onDragOver(event: DragOverEvent) {
-  const { active, over } = event;
-  if (!over || active.id === over.id) return;
+  function onDragOver(event: DragOverEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-  const activeType = active.data.current?.type;
-  const overType = over.data.current?.type;
+    const activeType = active.data.current?.type;
+    const overType = over.data.current?.type;
 
-  if (activeType === "Task" && overType === "Task") {
-    const activeTask = active.data.current?.Task;
-    const overTask = over.data.current?.Task;
+    if (activeType === "Task" && overType === "Task") {
+      const activeTask = active.data.current?.Task;
+      const overTask = over.data.current?.Task;
 
-    const activeBoardId = active.data.current?.Task?.boardId;
-    const overBoardId = over.data.current?.Task?.boardId;
+      const activeBoardId = active.data.current?.Task?.boardId;
+      const overBoardId = over.data.current?.Task?.boardId;
 
-    // نمایش سایه‌ی تسک در ستون دیگر
+      // نمایش سایه‌ی تسک در ستون دیگر
+      if (activeBoardId !== overBoardId) {
+        
+      }
 
-    if (!activeTask || !overTask || !activeBoardId || !overBoardId) return;
+      if (!activeTask || !overTask || !activeBoardId || !overBoardId) return;
+    }
   }
 }
