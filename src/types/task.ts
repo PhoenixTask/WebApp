@@ -3,9 +3,15 @@ export type TaskType = {
   name: string;
   deadLine: string;
   priority: number;
-  order?: number;
+  order: number;
   isComplete?: boolean;
   description?: string;
+};
+
+export type FlatTaskType = {
+  taskId: string;
+  boardId: string;
+  order: number;
 };
 
 export type TaskIdType = {
@@ -31,8 +37,13 @@ type TaskOrderType = {
   order: number;
 };
 
-export type EditTaskOrderType = {
+export type EditTasksOrderType = {
   tasks: TaskOrderType[];
+};
+
+export type EditTaskOrderType = {
+  taskId: string;
+  order: number;
 };
 
 export type EditTaskBoardType = {

@@ -82,7 +82,9 @@ export default function CreateTaskModal({
           <select
             id="board-select"
             value={activeBoardId || ""}
-            onClick={(e) => storeActiveBoard(e.target.value)}
+            onClick={(e) =>
+              storeActiveBoard((e.target as HTMLSelectElement).value)
+            }
             className="w-52 px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
           >
             {boards?.map((board) => (
