@@ -10,7 +10,7 @@ import useActiveState from "@/store/useActiveState";
 import PersianDatePicker from "@/components/PersianDatePicker";
 import { newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
-import { DateToString } from "@/functions/date";
+import { DateToString, ChangeFormStrDate } from "@/functions/date";
 import { priorityLabel } from "@/constants";
 import { GetOneTaskAPI } from "@/services/task";
 
@@ -60,7 +60,12 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
 
       orderRef.current = order || 0;
 
-      reset({ name, description, priority, deadLine });
+      reset({
+        name,
+        description,
+        priority,
+        deadLine: ChangeFormStrDate(deadLine),
+      });
     };
     if (activeTaskId) {
       getTaskData();
@@ -119,8 +124,8 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
           </div>
           {/* اضافه کردن پراپ value به PersianDatePicker */}
           <PersianDatePicker
-            onChange={handleDatePickerChange}
             value={deadLine}
+            onChange={handleDatePickerChange}
           />
           {/* ... بقیه کد */}
           <Button
@@ -153,12 +158,14 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
   }
 
   async function onSubmit(data: schemaType) {
-    console.log(activeBoardId);
-
     if (!activeBoardId) return;
 
     EditTaskAPI({
-      data: { ...data, order: orderRef.current, boardId: activeBoardId },
+      data: {
+        ...data,
+        boardId: activeBoardId,
+        description: data.description || "",
+      },
       id: activeTaskId!,
     });
 

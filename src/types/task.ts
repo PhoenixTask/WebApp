@@ -12,9 +12,17 @@ export type TaskIdType = {
   id: string;
 };
 
+export type EditTaskDataType = {
+  boardId: string;
+  name: string;
+  description: string;
+  deadLine: string;
+  priority: number;
+};
+
 export type EditTaskType = {
   id: string;
-  data: Omit<TaskType, "id"> & { boardId: string };
+  data: EditTaskDataType;
 };
 
 export type CreateTaskType = {

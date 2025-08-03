@@ -8,12 +8,11 @@ import { useCreateTask } from "@/hooks/useTasks";
 import PriorityPopover from "@/components/PriorityPopover";
 import useActiveState from "@/store/useActiveState";
 import PersianDatePicker from "@/components/PersianDatePicker";
-import { format, newDate } from "date-fns-jalali";
+import { newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
 import { DateToString } from "@/functions/date";
 import { priorityLabel } from "@/constants";
-import { useBoards, useBoardsAndTasks } from "@/hooks/useBoards";
-import { string } from "zod";
+import { useBoardsAndTasks } from "@/hooks/useBoards";
 
 type CreateTaskModalProps = {
   onClose: () => void;
@@ -56,7 +55,7 @@ export default function CreateTaskModal({
 
   const { activeBoardId, storeActiveBoard, activeProjectId } = useActiveState();
   const { mutateAsync: CreateTaskAPI } = useCreateTask();
-  const { data: boardsAndTasks, isLoading } =
+  const { data: boardsAndTasks } =
     useBoardsAndTasks(activeProjectId);
   console.log("boardsAndTasks in modal:", boardsAndTasks);
   const boards = boardsAndTasks?.data || [];
