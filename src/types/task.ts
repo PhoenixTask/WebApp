@@ -8,12 +8,6 @@ export type TaskType = {
   description?: string;
 };
 
-export type FlatTaskType = {
-  taskId: string;
-  boardId: string;
-  order: number;
-};
-
 export type TaskIdType = {
   id: string;
 };

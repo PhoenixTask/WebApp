@@ -26,7 +26,7 @@ import { NO_BOARD_MSG, NO_PROJECT_MSG } from "@/constants";
 import useModal from "@/store/useModal";
 import clsx from "clsx";
 import { BoardAndTasksType } from "@/types/board";
-import { TaskType, FlatTaskType } from "@/types/task";
+import { TaskType } from "@/types/task";
 
 export default function ColumnViewPage() {
   const { activeWorkspaceId, activeProjectId } = useActiveState();
@@ -39,7 +39,6 @@ export default function ColumnViewPage() {
   const [boardsAndTasksData, setBoardsAndTasksData] = useState<
     BoardAndTasksType[]
   >([]);
-  const [tasksData, setTasksData] = useState<FlatTaskType[]>([]);
 
   const [dragStartBoard, setDragStartBoard] =
     useState<BoardAndTasksType | null>(null);
@@ -55,16 +54,6 @@ export default function ColumnViewPage() {
     if (boardsAndTasks) {
       setBoardsAndTasksData(boardsAndTasks.data);
     }
-
-    const flatTasks = boardsAndTasksData.flatMap((board) =>
-      board.taskResponses.map((task) => ({
-        taskId: task.id,
-        boardId: board.id,
-        order: task.order,
-      }))
-    );
-
-    setTasksData(flatTasks);
   }, [boardsAndTasks]);
 
   const boardsId = useMemo(
