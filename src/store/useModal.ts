@@ -16,13 +16,14 @@ type ModalType =
 
 type ModalStackItem = {
   type: ModalType;
+  props?: Record<"selectedDate", Date>;
 };
 
 type useModalType = {
   modalStack: ModalStackItem[];
 
   // setters
-  openModal: (type: ModalType) => void;
+  openModal: (type: ModalType, props?: Record<"selectedDate", Date>) => void;
   closeModal: () => void;
 };
 
@@ -30,9 +31,9 @@ const useModal = create<useModalType>((set) => ({
   modalStack: [],
 
   // setters
-  openModal: (type) =>
+  openModal: (type, props) =>
     set((state) => ({
-      modalStack: [...state.modalStack, { type }],
+      modalStack: [...state.modalStack, { type, props }],
     })),
   closeModal: () =>
     set((state) => ({

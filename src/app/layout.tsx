@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import QueryProvider from "@/providers/TanstackQueryProvider";
 import localFont from "next/font/local";
 import "@/assets/globals.css";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const IranYekan = localFont({
   src: [
@@ -90,7 +91,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
     >
       <body className="font-IranYekan">
         <Toaster position="top-left" />
-        <QueryProvider>{children}</QueryProvider>
+        <ThemeProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -4,10 +4,11 @@ import {
   CreateTaskType,
   TaskIdType,
   EditTaskType,
+  EditTasksOrderType,
   EditTaskOrderType,
   EditTaskBoardType,
 } from "@/types/task";
-import { BoardIdType } from "@/types/board";
+import { BoardIdType, DeadlineParams } from "@/types/board";
 
 export const GetTaskAPI = async ({
   id: boardId,
@@ -36,12 +37,28 @@ export const EditTaskBoardAPI = async (data: EditTaskBoardType) => {
   return response.data;
 };
 
-export const EditTaskOrderAPI = async (data: EditTaskOrderType) => {
+export const EditTasksOrderAPI = async (data: EditTasksOrderType) => {
   const response = await Axios.patch("/v2/task/update-order", data);
+  return response.data;
+};
+
+export const EditTaskOrderAPI = async (data: EditTaskOrderType) => {
+  const response = await Axios.patch("/v1/task/update-order", data);
   return response.data;
 };
 
 export const GetOneTaskAPI = async ({ id }: TaskIdType) => {
   const response = await Axios.get(`/v1/task/${id}`);
+  return response.data;
+};
+
+export const getTasksByDeadlineAPI = async ({
+  ProjectId,
+  Start,
+  End,
+}: DeadlineParams) => {
+  const response = await Axios.get(`/v1/task/get-by-deadline`, {
+    params: { ProjectId, Start, End },
+  });
   return response.data;
 };
