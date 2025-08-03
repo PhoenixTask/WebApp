@@ -42,3 +42,9 @@ type BoardOrderType = {
 export type EditBoardOrdersType = {
   boards: BoardOrderType[];
 };
+
+export type DeadlineParams = {
+  ProjectId: string;
+  Start: string;
+  End: string;
+};

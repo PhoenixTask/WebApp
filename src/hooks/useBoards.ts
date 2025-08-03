@@ -51,7 +51,7 @@ export const useBoardsAndTasks = (projectId: string | null) => {
           .map((board) => ({
             ...board,
             taskResponses: [...board.taskResponses].sort(
-              (a, b) => a.order! - b.order!
+              (a, b) => a.order - b.order
             ),
           })),
         page: boardsAndTasks.page,

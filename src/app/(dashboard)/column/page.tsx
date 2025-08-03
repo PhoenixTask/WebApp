@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, act } from "react";
 import useActiveState from "@/store/useActiveState";
 import { useBoardsAndTasks, useEditOrderBoard } from "@/hooks/useBoards";
-import { useEditTaskOrder, useEditTaskBoard } from "@/hooks/useTasks";
+import { useEditTaskBoard, useEditTaskOrder } from "@/hooks/useTasks";
 import { Button } from "@/components/UI";
 import {
   DndContext,
@@ -39,6 +39,7 @@ export default function ColumnViewPage() {
   const [boardsAndTasksData, setBoardsAndTasksData] = useState<
     BoardAndTasksType[]
   >([]);
+
   const [dragStartBoard, setDragStartBoard] =
     useState<BoardAndTasksType | null>(null);
   const [dragStartTask, setDragStartTask] = useState<TaskType | null>(null);
@@ -143,8 +144,9 @@ export default function ColumnViewPage() {
     if (!over || active.id === over.id) return;
 
     const activeType = active.data.current?.type;
+    const overType = over.data.current?.type;
 
-    if (activeType === "Board") {
+    if (activeType === "Board" && overType === "Board") {
       const oldIndex = boardsAndTasksData.findIndex((b) => b.id === active.id);
       const newIndex = boardsAndTasksData.findIndex((b) => b.id === over.id);
       if (oldIndex < 0 || newIndex < 0) return;
@@ -162,43 +164,49 @@ export default function ColumnViewPage() {
       });
     }
 
-    if (activeType === "Task") {
-      const activeTask = active.data.current?.Task;
-      const sourceBoardId = active.data.current?.sourceBoardId;
-      const destBoardId = over.data.current?.boardId;
+    if (activeType === "Task" && overType === "Task") {
+      const activeTask = active.data.current;
+      const overTask = over.data.current;
 
-      if (!activeTask || !sourceBoardId || !destBoardId) return;
+      // todo: delete this in the end
+      console.log("active", activeTask);
+      console.log("over", overTask);
 
-      if (sourceBoardId !== destBoardId) {
-        const sourceBoard = boardsAndTasksData.find(
-          (b) => b.id === sourceBoardId
-        );
-        const destBoard = boardsAndTasksData.find((b) => b.id === destBoardId);
-        if (!sourceBoard || !destBoard) return;
+      if (
+        activeTask?.Task?.boardId === undefined ||
+        overTask?.Task?.boardId === undefined
+      )
+        return;
 
-        const taskToMove = activeTask;
-        const updatedSourceTasks = sourceBoard.taskResponses.filter(
-          (t) => t.id !== taskToMove.id
-        );
-        const updatedDestTasks = [
-          ...destBoard.taskResponses,
-          { ...taskToMove, boardId: destBoardId },
-        ];
+      if (activeTask?.Task?.boardId === overTask?.Task?.boardId) {
+        setBoardsAndTasksData((prev) => {
+          const newTasks = prev.map((board) => {
+            if (board.id !== activeTask?.Task?.boardId) return board;
 
-        const updatedBoards = boardsAndTasksData.map((board) => {
-          if (board.id === sourceBoardId)
-            return { ...board, taskResponses: updatedSourceTasks };
-          if (board.id === destBoardId)
-            return { ...board, taskResponses: updatedDestTasks };
-          return board;
+            return {
+              ...board,
+              taskResponses: [
+                ...arrayMove(
+                  board.taskResponses,
+                  activeTask?.sortable?.index,
+                  overTask?.sortable?.index
+                ),
+              ].map((task, index) => ({
+                ...task,
+                order: index + 1,
+              })),
+            };
+          });
+
+          return newTasks;
         });
 
-        setBoardsAndTasksData(updatedBoards);
-
-        await EditTaskBoardAPI({
-          taskId: taskToMove.id,
-          boardId: destBoardId,
+        EditTaskOrderAPI({
+          taskId: activeTask?.Task?.id,
+          order: overTask?.Task?.order,
         });
+      } else {
+        // جابجایی تسک بین دو ستون
       }
     }
   }
@@ -217,19 +225,12 @@ export default function ColumnViewPage() {
       const activeBoardId = active.data.current?.Task?.boardId;
       const overBoardId = over.data.current?.Task?.boardId;
 
+      // نمایش سایه‌ی تسک در ستون دیگر
+      if (activeBoardId !== overBoardId) {
+        
+      }
+
       if (!activeTask || !overTask || !activeBoardId || !overBoardId) return;
-
-      const sourceBoard = boardsAndTasksData.find(
-        (b) => b.id === activeBoardId
-      );
-      const targetBoard = boardsAndTasksData.find((b) => b.id === overBoardId);
-
-      if (!sourceBoard || !targetBoard) return;
-
-      // EditTaskOrderAPI({
-      //   taskId: activeTask.id,
-      //   order: overTask.order,
-      // });
     }
   }
 }
