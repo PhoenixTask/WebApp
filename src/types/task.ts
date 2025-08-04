@@ -52,3 +52,14 @@ export type EditTaskBoardType = {
   taskId: string;
   boardId: string;
 };
+
+export type GetTasksByDeadlineType = {
+  ProjectId: string;
+  Start: string;
+  End: string;
+};
+
+export type EditTaskDeadlineType = {
+  taskId: string;
+  deadLine: string;
+}

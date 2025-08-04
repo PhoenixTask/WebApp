@@ -10,7 +10,11 @@ import useActiveState from "@/store/useActiveState";
 import PersianDatePicker from "@/components/PersianDatePicker";
 import { newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
-import { DateToString, ChangeFormStrDate } from "@/functions/date";
+import {
+  DateToString,
+  ChangeFormStrDate,
+  MiladiToShamsi,
+} from "@/functions/date";
 import { priorityLabel } from "@/constants";
 import { GetOneTaskAPI } from "@/services/task";
 
@@ -122,12 +126,10 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
               }}
             />
           </div>
-          {/* اضافه کردن پراپ value به PersianDatePicker */}
           <PersianDatePicker
             value={deadLine}
             onChange={handleDatePickerChange}
           />
-          {/* ... بقیه کد */}
           <Button
             type="submit"
             size="small"
@@ -148,7 +150,9 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
     hour,
     minute,
   }: DateObject) {
-    const miladiDate = newDate(year, month.number, day, hour, minute);
+    const miladiDate = newDate(year, month.index, day, hour, minute);
+    console.log(miladiDate);
+
     const miladiString = DateToString(miladiDate);
 
     setValue("deadLine", miladiString, {

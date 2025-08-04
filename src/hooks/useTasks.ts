@@ -6,8 +6,9 @@ import {
   EditTaskAPI,
   EditTaskBoardAPI,
   EditTasksOrderAPI,
-  getTasksByDeadlineAPI,
+  GetTasksByDeadlineAPI,
   EditTaskOrderAPI,
+  EditTaskDeadlineAPI,
 } from "@/services/task";
 import {
   CreateTaskType,
@@ -15,11 +16,12 @@ import {
   TaskType,
   EditTaskBoardType,
   EditTasksOrderType,
-  EditTaskOrderType
+  EditTaskOrderType,
+  GetTasksByDeadlineType,
+  EditTaskDeadlineType,
 } from "@/types/task";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
-import { DeadlineParams } from "@/types/board";
 
 export const useTasks = (boardId: string) => {
   return useQuery({
@@ -46,6 +48,7 @@ export const useCreateTask = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("تسک با موفقیت ایجاد شد.");
     },
@@ -62,6 +65,7 @@ export const useDeleteTask = () => {
     mutationFn: (id: string) => DeleteTaskAPI({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("تسک با موفقیت حذف شد.");
     },
@@ -78,6 +82,7 @@ export const useEditTask = () => {
     mutationFn: ({ data, id }: EditTaskType) => EditTaskAPI({ data, id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
       toast.success("تسک با موفقیت ویرایش شد.");
     },
@@ -94,6 +99,7 @@ export const useEditTaskBoard = () => {
     mutationFn: (data: EditTaskBoardType) => EditTaskBoardAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
     },
     onError: (error) => {
@@ -108,6 +114,7 @@ export const useEditTasksOrder = () => {
     mutationFn: (data: EditTasksOrderType) => EditTasksOrderAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
     },
     onError: (error) => {
@@ -122,6 +129,7 @@ export const useEditTaskOrder = () => {
     mutationFn: (data: EditTaskOrderType) => EditTaskOrderAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
     },
     onError: (error) => {
@@ -134,13 +142,28 @@ export const useTasksByDeadline = ({
   ProjectId,
   Start,
   End,
-}: DeadlineParams) => {
+}: GetTasksByDeadlineType) => {
   const queryClient = useQueryClient();
   return useQuery({
     queryKey: ["tasks-by-deadline", ProjectId, Start, End],
     queryFn: () => {
       if (!ProjectId || !Start || !End) return Promise.resolve([]);
-      return getTasksByDeadlineAPI({ ProjectId, Start, End });
+      return GetTasksByDeadlineAPI({ ProjectId, Start, End });
+    },
+  });
+};
+
+export const useEditTaskDeadline = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: EditTaskDeadlineType) => EditTaskDeadlineAPI(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+    },
+    onError: (error) => {
+      errorToast(error);
     },
   });
 };

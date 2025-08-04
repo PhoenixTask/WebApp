@@ -1,59 +1,49 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, {
   DateClickArg,
-  Draggable,
   DropArg,
 } from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { EventDropArg } from "@fullcalendar/core";
-import { toast } from "react-hot-toast";
-import { useBoardsAndTasks } from "@/hooks/useBoards";
-import { useEditTask, useTasks, useTasksByDeadline } from "@/hooks/useTasks";
+import { EventDropArg, DatesSetArg } from "@fullcalendar/core";
+import { useTasksByDeadline, useEditTaskDeadline } from "@/hooks/useTasks";
 import useActiveState from "@/store/useActiveState";
 import { NO_PROJECT_MSG } from "@/constants";
 import {
-  endOfMonth,
   format,
   isBefore,
   startOfDay,
   startOfMonth,
+  endOfMonth,
 } from "date-fns";
 import useModal from "@/store/useModal";
 import { TaskType } from "@/types/task";
-import { BoardAndTasksType } from "@/types/board";
 import faLocale from "@fullcalendar/core/locales/fa";
-import { DateToString, MiladiToShamsi } from "@/functions/date";
-export default function CalendarViewPage() {
-  const [tasksData, setTasksData] = useState<BoardAndTasksType[]>([]);
-  const { openModal } = useModal();
+import { useState } from "react";
 
-  const {
-    activeProjectId,
-    activeWorkspaceId,
-    activeBoardId,
-    storeActiveBoard,
-  } = useActiveState();
-  const { data: boardsAndTasks, isLoading } =
-    useBoardsAndTasks(activeProjectId);
+export default function CalendarViewPage() {
+  const { openModal } = useModal();
+  const { activeProjectId, activeWorkspaceId } = useActiveState();
 
   const today = new Date();
 
-  const startDate = format(startOfMonth(today), "yyyy/MM/dd");
-  const endDate = format(endOfMonth(today), "yyyy/MM/dd");
-  const start = toDbDateRaw(startDate); // "8/1/2025"
-  const end = toDbDateRaw(endDate);
-  console.log("today is: ", today);
-  console.log("start is: ", start);
-  console.log("end is: ", end);
+  const [startDate, setStartDate] = useState(
+    format(startOfMonth(today), "yyyy-MM-dd")
+  );
+
+  const [endDate, setEndDate] = useState(
+    format(endOfMonth(today), "yyyy-MM-dd")
+  );
+
   const { data: tasks } = useTasksByDeadline({
     ProjectId: activeProjectId ?? "",
-    Start: "2025/01/01",
-    End: "2045/12/31",
+    Start: startDate,
+    End: endDate,
   });
+
+  const { mutateAsync: EditTaskDeadlineAPI } = useEditTaskDeadline();
 
   if (!activeProjectId || !activeWorkspaceId) {
     return (
@@ -63,23 +53,20 @@ export default function CalendarViewPage() {
     );
   }
 
-  // console.log(tasks);
-
   const events = ((tasks as TaskType[]) || []).map((task) => ({
     id: task.id,
     title: task.name,
     start: new Date(task.deadLine),
   }));
 
-  console.log(events);
   return (
-    <div className="w-full h-full  justify-center items-center flex">
-      <div className="w-full h-full max-w-6xl   mt-5">
+    <div className="flex justify-center items-center">
+      <div className="w-full max-w-6xl mt-5">
         <FullCalendar
           locale={faLocale}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
-          initialDate={new Date()}
+          initialDate={today}
           editable
           droppable
           selectable
@@ -87,6 +74,7 @@ export default function CalendarViewPage() {
           dateClick={handleDateClick}
           eventDrop={handleEventDrop}
           drop={handleExternalDrop}
+          datesSet={handleDatesSet}
           headerToolbar={{
             left: "prev,next today",
             center: "title",
@@ -100,11 +88,8 @@ export default function CalendarViewPage() {
   function handleDateClick(arg: DateClickArg) {
     const today = startOfDay(new Date());
     const selected = startOfDay(arg.date);
+    if (isBefore(selected, today)) return;
 
-    if (isBefore(selected, today)) {
-      alert("امکان ساخت تسک روی روزهای گذشته وجود ندارد.");
-      return;
-    }
     openModal("create-task", {
       selectedDate: arg.date,
     });
@@ -114,15 +99,24 @@ export default function CalendarViewPage() {
     console.log("handleExternalDrop", arg);
   }
 
-  function handleEventDrop(arg: EventDropArg): void {
-    console.log("handleEventDrop", arg);
+  async function handleEventDrop(arg: EventDropArg): Promise<void> {
+    const taskId = arg.event.id;
+    const newDate = arg.event.start;
+
+    if (!taskId || !newDate) return;
+
+    //todo: complete this
+    // await EditTaskDeadlineAPI({
+    //   taskId,
+    //   deadLine: format(newDate, "yyyy-MM-dd"),
+    // });
   }
 
-  function toDbDateRaw(date: Date | string): string {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = d.getMonth() + 1; // بدون صفر اضافه
-    const day = d.getDate(); // بدون صفر اضافه
-    return `${month}/${day}/${year}`;
+  function handleDatesSet(arg: DatesSetArg): void {
+    const newStart = format(startOfDay(arg.start), "yyyy-MM-dd");
+    const newEnd = format(startOfDay(arg.end), "yyyy-MM-dd");
+
+    setStartDate(newStart);
+    setEndDate(newEnd);
   }
 }
