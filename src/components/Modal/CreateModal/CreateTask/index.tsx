@@ -55,8 +55,7 @@ export default function CreateTaskModal({
 
   const { activeBoardId, storeActiveBoard, activeProjectId } = useActiveState();
   const { mutateAsync: CreateTaskAPI } = useCreateTask();
-  const { data: boardsAndTasks } =
-    useBoardsAndTasks(activeProjectId);
+  const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
   console.log("boardsAndTasks in modal:", boardsAndTasks);
   const boards = boardsAndTasks?.data || [];
 
@@ -159,7 +158,7 @@ export default function CreateTaskModal({
     hour,
     minute,
   }: DateObject) {
-    const miladiDate = newDate(year, month.number, day, hour, minute);
+    const miladiDate = newDate(year, month.index, day, hour, minute);
     const miladiString = DateToString(miladiDate);
 
     setValue("deadLine", miladiString, {

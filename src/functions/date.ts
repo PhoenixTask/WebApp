@@ -18,6 +18,7 @@ export function MiladiToShamsi(dateStr: string): string {
   return ConvertToFaNumber(shamsiDate);
 }
 
+// "M/DD/YYYY"(Miladi) => "YYYY-MM-DD"(Miladi)
 export function ChangeFormStrDate(dateStr: string): string {
   const date = new Date(dateStr);
 

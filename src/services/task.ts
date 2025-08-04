@@ -7,8 +7,10 @@ import {
   EditTasksOrderType,
   EditTaskOrderType,
   EditTaskBoardType,
+  GetTasksByDeadlineType,
+  EditTaskDeadlineType,
 } from "@/types/task";
-import { BoardIdType, DeadlineParams } from "@/types/board";
+import { BoardIdType } from "@/types/board";
 
 export const GetTaskAPI = async ({
   id: boardId,
@@ -52,13 +54,18 @@ export const GetOneTaskAPI = async ({ id }: TaskIdType) => {
   return response.data;
 };
 
-export const getTasksByDeadlineAPI = async ({
+export const GetTasksByDeadlineAPI = async ({
   ProjectId,
   Start,
   End,
-}: DeadlineParams) => {
+}: GetTasksByDeadlineType) => {
   const response = await Axios.get(`/v1/task/get-by-deadline`, {
     params: { ProjectId, Start, End },
   });
+  return response.data;
+};
+
+export const EditTaskDeadlineAPI = async (data: EditTaskDeadlineType) => {
+  const response = await Axios.patch("/v1/task/update-deadline", data);
   return response.data;
 };
