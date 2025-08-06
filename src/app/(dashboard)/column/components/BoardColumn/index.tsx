@@ -12,7 +12,7 @@ import { BoardAndTasksV2Type } from "@/types/board";
 
 type BoardColumnProps = BoardAndTasksV2Type;
 
-export default function BoardColumn({ id, name, color, tasks }: BoardColumnProps) {
+export default function BoardColumn({ id, name, color, order, tasks }: BoardColumnProps) {
   const [show, setShow] = useState(false);
 
   const { storeActiveBoard } = useActiveState();
@@ -29,7 +29,7 @@ export default function BoardColumn({ id, name, color, tasks }: BoardColumnProps
     id,
     data: {
       type: "Board",
-      Board: { id, name, color, tasks },
+      Board: { id, name, color, order, tasks },
     },
   });
 

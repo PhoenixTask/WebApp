@@ -41,6 +41,9 @@ export default function ColumnViewPage() {
 
   const [boards, setBoards] = useState<BoardType[]>([]);
   const [tasks, setTasks] = useState<TaskWithBoardIdType[]>([]);
+  const [originalTaskBoardId, setOriginalTaskBoardId] = useState<string | null>(
+    null
+  );
 
   const [dragStartBoard, setDragStartBoard] =
     useState<BoardAndTasksV2Type | null>(null);
@@ -149,25 +152,36 @@ export default function ColumnViewPage() {
     }
 
     if (type === "Task") {
-      setDragStartTask(event.active.data.current?.Task);
+      const task = event.active.data.current?.Task;
+      setDragStartTask(task);
+      // Store original board ID
+      setOriginalTaskBoardId(task?.boardId || null);
     }
   }
 
   function onDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    // Reset drag states
     setDragStartBoard(null);
     setDragStartTask(null);
 
-    const { active, over } = event;
-
-    if (!over) return;
+    if (!over) {
+      setOriginalTaskBoardId(null);
+      return;
+    }
 
     const activeType = active.data.current?.type;
     const overType = over.data.current?.type;
 
+    // Handle Board reordering
     if (activeType === "Board" && overType === "Board") {
       setBoards((prev) => {
         const oldIndex = prev.findIndex((b) => b.id === active.id);
         const newIndex = prev.findIndex((b) => b.id === over.id);
+
+        if (oldIndex === newIndex) return prev;
+
         const newBoards = arrayMove(prev, oldIndex, newIndex).map(
           (board, index) => ({
             ...board,
@@ -184,84 +198,130 @@ export default function ColumnViewPage() {
 
         return newBoards;
       });
+
+      setOriginalTaskBoardId(null);
+      return;
     }
 
+    // Handle Task reordering
     if (activeType === "Task") {
-      const activeTask = active.data.current;
-      const overTask = over.data.current;
+      const activeTask = active.data.current?.Task;
 
-      console.log("activeTask", activeTask);
-      console.log("overTask", overTask);
+      if (!activeTask || !originalTaskBoardId) {
+        setOriginalTaskBoardId(null);
+        return;
+      }
 
-      // move task to the same board
-      if (activeTask?.Task?.boardId === overTask?.Task?.boardId) {
-        console.log("test: move task to the same board");
-        
-        setTasks((prev) => {
-          const newTasks = arrayMove(
-            prev,
-            activeTask?.sortable?.index,
-            overTask?.sortable?.index
-          ).map((task, index) => ({
-            ...task,
-            order: index + 1,
-          }));
+      setTasks((prev) => {
+        const activeTaskIndex = prev.findIndex(
+          (task) => task.id === activeTask.id
+        );
 
-          EditTasksOrderAPI({
-            tasks: newTasks.map((task) => ({
-              id: task.id,
-              order: task.order,
-            })),
-          });
+        if (activeTaskIndex === -1) return prev;
 
-          return newTasks;
+        let targetBoardId = originalTaskBoardId; // Default to original board
+        let targetIndex = activeTaskIndex;
+
+        // Determine target board and position
+        if (overType === "Task") {
+          const overTask = over.data.current?.Task;
+          if (overTask) {
+            targetBoardId = overTask.boardId;
+            const overTaskIndex = prev.findIndex(
+              (task) => task.id === overTask.id
+            );
+
+            // If same board, place after the target task (below it)
+            if (originalTaskBoardId === overTask.boardId) {
+              targetIndex = overTaskIndex + 1;
+            } else {
+              // Different board, place at the target task position
+              targetIndex = overTaskIndex;
+            }
+          }
+        } else if (overType === "Board") {
+          targetBoardId = String(over.id);
+          // Find the last position in target board
+          const tasksInTargetBoard = prev.filter(
+            (task) =>
+              task.boardId === targetBoardId && task.id !== activeTask.id
+          );
+
+          if (tasksInTargetBoard.length > 0) {
+            const lastTaskInBoard =
+              tasksInTargetBoard[tasksInTargetBoard.length - 1];
+            targetIndex =
+              prev.findIndex((task) => task.id === lastTaskInBoard.id) + 1;
+          } else {
+            // Empty board - find appropriate position
+            targetIndex = prev.length;
+          }
+        }
+
+        // Create new tasks array with updated positions
+        const newTasks = [...prev];
+        const taskToMove = {
+          ...newTasks[activeTaskIndex],
+          boardId: targetBoardId,
+        };
+
+        // Remove from current position
+        newTasks.splice(activeTaskIndex, 1);
+
+        // Adjust target index if needed (when removing item before target)
+        if (targetIndex > activeTaskIndex) {
+          targetIndex -= 1;
+        }
+
+        // Insert at new position
+        newTasks.splice(Math.min(targetIndex, newTasks.length), 0, taskToMove);
+
+        // Recalculate orders
+        const finalTasks = newTasks.map((task, index) => ({
+          ...task,
+          order: index + 1,
+        }));
+
+        // Determine which API to call based on original vs target board
+        const movedToDifferentBoard = originalTaskBoardId !== targetBoardId;
+
+        console.log("Task move details:", {
+          originalBoardId: originalTaskBoardId,
+          targetBoardId,
+          movedToDifferentBoard,
+          taskId: activeTask.id,
         });
-      } else {
-        // move task to another board
-        console.log("test: move task to another board");
 
-        setTasks((prev) => {
-          const activeTaskIndex = prev.findIndex(
-            (task) => task.id === activeTask?.Task?.id
-          );
-          const overTaskIndex = prev.findIndex(
-            (task) => task.id === overTask?.Task?.id
-          );
-
-          if (activeTaskIndex < 0 || overTaskIndex < 0) return prev;
-
-          const updatedTasks = [...prev];
-
-          updatedTasks[activeTaskIndex] = {
-            ...updatedTasks[activeTaskIndex],
-            boardId: updatedTasks[overTaskIndex].boardId,
-          };
-
-          const reorderedTasks = arrayMove(
-            updatedTasks,
-            activeTaskIndex,
-            overTaskIndex
-          ).map((task, index) => ({
-            ...task,
-            order: index + 1,
-          }));
-
+        if (movedToDifferentBoard) {
+          // Task moved to different board
           EditTasksBoardAndOrderAPI({
-            taskRequests: reorderedTasks.map((task) => ({
+            taskRequests: finalTasks.map((task) => ({
               taskId: task.id,
               boardId: task.boardId,
               order: task.order,
             })),
           });
+        } else {
+          // Task reordered within same board
+          EditTasksOrderAPI({
+            tasks: finalTasks.map((task) => ({
+              id: task.id,
+              order: task.order,
+            })),
+          });
+        }
 
-          return reorderedTasks;
-        });
-      }
+        return finalTasks;
+      });
     }
+
+    // Reset original board ID
+    setOriginalTaskBoardId(null);
   }
 
   function onDragOver(event: DragOverEvent) {
     const { active, over } = event;
+
     if (!over || active.id === over.id) return;
 
     const activeType = active.data.current?.type;
@@ -270,34 +330,30 @@ export default function ColumnViewPage() {
     if (activeType !== "Task") return;
 
     const activeTask = active.data.current?.Task;
+    if (!activeTask || !originalTaskBoardId) return;
 
-    if (!activeTask) return;
-
+    // Handle visual feedback for cross-board moves
     if (overType === "Task") {
       const overTask = over.data.current?.Task;
-
       if (!overTask) return;
 
-      const activeBoardId = activeTask.boardId;
       const overBoardId = overTask.boardId;
 
-      if (activeBoardId !== overBoardId) {
+      // Only update state for cross-board moves
+      if (originalTaskBoardId !== overBoardId) {
         setTasks((prev) => {
           const activeIndex = prev.findIndex((t) => t.id === activeTask.id);
           const overIndex = prev.findIndex((t) => t.id === overTask.id);
 
-          if (activeIndex < 0 || overIndex < 0) return prev;
+          if (activeIndex === -1 || overIndex === -1) return prev;
 
           const updatedTasks = [...prev];
-
           updatedTasks[activeIndex] = {
             ...updatedTasks[activeIndex],
             boardId: overBoardId,
           };
 
-          const moved = arrayMove(updatedTasks, activeIndex, overIndex);
-
-          return moved;
+          return arrayMove(updatedTasks, activeIndex, overIndex);
         });
       }
     }
@@ -305,21 +361,36 @@ export default function ColumnViewPage() {
     if (overType === "Board") {
       const overBoardId = String(over.id);
 
-      setTasks((prev) => {
-        const activeIndex = prev.findIndex((t) => t.id === activeTask.id);
+      // Only update if moving to different board
+      if (originalTaskBoardId !== overBoardId) {
+        setTasks((prev) => {
+          const activeIndex = prev.findIndex((t) => t.id === activeTask.id);
+          if (activeIndex === -1) return prev;
 
-        if (activeIndex < 0) return prev;
+          const updatedTasks = [...prev];
+          updatedTasks[activeIndex] = {
+            ...updatedTasks[activeIndex],
+            boardId: overBoardId,
+          };
 
-        const updatedTasks = [...prev];
+          // Move to end of target board visually
+          const targetBoardTasks = prev.filter(
+            (task) => task.boardId === overBoardId && task.id !== activeTask.id
+          );
 
-        updatedTasks[activeIndex] = {
-          ...updatedTasks[activeIndex],
-          boardId: overBoardId,
-        };
-
-        // for re-render
-        return arrayMove(updatedTasks, activeIndex, activeIndex);
-      });
+          if (targetBoardTasks.length === 0) {
+            // Empty board
+            return updatedTasks;
+          } else {
+            // Move to end of target board
+            const lastTaskIndex = prev.findIndex(
+              (task) =>
+                task.id === targetBoardTasks[targetBoardTasks.length - 1].id
+            );
+            return arrayMove(updatedTasks, activeIndex, lastTaskIndex);
+          }
+        });
+      }
     }
   }
 }
