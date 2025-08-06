@@ -8,16 +8,11 @@ import { CSS } from "@dnd-kit/utilities";
 import { Button, Flex } from "@/components/UI";
 import useActiveState from "@/store/useActiveState";
 import useModal from "@/store/useModal";
-import { BoardAndTasksType } from "@/types/board";
+import { BoardAndTasksV2Type } from "@/types/board";
 
-export default function BoardColumn({
-  id,
-  name,
-  color,
-  taskResponses,
-}: BoardAndTasksType) {
-  taskResponses = taskResponses.sort((a, b) => a.order! - b.order!);
+type BoardColumnProps = BoardAndTasksV2Type;
 
+export default function BoardColumn({ id, name, color, tasks }: BoardColumnProps) {
   const [show, setShow] = useState(false);
 
   const { storeActiveBoard } = useActiveState();
@@ -34,13 +29,13 @@ export default function BoardColumn({
     id,
     data: {
       type: "Board",
-      Board: { id, name, color, taskResponses },
+      Board: { id, name, color, tasks },
     },
   });
 
   const tasksId = useMemo(
-    () => taskResponses.map((task) => task.id),
-    [taskResponses]
+    () => tasks.map((task) => task.id),
+    [tasks]
   );
 
   const style = {
@@ -97,8 +92,8 @@ export default function BoardColumn({
       </Flex>
       <div className="flex flex-col gap-y-4">
         <SortableContext items={tasksId}>
-          {taskResponses.map((task) => (
-            <TaskBox key={task.id} boardId={id} {...task} />
+          {tasks.map((task) => (
+            <TaskBox key={task.id} {...task} />
           ))}
         </SortableContext>
         <Button

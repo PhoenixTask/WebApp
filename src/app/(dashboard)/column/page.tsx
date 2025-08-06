@@ -1,9 +1,12 @@
 "use client";
 
-import { useMemo, useState, useEffect, act } from "react";
+import { useMemo, useState, useEffect } from "react";
 import useActiveState from "@/store/useActiveState";
 import { useBoardsAndTasks, useEditOrderBoard } from "@/hooks/useBoards";
-import { useEditTaskBoard, useEditTaskOrder } from "@/hooks/useTasks";
+import {
+  useEditTasksBoardAndOrderType,
+  useEditTaskOrder,
+} from "@/hooks/useTasks";
 import { Button } from "@/components/UI";
 import {
   DndContext,
@@ -25,24 +28,27 @@ import TaskBox from "./components/BoardColumn/TaskBox";
 import { NO_BOARD_MSG, NO_PROJECT_MSG } from "@/constants";
 import useModal from "@/store/useModal";
 import clsx from "clsx";
-import { BoardAndTasksType } from "@/types/board";
-import { TaskType } from "@/types/task";
+import { BoardAndTasksType, BoardAndTasksV2Type } from "@/types/board";
+import { TaskWithBoardIdType } from "@/types/task";
 
 export default function ColumnViewPage() {
   const { activeWorkspaceId, activeProjectId } = useActiveState();
   const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
   const { mutateAsync: EditBoardOrderAPI } = useEditOrderBoard();
   const { mutateAsync: EditTaskOrderAPI } = useEditTaskOrder();
-  const { mutateAsync: EditTaskBoardAPI } = useEditTaskBoard();
+  const { mutateAsync: EditTasksBoardAndOrderAPI } =
+    useEditTasksBoardAndOrderType();
   const { openModal } = useModal();
 
   const [boardsAndTasksData, setBoardsAndTasksData] = useState<
     BoardAndTasksType[]
   >([]);
+  const [tasks, setTasks] = useState<TaskWithBoardIdType[]>([]);
 
   const [dragStartBoard, setDragStartBoard] =
-    useState<BoardAndTasksType | null>(null);
-  const [dragStartTask, setDragStartTask] = useState<TaskType | null>(null);
+    useState<BoardAndTasksV2Type | null>(null);
+  const [dragStartTask, setDragStartTask] =
+    useState<TaskWithBoardIdType | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -50,16 +56,26 @@ export default function ColumnViewPage() {
     })
   );
 
-  useEffect(() => {
-    if (boardsAndTasks) {
-      setBoardsAndTasksData(boardsAndTasks.data);
-    }
-  }, [boardsAndTasks]);
-
   const boardsId = useMemo(
     () => boardsAndTasksData.map((board) => board.id),
     [boardsAndTasksData]
   );
+
+  useEffect(() => {
+    if (!boardsAndTasks?.data) return;
+
+    const boards = boardsAndTasks.data;
+    setBoardsAndTasksData(boards);
+
+    const allTasks = boards.flatMap((board) =>
+      board.taskResponses.map((task) => ({
+        ...task,
+        boardId: board.id,
+      }))
+    );
+
+    setTasks(allTasks);
+  }, [boardsAndTasks]);
 
   if (!activeProjectId || !activeWorkspaceId) {
     return (
@@ -97,7 +113,11 @@ export default function ColumnViewPage() {
           strategy={horizontalListSortingStrategy}
         >
           {boardsAndTasksData.map((board) => (
-            <BoardColumn key={board.id} {...board} />
+            <BoardColumn
+              key={board.id}
+              {...board}
+              tasks={tasks.filter((task) => task.boardId === board.id)}
+            />
           ))}
         </SortableContext>
 
@@ -137,9 +157,10 @@ export default function ColumnViewPage() {
   }
 
   async function onDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
     setDragStartBoard(null);
     setDragStartTask(null);
+
+    const { active, over } = event;
 
     if (!over || active.id === over.id) return;
 
@@ -168,35 +189,14 @@ export default function ColumnViewPage() {
       const activeTask = active.data.current;
       const overTask = over.data.current;
 
-      // todo: delete this in the end
-      console.log("active", activeTask);
-      console.log("over", overTask);
-
-      if (
-        activeTask?.Task?.boardId === undefined ||
-        overTask?.Task?.boardId === undefined
-      )
-        return;
-
+      // move task to the same board
       if (activeTask?.Task?.boardId === overTask?.Task?.boardId) {
-        setBoardsAndTasksData((prev) => {
-          const newTasks = prev.map((board) => {
-            if (board.id !== activeTask?.Task?.boardId) return board;
-
-            return {
-              ...board,
-              taskResponses: [
-                ...arrayMove(
-                  board.taskResponses,
-                  activeTask?.sortable?.index,
-                  overTask?.sortable?.index
-                ),
-              ].map((task, index) => ({
-                ...task,
-                order: index + 1,
-              })),
-            };
-          });
+        setTasks((prev) => {
+          const newTasks = arrayMove(
+            prev,
+            activeTask?.sortable?.index,
+            overTask?.sortable?.index
+          );
 
           return newTasks;
         });
@@ -205,8 +205,48 @@ export default function ColumnViewPage() {
           taskId: activeTask?.Task?.id,
           order: overTask?.Task?.order,
         });
-      } else {
-        // جابجایی تسک بین دو ستون
+      }
+
+      // move task to another board
+      if (activeTask?.Task?.boardId !== overTask?.Task?.boardId) {
+        console.log("test");
+
+        setTasks((prev) => {
+          const activeTaskIndex = prev.findIndex(
+            (task) => task.id === activeTask?.Task?.id
+          );
+          const overTaskIndex = prev.findIndex(
+            (task) => task.id === overTask?.Task?.id
+          );
+
+          if (activeTaskIndex < 0 || overTaskIndex < 0) return prev;
+
+          const updatedTasks = [...prev];
+
+          updatedTasks[activeTaskIndex] = {
+            ...updatedTasks[activeTaskIndex],
+            boardId: updatedTasks[overTaskIndex].boardId,
+          };
+
+          const reorderedTasks = arrayMove(
+            updatedTasks,
+            activeTaskIndex,
+            overTaskIndex
+          ).map((task, index) => ({
+            ...task,
+            order: index + 1,
+          }));
+
+          EditTasksBoardAndOrderAPI({
+            taskRequests: reorderedTasks.map((task) => ({
+              taskId: task.id,
+              boardId: task.boardId,
+              order: task.order,
+            })),
+          });
+
+          return reorderedTasks;
+        });
       }
     }
   }
@@ -218,19 +258,59 @@ export default function ColumnViewPage() {
     const activeType = active.data.current?.type;
     const overType = over.data.current?.type;
 
-    if (activeType === "Task" && overType === "Task") {
-      const activeTask = active.data.current?.Task;
+    if (activeType !== "Task") return;
+
+    const activeTask = active.data.current?.Task;
+
+    if (!activeTask) return;
+
+    if (overType === "Task") {
       const overTask = over.data.current?.Task;
 
-      const activeBoardId = active.data.current?.Task?.boardId;
-      const overBoardId = over.data.current?.Task?.boardId;
+      if (!overTask) return;
 
-      // نمایش سایه‌ی تسک در ستون دیگر
+      const activeBoardId = activeTask.boardId;
+      const overBoardId = overTask.boardId;
+
       if (activeBoardId !== overBoardId) {
-        
-      }
+        setTasks((prev) => {
+          const activeIndex = prev.findIndex((t) => t.id === activeTask.id);
+          const overIndex = prev.findIndex((t) => t.id === overTask.id);
 
-      if (!activeTask || !overTask || !activeBoardId || !overBoardId) return;
+          if (activeIndex < 0 || overIndex < 0) return prev;
+
+          const updatedTasks = [...prev];
+
+          updatedTasks[activeIndex] = {
+            ...updatedTasks[activeIndex],
+            boardId: overBoardId,
+          };
+
+          const moved = arrayMove(updatedTasks, activeIndex, overIndex);
+
+          return moved;
+        });
+      }
+    }
+
+    if (overType === "Board") {
+      const overBoardId = String(over.id);
+
+      setTasks((prev) => {
+        const activeIndex = prev.findIndex((t) => t.id === activeTask.id);
+
+        if (activeIndex < 0) return prev;
+
+        const updatedTasks = [...prev];
+
+        updatedTasks[activeIndex] = {
+          ...updatedTasks[activeIndex],
+          boardId: overBoardId,
+        };
+
+        // for re-render
+        return arrayMove(updatedTasks, activeIndex, activeIndex);
+      });
     }
   }
 }

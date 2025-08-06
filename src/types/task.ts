@@ -8,6 +8,8 @@ export type TaskType = {
   description?: string;
 };
 
+export type TaskWithBoardIdType = TaskType & { boardId: string };
+
 export type TaskIdType = {
   id: string;
 };
@@ -53,6 +55,15 @@ export type EditTaskBoardType = {
   boardId: string;
 };
 
+export type EditTasksBoardAndOrderType = {
+  taskRequests: 
+    {
+      taskId: string;
+      boardId: string;
+      order: number;
+    }[],
+};
+
 export type GetTasksByDeadlineType = {
   ProjectId: string;
   Start: string;
@@ -62,4 +73,4 @@ export type GetTasksByDeadlineType = {
 export type EditTaskDeadlineType = {
   taskId: string;
   deadLine: string;
-}
+};

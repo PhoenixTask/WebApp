@@ -9,6 +9,7 @@ import {
   EditTaskBoardType,
   GetTasksByDeadlineType,
   EditTaskDeadlineType,
+  EditTasksBoardAndOrderType,
 } from "@/types/task";
 import { BoardIdType } from "@/types/board";
 
@@ -41,6 +42,13 @@ export const EditTaskBoardAPI = async (data: EditTaskBoardType) => {
 
 export const EditTasksOrderAPI = async (data: EditTasksOrderType) => {
   const response = await Axios.patch("/v2/task/update-order", data);
+  return response.data;
+};
+
+export const EditTasksBoardAndOrderAPI = async (
+  data: EditTasksBoardAndOrderType
+) => {
+  const response = await Axios.patch("/v1/task/update-board-order", data);
   return response.data;
 };
 
