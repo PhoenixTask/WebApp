@@ -4,7 +4,7 @@ export type BoardType = {
   id: string;
   name: string;
   color: string;
-  order?: number;
+  order: number;
   isArchive?: boolean;
 };
 

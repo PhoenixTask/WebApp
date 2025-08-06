@@ -7,7 +7,6 @@ import {
   EditTaskBoardAPI,
   EditTasksOrderAPI,
   GetTasksByDeadlineAPI,
-  EditTaskOrderAPI,
   EditTaskDeadlineAPI,
   EditTasksBoardAndOrderAPI,
 } from "@/services/task";
@@ -17,7 +16,6 @@ import {
   TaskType,
   EditTaskBoardType,
   EditTasksOrderType,
-  EditTaskOrderType,
   GetTasksByDeadlineType,
   EditTaskDeadlineType,
   EditTasksBoardAndOrderType,
@@ -114,21 +112,6 @@ export const useEditTasksOrder = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: EditTasksOrderType) => EditTasksOrderAPI(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
-    },
-    onError: (error) => {
-      errorToast(error);
-    },
-  });
-};
-
-export const useEditTaskOrder = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: EditTaskOrderType) => EditTaskOrderAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });

@@ -5,7 +5,7 @@ import {
   GetBoardsAndTasksAPI,
   DeleteBoardAPI,
   EditBoardAPI,
-  EditBoardOrderAPI,
+  EditBoardsOrderAPI,
 } from "@/services/board";
 import {
   BoardType,
@@ -27,7 +27,7 @@ export const useBoards = (projectId: string | null) => {
       return GetBoardAPI({ id: projectId });
     },
     staleTime: 1000 * 60 * 5,
-    select: (boards) => boards.sort((a, b) => a.order! - b.order!),
+    select: (boards) => boards.sort((a, b) => a.order - b.order),
   });
 };
 
@@ -47,7 +47,7 @@ export const useBoardsAndTasks = (projectId: string | null) => {
     select: (boardsAndTasks) => {
       return {
         data: [...boardsAndTasks.data]
-          .sort((a, b) => a.order! - b.order!)
+          .sort((a, b) => a.order - b.order)
           .map((board) => ({
             ...board,
             taskResponses: [...board.taskResponses].sort(
@@ -70,7 +70,7 @@ export const useCreateBoard = () => {
       const boards =
         queryClient.getQueryData<BoardType[]>(["boards", data.projectId]) ?? [];
 
-      const biggestOrder = Math.max(0, ...boards.map((board) => board.order!));
+      const biggestOrder = Math.max(0, ...boards.map((board) => board.order));
 
       const newBoard: CreateBoardType = {
         order: biggestOrder + 1,
@@ -126,7 +126,7 @@ export const useEditOrderBoard = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: EditBoardOrdersType) => EditBoardOrderAPI(data),
+    mutationFn: (data: EditBoardOrdersType) => EditBoardsOrderAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
       queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });

@@ -5,7 +5,7 @@ import useActiveState from "@/store/useActiveState";
 import { useBoardsAndTasks, useEditOrderBoard } from "@/hooks/useBoards";
 import {
   useEditTasksBoardAndOrderType,
-  useEditTaskOrder,
+  useEditTasksOrder,
 } from "@/hooks/useTasks";
 import { Button } from "@/components/UI";
 import {
@@ -28,21 +28,18 @@ import TaskBox from "./components/BoardColumn/TaskBox";
 import { NO_BOARD_MSG, NO_PROJECT_MSG } from "@/constants";
 import useModal from "@/store/useModal";
 import clsx from "clsx";
-import { BoardAndTasksType, BoardAndTasksV2Type } from "@/types/board";
+import { BoardAndTasksV2Type, BoardType } from "@/types/board";
 import { TaskWithBoardIdType } from "@/types/task";
 
 export default function ColumnViewPage() {
   const { activeWorkspaceId, activeProjectId } = useActiveState();
   const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
-  const { mutateAsync: EditBoardOrderAPI } = useEditOrderBoard();
-  const { mutateAsync: EditTaskOrderAPI } = useEditTaskOrder();
-  const { mutateAsync: EditTasksBoardAndOrderAPI } =
-    useEditTasksBoardAndOrderType();
+  const { mutate: EditBoardOrderAPI } = useEditOrderBoard();
+  const { mutate: EditTasksOrderAPI } = useEditTasksOrder();
+  const { mutate: EditTasksBoardAndOrderAPI } = useEditTasksBoardAndOrderType();
   const { openModal } = useModal();
 
-  const [boardsAndTasksData, setBoardsAndTasksData] = useState<
-    BoardAndTasksType[]
-  >([]);
+  const [boards, setBoards] = useState<BoardType[]>([]);
   const [tasks, setTasks] = useState<TaskWithBoardIdType[]>([]);
 
   const [dragStartBoard, setDragStartBoard] =
@@ -56,18 +53,18 @@ export default function ColumnViewPage() {
     })
   );
 
-  const boardsId = useMemo(
-    () => boardsAndTasksData.map((board) => board.id),
-    [boardsAndTasksData]
-  );
+  const boardsId = useMemo(() => boards.map((board) => board.id), [boards]);
 
   useEffect(() => {
     if (!boardsAndTasks?.data) return;
 
-    const boards = boardsAndTasks.data;
-    setBoardsAndTasksData(boards);
+    const allBoards = boardsAndTasks.data.map(
+      ({ taskResponses, ...boardDetails }) => ({ ...boardDetails })
+    );
 
-    const allTasks = boards.flatMap((board) =>
+    setBoards(allBoards);
+
+    const allTasks = boardsAndTasks.data.flatMap((board) =>
       board.taskResponses.map((task) => ({
         ...task,
         boardId: board.id,
@@ -85,7 +82,7 @@ export default function ColumnViewPage() {
     );
   }
 
-  if (boardsAndTasksData.length === 0) {
+  if (boards.length === 0) {
     return (
       <div className="px-2.5 w-full flex flex-col items-center gap-5">
         <Button
@@ -112,7 +109,7 @@ export default function ColumnViewPage() {
           items={boardsId}
           strategy={horizontalListSortingStrategy}
         >
-          {boardsAndTasksData.map((board) => (
+          {boards.map((board) => (
             <BoardColumn
               key={board.id}
               {...board}
@@ -156,60 +153,72 @@ export default function ColumnViewPage() {
     }
   }
 
-  async function onDragEnd(event: DragEndEvent) {
+  function onDragEnd(event: DragEndEvent) {
     setDragStartBoard(null);
     setDragStartTask(null);
 
     const { active, over } = event;
 
-    if (!over || active.id === over.id) return;
+    if (!over) return;
 
     const activeType = active.data.current?.type;
     const overType = over.data.current?.type;
 
     if (activeType === "Board" && overType === "Board") {
-      const oldIndex = boardsAndTasksData.findIndex((b) => b.id === active.id);
-      const newIndex = boardsAndTasksData.findIndex((b) => b.id === over.id);
-      if (oldIndex < 0 || newIndex < 0) return;
+      setBoards((prev) => {
+        const oldIndex = prev.findIndex((b) => b.id === active.id);
+        const newIndex = prev.findIndex((b) => b.id === over.id);
+        const newBoards = arrayMove(prev, oldIndex, newIndex).map(
+          (board, index) => ({
+            ...board,
+            order: index + 1,
+          })
+        );
 
-      const newOrder = arrayMove(boardsAndTasksData, oldIndex, newIndex);
-      setBoardsAndTasksData(newOrder);
+        EditBoardOrderAPI({
+          boards: newBoards.map((board) => ({
+            id: board.id,
+            order: board.order,
+          })),
+        });
 
-      const sendOrder = newOrder.map(({ id }, index) => ({
-        id,
-        order: index + 1,
-      }));
-
-      await EditBoardOrderAPI({
-        boards: sendOrder,
+        return newBoards;
       });
     }
 
-    if (activeType === "Task" && overType === "Task") {
+    if (activeType === "Task") {
       const activeTask = active.data.current;
       const overTask = over.data.current;
 
+      console.log("activeTask", activeTask);
+      console.log("overTask", overTask);
+
       // move task to the same board
       if (activeTask?.Task?.boardId === overTask?.Task?.boardId) {
+        console.log("test: move task to the same board");
+        
         setTasks((prev) => {
           const newTasks = arrayMove(
             prev,
             activeTask?.sortable?.index,
             overTask?.sortable?.index
-          );
+          ).map((task, index) => ({
+            ...task,
+            order: index + 1,
+          }));
+
+          EditTasksOrderAPI({
+            tasks: newTasks.map((task) => ({
+              id: task.id,
+              order: task.order,
+            })),
+          });
 
           return newTasks;
         });
-
-        EditTaskOrderAPI({
-          taskId: activeTask?.Task?.id,
-          order: overTask?.Task?.order,
-        });
-      }
-
-      // move task to another board
-      if (activeTask?.Task?.boardId !== overTask?.Task?.boardId) {
-        console.log("test");
+      } else {
+        // move task to another board
+        console.log("test: move task to another board");
 
         setTasks((prev) => {
           const activeTaskIndex = prev.findIndex(

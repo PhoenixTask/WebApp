@@ -45,11 +45,6 @@ export type EditTasksOrderType = {
   tasks: TaskOrderType[];
 };
 
-export type EditTaskOrderType = {
-  taskId: string;
-  order: number;
-};
-
 export type EditTaskBoardType = {
   taskId: string;
   boardId: string;
