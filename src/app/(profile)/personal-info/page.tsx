@@ -45,10 +45,6 @@ export default function PersonalInfoPage() {
     });
   }, [userInfo, reset]);
 
-  useEffect(() => {
-    console.log(userProfileURL);
-  }, []);
-
   return (
     <div className="w-96 mr-14">
       <Heading

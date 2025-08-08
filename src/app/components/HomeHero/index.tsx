@@ -1,5 +1,3 @@
-// components/HomeHero.js
-
 export default function HomeHero() {
   return (
     <section className="relative w-full py-16 px-4 bg-base-200 dark:bg-base-300 rounded-2xl mt-4 mb-8 overflow-hidden shadow-sm">

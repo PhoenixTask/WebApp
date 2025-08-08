@@ -118,12 +118,14 @@ export const useUploadProfile = () => {
   });
 };
 
-export const useGetProfile = (userId: string) => {
+export const useGetProfile = (userId: string | null) => {
   return useQuery({
     queryKey: ["user-profile", userId],
     queryFn: async () => {
+      if (!userId) return null;
+
       const userProfile = await GetProfileAPI(userId);
-      if(userProfile.size === 0) return null
+      if (userProfile.size === 0) return 0;
 
       const imageUrl = URL.createObjectURL(userProfile as Blob);
 

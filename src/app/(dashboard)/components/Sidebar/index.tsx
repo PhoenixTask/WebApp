@@ -99,7 +99,7 @@ export default function DashboardSidebar() {
         <Button
           mode="child"
           className="w-fit mt-5 flex items-center gap-2 text-base font-extrabold text-error hover:text-error/60 transition-colors duration-300"
-          onClick={clickProfile}
+          onClick={logoutHandler}
         >
           <Icon width={16} iconName="Logout" />
           خروج
@@ -108,7 +108,7 @@ export default function DashboardSidebar() {
     </Flex>
   );
 
-  function clickProfile() {
+  function logoutHandler() {
     queryClient.clear();
     removeTokens();
     router.push("/login");

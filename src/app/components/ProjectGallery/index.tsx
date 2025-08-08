@@ -1,22 +1,17 @@
-// components/ProjectGallery.js
-import imgListShow from "@/assets/images/img_listShow.png";
-import calendar from "@/assets/images/calendar.png";
-import imgCalumns from "@/assets/images/img_calumns.png";
-
 export default function ProjectGallery() {
   const galleryData = [
     {
-      image: imgListShow,
+      image: "/img_listShow.png",
       title: "نمایش لیستی تسک‌ها",
       desc: "ستون‌ها رو به صورت لیستی می‌بینی و وقتی بازش کنی می‌تونی تسک‌ها رو با جزئیاتی مثل تاریخ کامل ببینی.",
     },
     {
-      image: calendar,
+      image: "/calendar.png",
       title: "نمایش تقویم",
       desc: "تسک‌ها و برنامه‌ها رو در نمای تقویم ببین و برنامه‌ریزی بهتری داشته باش.",
     },
     {
-      image: imgCalumns,
+      image: "/img_calumns.png",
       title: "نمایش ستونی تسک‌ها",
       desc: "ستون‌بندی حرفه‌ای برای مدیریت بهتر تسک‌ها؛ امکان جابجایی ساده بین ستون‌ها (دراگ و دراپ).",
     },
@@ -31,7 +26,7 @@ export default function ProjectGallery() {
         >
           <div className="w-full h-64 sm:h-72 overflow-hidden">
             <img
-              src={item.image.src}
+              src={item.image}
               alt={item.title}
               className="w-full h-full object-cover hover:brightness-90 transition"
             />
