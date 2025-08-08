@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { Heading, Link } from "@/components/UI";
+import { GradientText, Heading, Link } from "@/components/UI";
+import Icon from "@/components/Icon";
 import { useGetProfile } from "@/hooks/useUser";
 import { getUserId, removeTokens } from "@/functions/tokenManager";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -21,12 +21,8 @@ export default function Navbar() {
   const userId = getUserId();
   const { data: userProfileURL } = useGetProfile(userId);
 
-  useEffect(() => {
-    console.log(userProfileURL);
-  }, [userProfileURL]);
-
   return (
-    <div className="navbar bg-base-100 shadow-sm px-5">
+    <div className="navbar bg-base-100 shadow-sm px-5 fixed top-0 z-20">
       <div className="flex-1">
         <div className="md:hidden">
           {userProfileURL && (
@@ -62,12 +58,20 @@ export default function Navbar() {
                   </li>
                 ))}
                 <li>
-                  <Link target="_blank" to="/personal-info" textSize="S" weight="600">
+                  <Link
+                    target="_blank"
+                    to="/personal-info"
+                    textSize="S"
+                    weight="600"
+                  >
                     تنظیمات حساب کاربری
                   </Link>
                 </li>
                 <li>
-                  <a className="text-error font-semibold text-sm" onClick={logoutHandler}>
+                  <a
+                    className="text-error font-semibold text-sm"
+                    onClick={logoutHandler}
+                  >
                     خروج از حساب کاربری
                   </a>
                 </li>
@@ -98,7 +102,12 @@ export default function Navbar() {
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
                   >
                     <li>
-                      <Link target="_blank" to="/personal-info" textSize="S" weight="600">
+                      <Link
+                        target="_blank"
+                        to="/personal-info"
+                        textSize="S"
+                        weight="600"
+                      >
                         تنظیمات حساب کاربری
                       </Link>
                     </li>
@@ -112,6 +121,7 @@ export default function Navbar() {
                     </li>
                   </ul>
                 </div>
+
                 {menuItems.map((item) => (
                   <Link
                     target="_blank"
@@ -128,7 +138,7 @@ export default function Navbar() {
             )}
           </div>
         </div>
-        {!userProfileURL && (
+        {!userId && (
           <div className="flex items-center gap-3">
             <Link to="/login" textSize="M" weight="600">
               ورود
@@ -140,13 +150,16 @@ export default function Navbar() {
         )}
       </div>
       <div className="flex">
-        <Heading
-          as="h1"
-          size="XS"
-          className="flex justify-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary select-none"
+        <GradientText
+          colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+          animationSpeed={10}
+          showBorder={false}
+          className="p-2"
         >
-          فونیکس تسک
-        </Heading>
+          <Heading as="h1" size="XS" className="select-none">
+            فونیکس تسک
+          </Heading>
+        </GradientText>
       </div>
     </div>
   );

@@ -78,7 +78,7 @@ export default function DashboardSidebar() {
           to="/personal-info"
         >
           <div className="relative w-10 h-10 overflow-hidden bg-base-300 text-base-content flex justify-center items-center rounded-full">
-            {userProfileURL ? (
+            {userProfileURL && (
               <Image
                 src={userProfileURL}
                 alt="تصویر پروفایل"
@@ -86,8 +86,6 @@ export default function DashboardSidebar() {
                 height={100}
                 className="object-cover"
               />
-            ) : (
-              <Icon width={50} height={50} iconName="Profile" />
             )}
           </div>
 

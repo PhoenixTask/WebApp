@@ -7,3 +7,5 @@ export { default as Input } from "./Input";
 export { default as Link } from "./Link";
 export { default as ColorPicker } from "./ColorPicker";
 export { default as Modal } from "./Modal";
+export { default as FuzzyText } from "./FuzzyText";
+export { default as GradientText } from "./GradientText";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Heading } from "@/components/UI";
+import { Button, Heading, FuzzyText } from "@/components/UI";
 import { useRouter } from "next/navigation";
 
 export default function NotFound() {
@@ -10,14 +10,17 @@ export default function NotFound() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 text-base-content p-4">
       <div className="card w-full max-w-lg bg-base-300 shadow-xl p-8 text-center">
         <div className="card-body items-center text-center">
-          <Heading
-            as="h2"
-            size="XL"
-            className="card-title font-extrabold text-error"
+          <FuzzyText
+            fontSize="clamp(3rem, 10vw, 8rem)"
+            fontWeight={900}
+            color="#ef4444"
+            baseIntensity={0.15}
+            hoverIntensity={0.45}
           >
             404
-          </Heading>
-          <Heading as="h1" className="text-3xl font-semibold mb-4">
+          </FuzzyText>
+          
+          <Heading as="h1" className="text-3xl font-semibold mb-4 mt-2">
             این صفحه وجود نداره!😓
           </Heading>
           <div className="card-actions justify-center">

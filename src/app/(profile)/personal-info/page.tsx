@@ -61,7 +61,7 @@ export default function PersonalInfoPage() {
             <div>
               <div>
                 <div className="relative w-20 h-20 overflow-hidden bg-base-300 text-base-content flex justify-center items-center rounded-full">
-                  {userProfileURL ? (
+                  {userProfileURL && (
                     <Image
                       src={userProfileURL}
                       alt="تصویر پروفایل"
@@ -69,8 +69,6 @@ export default function PersonalInfoPage() {
                       height={100}
                       objectFit="cover"
                     />
-                  ) : (
-                    <Icon width={50} height={50} iconName="Profile" />
                   )}
                 </div>
               </div>
