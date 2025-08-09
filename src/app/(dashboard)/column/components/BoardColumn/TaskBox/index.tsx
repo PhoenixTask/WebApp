@@ -2,7 +2,7 @@
 
 import Icon from "@/components/Icon";
 import { Button } from "@/components/UI";
-import { TaskType } from "@/types/task";
+import { TaskWithBoardIdType } from "@/types/task";
 import clsx from "clsx";
 import { useState } from "react";
 import useActiveState from "@/store/useActiveState";
@@ -10,19 +10,17 @@ import useModal from "@/store/useModal";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-type TastBoxProps = TaskType & {
-  boardId?: string;
-};
+type TaskBoxProps = TaskWithBoardIdType;
 
 export default function TaskBox({
-  boardId = "",
+  boardId,
   id,
   name,
   deadLine,
   priority,
   description,
   order,
-}: TastBoxProps) {
+}: TaskBoxProps) {
   const [show, setShow] = useState(false);
   const { storeActiveTask } = useActiveState();
   const { openModal } = useModal();

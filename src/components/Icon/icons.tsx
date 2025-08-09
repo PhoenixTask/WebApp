@@ -19,7 +19,6 @@ export { default as Loading } from "./icons/Loading";
 export { default as Logout } from "./icons/Logout";
 export { default as More } from "./icons/More";
 export { default as PersonalInfo } from "./icons/PersonalInfo";
-export { default as Profile } from "./icons/Profile";
 export { default as Project } from "./icons/Project";
 export { default as Remove } from "./icons/Remove";
 export { default as RoundArrow } from "./icons/RoundArrow";

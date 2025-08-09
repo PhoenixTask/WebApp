@@ -5,10 +5,10 @@ import {
   TaskIdType,
   EditTaskType,
   EditTasksOrderType,
-  EditTaskOrderType,
   EditTaskBoardType,
   GetTasksByDeadlineType,
   EditTaskDeadlineType,
+  EditTasksBoardAndOrderType,
 } from "@/types/task";
 import { BoardIdType } from "@/types/board";
 
@@ -44,8 +44,10 @@ export const EditTasksOrderAPI = async (data: EditTasksOrderType) => {
   return response.data;
 };
 
-export const EditTaskOrderAPI = async (data: EditTaskOrderType) => {
-  const response = await Axios.patch("/v1/task/update-order", data);
+export const EditTasksBoardAndOrderAPI = async (
+  data: EditTasksBoardAndOrderType
+) => {
+  const response = await Axios.patch("/v1/task/move", data);
   return response.data;
 };
 

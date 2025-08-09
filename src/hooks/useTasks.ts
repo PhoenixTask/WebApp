@@ -7,8 +7,8 @@ import {
   EditTaskBoardAPI,
   EditTasksOrderAPI,
   GetTasksByDeadlineAPI,
-  EditTaskOrderAPI,
   EditTaskDeadlineAPI,
+  EditTasksBoardAndOrderAPI,
 } from "@/services/task";
 import {
   CreateTaskType,
@@ -16,9 +16,9 @@ import {
   TaskType,
   EditTaskBoardType,
   EditTasksOrderType,
-  EditTaskOrderType,
   GetTasksByDeadlineType,
   EditTaskDeadlineType,
+  EditTasksBoardAndOrderType,
 } from "@/types/task";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
@@ -123,21 +123,6 @@ export const useEditTasksOrder = () => {
   });
 };
 
-export const useEditTaskOrder = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: EditTaskOrderType) => EditTaskOrderAPI(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
-    },
-    onError: (error) => {
-      errorToast(error);
-    },
-  });
-};
-
 export const useTasksByDeadline = ({
   ProjectId,
   Start,
@@ -157,6 +142,22 @@ export const useEditTaskDeadline = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: EditTaskDeadlineType) => EditTaskDeadlineAPI(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
+      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+    },
+    onError: (error) => {
+      errorToast(error);
+    },
+  });
+};
+
+export const useEditTasksBoardAndOrderType = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: EditTasksBoardAndOrderType) =>
+      EditTasksBoardAndOrderAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });

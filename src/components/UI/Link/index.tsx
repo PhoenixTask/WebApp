@@ -4,17 +4,19 @@ import { fontWeight, fontSize } from "../sharedStyles";
 import clsx from "clsx";
 
 type Props = {
+  target?: "_self" | "_blank" | "_parent" | "_top";
   className?: string;
   children: ReactNode;
-  to: string;
+  to?: string;
   weight?: keyof typeof fontWeight;
   underline?: boolean;
   textSize?: keyof typeof fontSize;
+  onClick?: () => void;
 };
 
 const Link = ({
   children,
-  to,
+  to = "",
   underline = false,
   className = "",
   weight = "400",
