@@ -21,12 +21,11 @@ import {
 import useModal from "@/store/useModal";
 import { TaskType } from "@/types/task";
 import faLocale from "@fullcalendar/core/locales/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CalendarViewPage() {
   const { openModal } = useModal();
   const { activeProjectId, activeWorkspaceId } = useActiveState();
-
   const today = new Date();
 
   const [startDate, setStartDate] = useState(
@@ -37,50 +36,51 @@ export default function CalendarViewPage() {
     format(endOfMonth(today), "yyyy-MM-dd")
   );
 
+  const { mutateAsync: EditTaskDeadlineAPI } = useEditTaskDeadline();
+
   const { data: tasks } = useTasksByDeadline({
     ProjectId: activeProjectId ?? "",
     Start: startDate,
     End: endDate,
   });
+  const ready = Boolean(activeProjectId && activeWorkspaceId);
 
-  const { mutateAsync: EditTaskDeadlineAPI } = useEditTaskDeadline();
-
-  if (!activeProjectId || !activeWorkspaceId) {
-    return (
-      <div className="px-2.5 w-full flex flex-col items-center gap-2">
-        <p className="m-auto">{NO_PROJECT_MSG}</p>
-      </div>
-    );
-  }
-
-  const events = ((tasks as TaskType[]) || []).map((task) => ({
-    id: task.id,
-    title: task.name,
-    start: new Date(task.deadLine),
+  const events = (tasks ?? []).map((t: TaskType) => ({
+    id: t?.id || "",
+    title: t?.name || "Untitled Task",
+    start: t?.deadLine
+      ? new Date(t.deadLine).toISOString()
+      : new Date().toISOString(),
   }));
 
   return (
     <div className="flex justify-center items-center">
       <div className="w-full max-w-6xl mt-5">
-        <FullCalendar
-          locale={faLocale}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          initialDate={today}
-          editable
-          droppable
-          selectable
-          events={events}
-          dateClick={handleDateClick}
-          eventDrop={handleEventDrop}
-          drop={handleExternalDrop}
-          datesSet={handleDatesSet}
-          headerToolbar={{
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek",
-          }}
-        />
+        {!ready ? (
+          <div className="px-2.5 w-full flex flex-col items-center gap-2">
+            <p className="m-auto">{NO_PROJECT_MSG}</p>
+          </div>
+        ) : (
+          <FullCalendar
+            locale={faLocale}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            initialDate={new Date()}
+            editable
+            droppable
+            selectable
+            events={events}
+            dateClick={handleDateClick}
+            eventDrop={handleEventDrop}
+            eventChange={handleEventChange}
+            datesSet={handleDatesSet}
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek",
+            }}
+          />
+        )}
       </div>
     </div>
   );
@@ -102,14 +102,13 @@ export default function CalendarViewPage() {
   async function handleEventDrop(arg: EventDropArg): Promise<void> {
     const taskId = arg.event.id;
     const newDate = arg.event.start;
-
     if (!taskId || !newDate) return;
 
-    //todo: complete this
-    // await EditTaskDeadlineAPI({
-    //   taskId,
-    //   deadLine: format(newDate, "yyyy-MM-dd"),
-    // });
+    await EditTaskDeadlineAPI({
+      taskId,
+      deadLine: newDate.toISOString(),
+    });
+    console.log(format(startOfDay(newDate), "yyyy-MM-dd"));
   }
 
   function handleDatesSet(arg: DatesSetArg): void {
@@ -118,5 +117,9 @@ export default function CalendarViewPage() {
 
     setStartDate(newStart);
     setEndDate(newEnd);
+  }
+
+  function handleEventChange(arg: any) {
+    console.log("Event changed:", arg.event);
   }
 }
