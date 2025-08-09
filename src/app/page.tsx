@@ -1,5 +1,4 @@
-import { Button, Link } from "@/components/UI";
-import Image from "next/image";
+import { Flex } from "@/components/UI";
 import HomeHero from "./components/HomeHero";
 import LandingFooter from "./components/LandingFooter";
 import Navbar from "./components/Navbar";
@@ -7,11 +6,11 @@ import ProjectGallery from "./components/ProjectGallery";
 
 export default function MainPage() {
   return (
-    <div>
+    <Flex justifyContent="center" alignItems="center" direction="col" className="select-none">
       <Navbar />
       <HomeHero />
       <ProjectGallery />
       <LandingFooter />
-    </div>
+    </Flex>
   );
 }

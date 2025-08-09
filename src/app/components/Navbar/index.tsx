@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { GradientText, Heading, Link } from "@/components/UI";
-import Icon from "@/components/Icon";
 import { useGetProfile } from "@/hooks/useUser";
 import { getUserId, removeTokens } from "@/functions/tokenManager";
 import { useRouter } from "next/navigation";
@@ -22,7 +21,7 @@ export default function Navbar() {
   const { data: userProfileURL } = useGetProfile(userId);
 
   return (
-    <div className="navbar bg-base-100 shadow-sm px-5 fixed top-0 z-20">
+    <div className="navbar bg-base-300 shadow-sm px-5 fixed top-0 z-20">
       <div className="flex-1">
         <div className="md:hidden">
           {userProfileURL && (
