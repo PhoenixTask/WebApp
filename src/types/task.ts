@@ -67,5 +67,5 @@ export type GetTasksByDeadlineType = {
 
 export type EditTaskDeadlineType = {
   taskId: string;
-  deadLine: string;
+  newDeadLine: string;
 };

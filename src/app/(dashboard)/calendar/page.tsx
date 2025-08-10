@@ -22,6 +22,7 @@ import useModal from "@/store/useModal";
 import { TaskType } from "@/types/task";
 import faLocale from "@fullcalendar/core/locales/fa";
 import { useEffect, useState } from "react";
+import { DateToString } from "@/functions/date";
 
 export default function CalendarViewPage() {
   const { openModal } = useModal();
@@ -106,9 +107,8 @@ export default function CalendarViewPage() {
 
     await EditTaskDeadlineAPI({
       taskId,
-      deadLine: newDate.toISOString(),
+      newDeadLine: DateToString(newDate),
     });
-    console.log(format(startOfDay(newDate), "yyyy-MM-dd"));
   }
 
   function handleDatesSet(arg: DatesSetArg): void {
