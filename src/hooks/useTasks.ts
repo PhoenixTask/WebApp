@@ -49,7 +49,7 @@ export const useCreateTask = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
       toast.success("تسک با موفقیت ایجاد شد.");
     },
     onError: (error) => {
@@ -66,7 +66,7 @@ export const useDeleteTask = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
       toast.success("تسک با موفقیت حذف شد.");
     },
     onError: (error) => {
@@ -83,7 +83,7 @@ export const useEditTask = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
       toast.success("تسک با موفقیت ویرایش شد.");
     },
     onError: (error) => {
@@ -100,7 +100,7 @@ export const useEditTaskBoard = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
     },
     onError: (error) => {
       errorToast(error);
@@ -115,7 +115,7 @@ export const useEditTasksOrder = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
     },
     onError: (error) => {
       errorToast(error);
@@ -145,7 +145,7 @@ export const useEditTaskDeadline = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
     },
     onError: (error) => {
       errorToast(error);
@@ -161,7 +161,7 @@ export const useEditTasksBoardAndOrderType = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
-      queryClient.invalidateQueries({ queryKey: ["boards-and-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
     },
     onError: (error) => {
       errorToast(error);

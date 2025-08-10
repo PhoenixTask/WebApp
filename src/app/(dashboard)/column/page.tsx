@@ -2,7 +2,8 @@
 
 import { useMemo, useState, useEffect } from "react";
 import useActiveState from "@/store/useActiveState";
-import { useBoardsAndTasks, useEditOrderBoard } from "@/hooks/useBoards";
+import { useBoards, useEditOrderBoard } from "@/hooks/useBoards";
+import { useAllTasksInProject } from "@/hooks/useProjects";
 import {
   useEditTasksBoardAndOrderType,
   useEditTasksOrder,
@@ -33,7 +34,8 @@ import { TaskWithBoardIdType } from "@/types/task";
 
 export default function ColumnViewPage() {
   const { activeWorkspaceId, activeProjectId } = useActiveState();
-  const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
+  const { data: allTasksInProjectData } = useAllTasksInProject(activeProjectId);
+  const { data: boardsData } = useBoards(activeProjectId);
   const { mutate: EditBoardOrderAPI } = useEditOrderBoard();
   const { mutate: EditTasksOrderAPI } = useEditTasksOrder();
   const { mutate: EditTasksBoardAndOrderAPI } = useEditTasksBoardAndOrderType();
@@ -59,23 +61,11 @@ export default function ColumnViewPage() {
   const boardsId = useMemo(() => boards.map((board) => board.id), [boards]);
 
   useEffect(() => {
-    if (!boardsAndTasks?.data) return;
+    if (!allTasksInProjectData || !boardsData) return;
 
-    const allBoards = boardsAndTasks.data.map(
-      ({ taskResponses, ...boardDetails }) => ({ ...boardDetails })
-    );
-
-    setBoards(allBoards);
-
-    const allTasks = boardsAndTasks.data.flatMap((board) =>
-      board.taskResponses.map((task) => ({
-        ...task,
-        boardId: board.id,
-      }))
-    );
-
-    setTasks(allTasks);
-  }, [boardsAndTasks]);
+    setTasks(allTasksInProjectData);
+    setBoards(boardsData);
+  }, [allTasksInProjectData, boardsData]);
 
   if (!activeProjectId || !activeWorkspaceId) {
     return (
@@ -284,13 +274,6 @@ export default function ColumnViewPage() {
 
         // Determine which API to call based on original vs target board
         const movedToDifferentBoard = originalTaskBoardId !== targetBoardId;
-
-        console.log("Task move details:", {
-          originalBoardId: originalTaskBoardId,
-          targetBoardId,
-          movedToDifferentBoard,
-          taskId: activeTask.id,
-        });
 
         if (movedToDifferentBoard) {
           // Task moved to different board

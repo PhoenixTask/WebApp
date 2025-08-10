@@ -1,3 +1,5 @@
+import { TaskType } from "./task";
+
 export type ProjectType = {
   id: string;
   name: string;
@@ -16,4 +18,9 @@ export type CreateProjectType = {
 export type EditProjectType = {
   id: string;
   data: Omit<ProjectType, "id">;
+};
+
+export type AllTasksInProjectType = TaskType & {
+  boardId: string;
+  boardName: string;
 };
