@@ -6,7 +6,12 @@ import ProjectGallery from "./components/ProjectGallery";
 
 export default function MainPage() {
   return (
-    <Flex justifyContent="center" alignItems="center" direction="col" className="select-none">
+    <Flex
+      justifyContent="center"
+      alignItems="center"
+      direction="col"
+      className="select-none"
+    >
       <Navbar />
       <HomeHero />
       <ProjectGallery />
