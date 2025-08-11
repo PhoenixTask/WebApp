@@ -71,9 +71,13 @@ export default function CalendarViewPage() {
             droppable
             selectable
             events={events}
+            eventAllow={(dropInfo, draggedEvent) => {
+              const newStart = startOfDay(dropInfo.start);
+              const prevStart = startOfDay(draggedEvent?.start!);
+              return newStart.getTime() >= prevStart.getTime();
+            }}
             dateClick={handleDateClick}
             eventDrop={handleEventDrop}
-            eventChange={handleEventChange}
             datesSet={handleDatesSet}
             headerToolbar={{
               left: "prev,next today",
@@ -117,9 +121,5 @@ export default function CalendarViewPage() {
 
     setStartDate(newStart);
     setEndDate(newEnd);
-  }
-
-  function handleEventChange(arg: any) {
-    console.log("Event changed:", arg.event);
   }
 }
