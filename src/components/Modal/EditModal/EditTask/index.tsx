@@ -151,8 +151,6 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
     minute,
   }: DateObject) {
     const miladiDate = newDate(year, month.index, day, hour, minute);
-    console.log(miladiDate);
-
     const miladiString = DateToString(miladiDate);
 
     setValue("deadLine", miladiString, {

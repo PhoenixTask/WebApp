@@ -38,14 +38,12 @@ export default function WorkspaceSidebar({ workspaces }: WorkspaceSidebar) {
                     mode="error-bubble"
                     onClick={() => handleDeleteWorkspace(workspaceId)}
                     className="w-3 h-3"
-                    aria-label="حذف"
                   />
                   {/* edit workspace */}
                   <Button
                     mode="warning-bubble"
                     onClick={() => handleEditWorkspace(workspaceId)}
                     className="w-4 h-4"
-                    aria-label="ویرایش"
                   />
                   <div className="flex items-center gap-4">
                     <Icon
