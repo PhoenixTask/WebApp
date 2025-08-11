@@ -1,15 +1,13 @@
 import Icon from "@/components/Icon";
-import { Button, Input, Link } from "@/components/UI";
+import { Input, Link } from "@/components/UI";
 import clsx from "clsx";
-import { ThemeContext } from "@/context/ThemeContext";
-import { useContext } from "react";
+import ChangeModeButton from "@/components/ChangeThemeMode";
 
 type DashboardHeaderProps = {
   location: string;
 };
 
 export default function DashboardHeader({ location }: DashboardHeaderProps) {
-  const { toggleTheme, theme } = useContext(ThemeContext);
   return (
     <>
       <div className="flex justify-between shadow">
@@ -52,17 +50,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
           </Link>
         </div>
         <div className="flex items-center justify-center px-5">
-          <Button
-            onClick={toggleTheme}
-            mode="child"
-            className="flex justify-center items-center transition-colors duration-300 hover:text-base-content hover:bg-base-100 p-2 bg-base-content text-base-300 border rounded-full"
-          >
-            {theme === "light" ? (
-              <Icon iconName="DarkMode" />
-            ) : (
-              <Icon iconName="LightMode" />
-            )}
-          </Button>
+          <ChangeModeButton />
         </div>
       </div>
       <div className="flex items-center justify-between font-medium py-4.5 gap-4 border-y border-neutral">

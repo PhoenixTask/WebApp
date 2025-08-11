@@ -1,21 +1,15 @@
-import { TaskType } from "./task";
+import { TaskWithBoardIdType } from "./task";
 
 export type BoardType = {
   id: string;
   name: string;
   color: string;
-  order?: number;
+  order: number;
   isArchive?: boolean;
 };
 
-export type BoardAndTasksType = BoardType & {
-  taskResponses: TaskType[];
-};
-
-export type BoardsAndTasksType = {
-  data: BoardAndTasksType[];
-  page: number;
-  total: number;
+export type BoardAndTasksV2Type = BoardType & {
+  tasks: TaskWithBoardIdType[];
 };
 
 export type BoardIdType = {

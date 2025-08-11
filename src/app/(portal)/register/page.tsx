@@ -29,7 +29,7 @@ export default function RegisterPage() {
   return (
     <div className="backdrop-blur-md text-base-content bg-base-100/60 max-w-xl w-full shadow-xl p-6 rounded-3xl">
       <Heading align="center" className="mb-8" as="h2" size="S">
-        به جمع فینکس تسکی‌ها بپیوند😎
+        به جمع فونیکس تسکی‌ها بپیوند😎
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Flex gap={`${errors ? "XS" : "M"}`} direction="col">

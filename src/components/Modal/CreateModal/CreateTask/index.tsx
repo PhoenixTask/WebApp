@@ -12,7 +12,7 @@ import { newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
 import { DateToString } from "@/functions/date";
 import { priorityLabel } from "@/constants";
-import { useBoardsAndTasks } from "@/hooks/useBoards";
+import { useBoards } from "@/hooks/useBoards";
 
 type CreateTaskModalProps = {
   onClose: () => void;
@@ -55,9 +55,8 @@ export default function CreateTaskModal({
 
   const { activeBoardId, storeActiveBoard, activeProjectId } = useActiveState();
   const { mutateAsync: CreateTaskAPI } = useCreateTask();
-  const { data: boardsAndTasks } = useBoardsAndTasks(activeProjectId);
-  console.log("boardsAndTasks in modal:", boardsAndTasks);
-  const boards = boardsAndTasks?.data || [];
+  const { data: boardsData } = useBoards(activeProjectId);
+  const boards = boardsData || [];
 
   useEffect(() => {
     const timer = setTimeout(() => setFocus("name"), 100);

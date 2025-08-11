@@ -5,6 +5,7 @@ import {
   CreateProjectType,
   ProjectIdType,
   EditProjectType,
+  AllTasksInProjectType,
 } from "@/types/project";
 
 export const GetProjectAPI = async ({
@@ -31,5 +32,14 @@ export const EditProjectAPI = async ({ data, id }: EditProjectType) => {
 
 export const GetOneProjectAPI = async ({ id }: ProjectIdType) => {
   const response = await Axios.get(`/v1/project/${id}`);
+  return response.data;
+};
+
+export const GetAllTasksInProjectAPI = async ({
+  id: projectId,
+}: ProjectIdType): Promise<AllTasksInProjectType[]> => {
+  const response = await Axios.get(
+    `/v1/task/tasks-with-board?projectId=${projectId}`
+  );
   return response.data;
 };

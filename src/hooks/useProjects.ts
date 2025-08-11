@@ -4,10 +4,16 @@ import {
   GetProjectAPI,
   DeleteProjectAPI,
   EditProjectAPI,
+  GetAllTasksInProjectAPI,
 } from "@/services/project";
-import { CreateProjectType, EditProjectType } from "@/types/project";
+import {
+  AllTasksInProjectType,
+  CreateProjectType,
+  EditProjectType,
+} from "@/types/project";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
+import { promise } from "zod";
 
 export const useProjects = (workspaceId: string | null) => {
   return useQuery({
@@ -33,7 +39,7 @@ export const useCreateProject = () => {
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
   });
 };
 
@@ -50,7 +56,7 @@ export const useDeleteProject = () => {
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
   });
 };
 
@@ -65,6 +71,20 @@ export const useEditProject = () => {
     },
     onError: (error) => {
       errorToast(error);
-    }
+    },
+  });
+};
+
+export const useAllTasksInProject = (projectId: string | null) => {
+  return useQuery<AllTasksInProjectType[] | []>({
+    queryKey: ["all-tasks-in-project", projectId],
+    queryFn: () => {
+      if (projectId === null) {
+        return Promise.resolve([]);
+      }
+      return GetAllTasksInProjectAPI({ id: projectId });
+    },
+    staleTime: 1000 * 60 * 5,
+    select: (tasks) => tasks.sort((a, b) => a.order - b.order),
   });
 };

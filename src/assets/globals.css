@@ -73,6 +73,19 @@
   --color-lavender: var(--color-lavender);
   --color-coal: var(--color-coal);
   --color-stone: var(--color-stone);
+
+  --animate-gradient: gradient 8s ease-in-out infinite;
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 }
 
 /* Base styles (Light Mode) */
@@ -96,27 +109,35 @@
   @apply w-full h-full lg:h-3/4 xl:h-2/3 bg-white dark:bg-base-100;
 }
 
-/* بقیه استایل‌ها هم عالیه */
-.fc-h-event {
-  @apply bg-violet-500 border border-violet-600;
+.fc-theme-standard {
+  --fc-button-bg-color: var(--color-primary);
+  --fc-button-border-color: var(--color-primary);
+  --fc-button-text-color: var(--color-primary-content);
+
+  --fc-button-hover-bg-color: color-mix(
+    in oklch,
+    var(--color-primary) 85%,
+    black 15%
+  );
+  --fc-button-hover-border-color: var(--fc-button-hover-bg-color);
+
+  --fc-button-active-bg-color: color-mix(
+    in oklch,
+    var(--color-primary) 70%,
+    black 30%
+  );
+  --fc-button-active-border-color: var(--fc-button-active-bg-color);
 }
 
-.fc .fc-daygrid-day.fc-day-today {
-  @apply bg-violet-100 dark:bg-violet-900/40;
-}
-
-.fc .fc-button {
-  @apply bg-violet-800 hover:bg-violet-900 text-white dark:bg-violet-600 dark:hover:bg-violet-700;
-}
-
-.fc .fc-button-primary:not(:disabled).fc-button-active {
-  @apply bg-violet-600 dark:bg-violet-500;
-}
-
-.fc .fc-button-primary:disabled {
-  @apply bg-violet-600 dark:bg-violet-700 opacity-50;
-}
-
-.fc-v-event {
-  @apply bg-violet-500 border border-violet-600;
+.fc-theme-standard {
+  --fc-today-bg-color: color-mix(
+    in oklch,
+    var(--color-primary) 12%,
+    transparent
+  );
+  --fc-highlight-color: color-mix(
+    in oklch,
+    var(--color-primary) 16%,
+    transparent
+  );
 }
