@@ -6,6 +6,7 @@ import { useGetProfile } from "@/hooks/useUser";
 import { getUserId, removeTokens } from "@/functions/tokenManager";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
+import ChangeModeButton from "@/components/ChangeThemeMode";
 
 const menuItems = [
   { label: "نمایش لیستی", href: "/list" },
@@ -159,6 +160,7 @@ export default function Navbar() {
             فونیکس تسک
           </Heading>
         </GradientText>
+        <ChangeModeButton />
       </div>
     </div>
   );
