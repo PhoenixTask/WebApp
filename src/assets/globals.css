@@ -109,31 +109,6 @@
   @apply w-full h-full lg:h-3/4 xl:h-2/3 bg-white dark:bg-base-100;
 }
 
-/* بقیه استایل‌ها هم عالیه */
-/* .fc-h-event {
-  @apply bg-violet-500 border border-violet-600;
-}
-
-.fc .fc-daygrid-day.fc-day-today {
-  @apply bg-violet-100 dark:bg-violet-900/40;
-}
-
-.fc .fc-button {
-  @apply bg-violet-800 hover:bg-violet-900 text-white dark:bg-violet-600 dark:hover:bg-violet-700;
-}
-
-.fc .fc-button-primary:not(:disabled).fc-button-active {
-  @apply bg-violet-600 dark:bg-violet-500;
-}
-
-.fc .fc-button-primary:disabled {
-  @apply bg-violet-600 dark:bg-violet-700 opacity-50;
-}
-
-.fc-v-event {
-  @apply bg-violet-500 border border-violet-600;
-} */
-
 .fc-theme-standard {
   --fc-button-bg-color: var(--color-primary);
   --fc-button-border-color: var(--color-primary);
