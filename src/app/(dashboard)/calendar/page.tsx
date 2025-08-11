@@ -53,6 +53,7 @@ export default function CalendarViewPage() {
       ? new Date(t.deadLine).toISOString()
       : new Date().toISOString(),
   }));
+  const todayBarrier = startOfDay(new Date());
 
   return (
     <div className="flex justify-center items-center">
@@ -71,11 +72,9 @@ export default function CalendarViewPage() {
             droppable
             selectable
             events={events}
-            eventAllow={(dropInfo, draggedEvent) => {
-              const newStart = startOfDay(dropInfo.start);
-              const prevStart = startOfDay(draggedEvent?.start!);
-              return newStart.getTime() >= prevStart.getTime();
-            }}
+            eventAllow={(info) =>
+              startOfDay(info.start).getTime() >= todayBarrier.getTime()
+            }
             dateClick={handleDateClick}
             eventDrop={handleEventDrop}
             datesSet={handleDatesSet}
