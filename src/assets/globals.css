@@ -141,3 +141,71 @@
     transparent
   );
 }
+
+@layer utilities {
+  /* پایه موج: تایل افقی + چسبیده به پایین */
+  .wave-layer {
+    background-image: url("/view/wave.svg");
+    background-repeat: repeat-x;
+    background-position: bottom 0;
+    pointer-events: none;
+  }
+
+  .wave-std {
+    background-size: 720px 112px;
+  }
+  .wave-dense {
+    background-size: 720px 112px;
+  }
+  .wave-sparse {
+    background-size: 720px 112px;
+  }
+
+  @keyframes wave-1440 {
+    from {
+      background-position-x: 0;
+    }
+    to {
+      background-position-x: -1440px;
+    }
+  }
+  @keyframes wave-720 {
+    from {
+      background-position-x: 0;
+    }
+    to {
+      background-position-x: -720px;
+    }
+  }
+  @keyframes wave-2000 {
+    from {
+      background-position-x: 0;
+    }
+    to {
+      background-position-x: -2000px;
+    }
+  }
+
+  .animate-wave-8-1440 {
+    animation: wave-1440 8s linear infinite;
+  }
+  .animate-wave-10-1440 {
+    animation: wave-1440 10s linear infinite;
+  }
+  .animate-wave-12-720 {
+    animation: wave-720 12s linear infinite;
+  }
+  .animate-wave-14-2000 {
+    animation: wave-2000 14s linear infinite;
+  }
+
+  .delay--2s {
+    animation-delay: -2s;
+  }
+  .delay--4s {
+    animation-delay: -4s;
+  }
+  .delay--6s {
+    animation-delay: -6s;
+  }
+}
