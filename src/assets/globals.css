@@ -142,70 +142,58 @@
   );
 }
 
-@layer utilities {
-  /* پایه موج: تایل افقی + چسبیده به پایین */
-  .wave-layer {
-    background-image: url("/view/wave.svg");
-    background-repeat: repeat-x;
-    background-position: bottom 0;
-    pointer-events: none;
+@layer components {
+  .wave {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    top: -90px;
+    height: 100px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%230099ff' fill-opacity='1' d='M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'/></svg>");
+  }
+  #wave1 {
+    z-index: 1;
+    opacity: 1;
+    bottom: 10px;
+    animation: animate 4s linear infinite;
   }
 
-  .wave-std {
-    background-size: 720px 112px;
+  #wave2 {
+    z-index: 1;
+    opacity: 0.2;
+    bottom: 0;
+    animation: animate2 4s linear infinite;
   }
-  .wave-dense {
-    background-size: 720px 112px;
+  #wave3 {
+    z-index: 1;
+    opacity: 0.2;
+    bottom: 10;
+    animation: animate2 3s linear infinite;
   }
-  .wave-sparse {
-    background-size: 720px 112px;
+  #wave4 {
+    z-index: 1;
+    opacity: 0.7;
+    bottom: 20;
+    animation: animate2 3s linear infinite;
   }
 
-  @keyframes wave-1440 {
-    from {
-      background-position-x: 0;
+  @keyframes animate {
+    0% {
+      background-position: 1000px;
     }
-    to {
-      background-position-x: -1440px;
-    }
-  }
-  @keyframes wave-720 {
-    from {
-      background-position-x: 0;
-    }
-    to {
-      background-position-x: -720px;
-    }
-  }
-  @keyframes wave-2000 {
-    from {
-      background-position-x: 0;
-    }
-    to {
-      background-position-x: -2000px;
+    100% {
+      background-position: 0;
     }
   }
 
-  .animate-wave-8-1440 {
-    animation: wave-1440 8s linear infinite;
-  }
-  .animate-wave-10-1440 {
-    animation: wave-1440 10s linear infinite;
-  }
-  .animate-wave-12-720 {
-    animation: wave-720 12s linear infinite;
-  }
-  .animate-wave-14-2000 {
-    animation: wave-2000 14s linear infinite;
-  }
-
-  .delay--2s {
-    animation-delay: -2s;
-  }
-  .delay--4s {
-    animation-delay: -4s;
-  }
-  .delay--6s {
-    animation-delay: -6s;
+  @keyframes animate2 {
+    0% {
+      background-position: 0;
+    }
+    100% {
+      background-position: 1000px;
+    }
   }
 }
