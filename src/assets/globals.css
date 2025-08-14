@@ -144,38 +144,37 @@
 
 @layer components {
   .wave {
-    left: 0;
-    right: 0;
-    bottom: 0;
     position: absolute;
     width: 100%;
-    top: -90px;
+    top: -100px;
     height: 100px;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%230099ff' fill-opacity='1' d='M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'/></svg>");
+    background: url(/view/wave.svg);
+    background-size: 1000px 110px;
   }
   #wave1 {
-    z-index: 1;
+    z-index: 1000;
     opacity: 1;
-    bottom: 10px;
+    bottom: 0px;
     animation: animate 4s linear infinite;
   }
 
   #wave2 {
-    z-index: 1;
-    opacity: 0.2;
-    bottom: 0;
+    z-index: 998;
+    opacity: 0.5;
+    bottom: 10px;
     animation: animate2 4s linear infinite;
   }
   #wave3 {
-    z-index: 1;
+    z-index: 999;
     opacity: 0.2;
-    bottom: 10;
-    animation: animate2 3s linear infinite;
+    /* bottom: 10; */
+    bottom: 15px;
+    animation: animate 3s linear infinite;
   }
   #wave4 {
-    z-index: 1;
+    z-index: 999;
     opacity: 0.7;
-    bottom: 20;
+    bottom: 20px;
     animation: animate2 3s linear infinite;
   }
 
@@ -184,13 +183,13 @@
       background-position: 1000px;
     }
     100% {
-      background-position: 0;
+      background-position: 0px;
     }
   }
 
   @keyframes animate2 {
     0% {
-      background-position: 0;
+      background-position: 0px;
     }
     100% {
       background-position: 1000px;
