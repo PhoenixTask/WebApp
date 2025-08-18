@@ -7,11 +7,11 @@ import clsx from "clsx";
 import useModal from "@/store/useModal";
 import { colorVariant } from "@/functions/colorInterpretation";
 
-type WorkspaceSidebar = {
+type WorkspaceMenu = {
   workspaces: WorkspaceType[];
 }
 
-export default function WorkspaceSidebar({ workspaces }: WorkspaceSidebar) {
+export default function WorkspaceMenu({ workspaces }: WorkspaceMenu) {
   const { storeActiveWorkspace, storeActiveProject, activeWorkspaceId } =
     useActiveState();
 

@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import url("./style/custom-colors.css");
-@import url("./style/custom-styles.css");
+@import "./style/custom-colors.css";
+@import "./style/custom-styles.css";
 
 @plugin "daisyui" {
   themes:
