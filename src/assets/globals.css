@@ -141,3 +141,58 @@
     transparent
   );
 }
+
+@layer components {
+  .wave {
+    position: absolute;
+    width: 100%;
+    top: -100px;
+    height: 100px;
+    background: url(/view/wave.svg);
+    background-size: 1000px 110px;
+  }
+  #wave1 {
+    z-index: 1000;
+    opacity: 1;
+    bottom: 0px;
+    animation: animate 4s linear infinite;
+  }
+
+  #wave2 {
+    z-index: 998;
+    opacity: 0.5;
+    bottom: 10px;
+    animation: animate2 4s linear infinite;
+  }
+  #wave3 {
+    z-index: 999;
+    opacity: 0.2;
+    /* bottom: 10; */
+    bottom: 15px;
+    animation: animate 3s linear infinite;
+  }
+  #wave4 {
+    z-index: 999;
+    opacity: 0.7;
+    bottom: 20px;
+    animation: animate2 3s linear infinite;
+  }
+
+  @keyframes animate {
+    0% {
+      background-position: 1000px;
+    }
+    100% {
+      background-position: 0px;
+    }
+  }
+
+  @keyframes animate2 {
+    0% {
+      background-position: 0px;
+    }
+    100% {
+      background-position: 1000px;
+    }
+  }
+}
