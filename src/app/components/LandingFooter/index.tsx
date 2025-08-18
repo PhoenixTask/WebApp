@@ -14,12 +14,13 @@ export default function LandingFooter() {
         <Flex
           direction="col"
           alignItems="center"
+          justifyContent="center"
           className="max-w-6xl mx-auto px-6 py-8 md:flex-row md:justify-between gap-6"
         >
-          <Flex>
+          <div className="space-x-5">
             <GithubButton username="PhoenixTask" repo="WebApp" />
             <GithubButton username="PhoenixTask" repo="dotnet-backend" />
-          </Flex>
+          </div>
 
           <div className="w-52 text-xs">
             © {startYear}-{currentYear} ساخته شده با 🩷
