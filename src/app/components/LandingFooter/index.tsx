@@ -5,7 +5,7 @@ export default function LandingFooter() {
   const startYear = 2024;
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="w-full mt-60 bg-[#1881fa] border-t border-base-300 shadow-inner relative text-white">
+    <footer className="w-full mt-60 bg-[#1881fa] border-t border-base-300 shadow-inner text-white">
       <div className="relative w-full h-32 bg-[#1881fa]">
         <div id="wave1" className="wave" />
         <div id="wave2" className="wave" />
@@ -27,6 +27,7 @@ export default function LandingFooter() {
           </div>
         </Flex>
       </div>
+      <div className="bg-red-500 "></div>
     </footer>
   );
 }
