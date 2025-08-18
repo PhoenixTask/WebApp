@@ -122,7 +122,7 @@ export const useGetProfile = (userId: string | null) => {
   return useQuery({
     queryKey: ["user-profile", userId],
     queryFn: async () => {
-      if (!userId) return undefined;
+      if (!userId) return null;
 
       const userProfile = await GetProfileAPI(userId);
       if (userProfile.size === 0) return "/default-profile.svg";
