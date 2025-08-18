@@ -1,7 +1,6 @@
 "use client";
 
-import Icon from "@/components/Icon";
-import { Button } from "@/components/UI";
+import { Button, Icon } from "@/components/UI";
 import { TaskWithBoardIdType } from "@/types/task";
 import clsx from "clsx";
 import { useState } from "react";

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Icon from "@/components/Icon";
-import { Button, ErrorMessage, Heading, Input, Modal } from "@/components/UI";
+import { Button, ErrorMessage, Heading, Input, Modal, Icon } from "@/components/UI";
 import { schema, schemaType } from "@/schemas/modals/task";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

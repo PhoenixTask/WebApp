@@ -1,4 +1,4 @@
-import Icon from "@/components/Icon";
+import { Icon } from "@/components/UI";
 import { priorityLabel } from "@/constants";
 import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";

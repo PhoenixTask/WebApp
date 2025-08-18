@@ -1,5 +1,4 @@
-import { Button, Flex } from "@/components/UI";
-import Icon from "@/components/Icon";
+import { Button, Flex, Icon } from "@/components/UI";
 import { colorVariant, priorityColor } from "@/functions/colorInterpretation";
 import { useTasks } from "@/hooks/useTasks";
 import useModal from "@/store/useModal";

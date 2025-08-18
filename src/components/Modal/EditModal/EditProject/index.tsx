@@ -7,13 +7,13 @@ import {
   ColorPicker,
   ErrorMessage,
   Heading,
+  Icon,
 } from "@/components/UI";
 import { schema, schemaType } from "@/schemas/modals/project";
-import Icon from "@/components/Icon";
 import { useEditProject } from "@/hooks/useProjects";
 import useActiveState from "@/store/useActiveState";
 import { GetOneProjectAPI } from "@/services/project";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 type EditProjectModalProps = {
   onClose: () => void;

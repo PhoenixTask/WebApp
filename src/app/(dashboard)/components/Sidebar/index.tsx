@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Flex, Link, Button, Heading } from "@/components/UI";
-import Icon from "@/components/Icon";
+import { Flex, Link, Button, Heading, Icon } from "@/components/UI";
 import { useWorkspaces } from "@/hooks/useWorkspaces";
 import WorkspaceMenu from "./WorkspaceMenu";
 import useModal from "@/store/useModal";

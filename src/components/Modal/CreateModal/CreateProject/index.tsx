@@ -7,16 +7,16 @@ import {
   ColorPicker,
   ErrorMessage,
   Heading,
+  Icon,
 } from "@/components/UI";
 import { schema, schemaType } from "@/schemas/modals/project";
-import Icon from "@/components/Icon";
 import { useCreateProject } from "@/hooks/useProjects";
 import useActiveState from "@/store/useActiveState";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 type CreateProjectModalProps = {
   onClose: () => void;
-}
+};
 
 export default function CreateProjectModal({
   onClose,

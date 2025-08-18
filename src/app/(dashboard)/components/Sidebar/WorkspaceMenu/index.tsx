@@ -1,15 +1,14 @@
 import { useProjects } from "@/hooks/useProjects";
-import Icon from "@/components/Icon";
 import { WorkspaceType } from "@/types/workspace";
 import useActiveState from "@/store/useActiveState";
-import { Button } from "@/components/UI";
+import { Button, Icon } from "@/components/UI";
 import clsx from "clsx";
 import useModal from "@/store/useModal";
 import { colorVariant } from "@/functions/colorInterpretation";
 
 type WorkspaceMenu = {
   workspaces: WorkspaceType[];
-}
+};
 
 export default function WorkspaceMenu({ workspaces }: WorkspaceMenu) {
   const { storeActiveWorkspace, storeActiveProject, activeWorkspaceId } =

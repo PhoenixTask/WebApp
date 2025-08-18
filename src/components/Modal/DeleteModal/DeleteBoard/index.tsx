@@ -1,5 +1,4 @@
-import Icon from "@/components/Icon";
-import { Button, Heading, Modal } from "@/components/UI";
+import { Button, Heading, Modal, Icon } from "@/components/UI";
 import { useDeleteBoard } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
 

@@ -1,5 +1,4 @@
-import Icon from "@/components/Icon";
-import { Button, Heading, Flex } from "@/components/UI";
+import { Button, Heading, Flex, Icon } from "@/components/UI";
 import { useRouter } from "next/navigation";
 
 export default function ProfileSidebar() {

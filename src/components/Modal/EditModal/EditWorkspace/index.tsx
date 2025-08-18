@@ -7,13 +7,13 @@ import {
   ColorPicker,
   ErrorMessage,
   Heading,
+  Icon,
 } from "@/components/UI";
 import { schema, schemaType } from "@/schemas/modals/workspace";
 import { useEditWorkspace } from "@/hooks/useWorkspaces";
-import Icon from "@/components/Icon";
 import useActiveState from "@/store/useActiveState";
 import { GetOneWorkspaceAPI } from "@/services/workspace";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 type EditWorkspaceModalProps = {
   onClose: () => void;

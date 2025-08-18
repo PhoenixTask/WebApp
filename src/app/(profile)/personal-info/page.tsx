@@ -12,7 +12,6 @@ import {
   useUploadProfile,
   useGetProfile,
 } from "@/hooks/useUser";
-import Icon from "@/components/Icon";
 import { getUserId } from "@/functions/tokenManager";
 
 export default function PersonalInfoPage() {
