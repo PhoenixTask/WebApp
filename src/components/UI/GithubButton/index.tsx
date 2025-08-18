@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Link } from "..";
+import { Flex, Icon, Link, Button } from "..";
 
 type GithubStarButtonProps = {
   username: string;
@@ -12,7 +12,6 @@ type GithubStarButtonProps = {
 export default function GithubStarButton({
   username,
   repo,
-  children,
 }: GithubStarButtonProps) {
   const [stars, setStars] = useState<number | null>(null);
   const repoUrl = `https://github.com/${username}/${repo}`;
@@ -25,12 +24,17 @@ export default function GithubStarButton({
   }, [username, repo]);
 
   return (
-    <Link
-      to={repoUrl}
-      target="_blank"
-      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
-    >
-      {children} {stars !== null ? stars : "..."}
+    <Link asChild to={repoUrl} target="_blank">
+      <Button variant="base">
+        <Flex alignItems="center" justifyContent="center">
+          <div className="flex">
+            <span className="mt-0.5">{stars !== null ? stars : "..."}</span>
+            <Icon iconName="Star" className="text-warning" />
+          </div>
+          <span className="mt-0.5">{repo}</span>
+          <Icon iconName="Github" />
+        </Flex>
+      </Button>
     </Link>
   );
 }

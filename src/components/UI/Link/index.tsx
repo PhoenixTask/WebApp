@@ -6,6 +6,7 @@ import clsx from "clsx";
 type Props = {
   target?: "_self" | "_blank" | "_parent" | "_top";
   className?: string;
+  asChild?: boolean;
   children: ReactNode;
   to?: string;
   weight?: keyof typeof fontWeight;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const Link = ({
+  asChild = false,
   children,
   to = "",
   underline = false,
@@ -27,7 +29,7 @@ const Link = ({
     <RouterLink
       href={to}
       className={clsx(
-        "text-base-content hover:text-neutral transition-colors duration-300",
+        !asChild && "text-base-content hover:text-neutral transition-colors duration-300",
         underline && "underline underline-offset-8",
         fontWeight[weight],
         fontSize[textSize],

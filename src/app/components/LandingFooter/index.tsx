@@ -5,7 +5,7 @@ export default function LandingFooter() {
   const startYear = 2024;
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="w-full mt-60 bg-[#1881fa] border-t border-base-300 shadow-inner relative  text-white">
+    <footer className="w-full mt-60 bg-[#1881fa] border-t border-base-300 shadow-inner relative text-white">
       <div className="relative w-full h-32 bg-[#1881fa]">
         <div id="wave1" className="wave" />
         <div id="wave2" className="wave" />
@@ -17,9 +17,7 @@ export default function LandingFooter() {
           className="max-w-6xl mx-auto px-6 py-8 md:flex-row md:justify-between gap-6"
         >
           <Flex>
-            <GithubButton username="PhoenixTask" repo="WebApp">
-              
-            </GithubButton>
+            <GithubButton username="PhoenixTask" repo="WebApp" />
             <GithubButton username="PhoenixTask" repo="dotnet-backend" />
           </Flex>
 
