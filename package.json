@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -30,10 +30,10 @@
     "date-fns-jalali": "4.1.0-0",
     "dayjs": "^1.11.13",
     "motion": "^12.23.12",
-    "next": "14.2.8",
-    "react": "^18.3.1",
+    "next": "15.4.6",
+    "react": "19.1.1",
     "react-date-object": "^2.1.9",
-    "react-dom": "^18.3.1",
+    "react-dom": "19.1.1",
     "react-hook-form": "^7.52.1",
     "react-hot-toast": "^2.5.2",
     "react-multi-date-picker": "^4.5.2",
@@ -44,12 +44,21 @@
   },
   "devDependencies": {
     "@types/node": "^20.14.13",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.1.10",
+    "@types/react-dom": "19.1.7",
     "@typescript-eslint/parser": "^5.0.1",
     "eslint": "^9.27.0",
-    "eslint-config-next": "14.2.5",
+    "eslint-config-next": "15.4.6",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.1.10",
+      "@types/react-dom": "19.1.7"
+    },
+    "ignoredBuiltDependencies": [
+      "sharp"
+    ]
   }
 }
