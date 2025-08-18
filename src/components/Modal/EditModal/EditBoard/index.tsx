@@ -7,9 +7,9 @@ import {
   ColorPicker,
   ErrorMessage,
   Heading,
+  Icon,
 } from "@/components/UI";
 import { schema, schemaType } from "@/schemas/modals/board";
-import Icon from "@/components/Icon";
 import { useEditBoard } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
 import { GetOneBoardAPI } from "@/services/board";

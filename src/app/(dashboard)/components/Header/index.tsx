@@ -1,5 +1,4 @@
-import Icon from "@/components/Icon";
-import { Input, Link } from "@/components/UI";
+import { Input, Link, Icon } from "@/components/UI";
 import clsx from "clsx";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 

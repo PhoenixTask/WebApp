@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 const variantStyles = {
   primary: "bg-primary hover:bg-primary/80 text-primary-content",
   secondary: "bg-secondary hover:bg-secondary/70 text-secondary-content",
+  base: "bg-base-100 hover:bg-base-content hover:text-base-100 text-base-content",
   outline:
     "border-2 border-primary hover:border-primary/70 text-primary hover:text-primary/70",
   ghost: "bg-transparent hover:bg-base-300 text-base-content",

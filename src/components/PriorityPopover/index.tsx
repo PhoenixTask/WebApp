@@ -1,10 +1,10 @@
-import Icon from "@/components/Icon";
+import { Icon } from "@/components/UI";
 import { priorityLabel } from "@/constants";
 import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type PriorityPopoverType = {
-  anchorRef: React.RefObject<HTMLElement>;
+  anchorRef: React.RefObject<HTMLElement | null>;
   onClose: () => void;
   onSelect: (val: number) => void;
   openPopover: boolean;

@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import Icon from "@/components/Icon";
-import { Button, ErrorMessage, Heading, Input, Modal } from "@/components/UI";
+import {
+  Button,
+  ErrorMessage,
+  Heading,
+  Input,
+  Modal,
+  Icon,
+} from "@/components/UI";
 import { schema, schemaType } from "@/schemas/modals/task";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -10,11 +16,7 @@ import useActiveState from "@/store/useActiveState";
 import PersianDatePicker from "@/components/PersianDatePicker";
 import { newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
-import {
-  DateToString,
-  ChangeFormStrDate,
-  MiladiToShamsi,
-} from "@/functions/date";
+import { DateToString, ChangeFormStrDate } from "@/functions/date";
 import { priorityLabel } from "@/constants";
 import { GetOneTaskAPI } from "@/services/task";
 

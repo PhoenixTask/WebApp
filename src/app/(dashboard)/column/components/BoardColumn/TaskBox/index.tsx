@@ -1,7 +1,6 @@
 "use client";
 
-import Icon from "@/components/Icon";
-import { Button } from "@/components/UI";
+import { Button, Icon } from "@/components/UI";
 import { TaskWithBoardIdType } from "@/types/task";
 import clsx from "clsx";
 import { useState } from "react";
@@ -50,10 +49,7 @@ export default function TaskBox({
       <div
         ref={setNodeRef}
         style={style}
-        className={clsx(
-          "shadow-[0px_2px_4px_0px_#00000066,_0px_7px_6px_-3px_#0000004D,_inset_0px_-3px_0px_0px_#00000033]",
-          "rounded-3xl p-3 min-h-30 bg-base-100 flex flex-col justify-between opacity-30"
-        )}
+        className="rounded-3xl p-3 min-h-30 bg-base-100 flex flex-col justify-between opacity-30 shadow-elevated dark:border dark:shadow-elevated-dark"
       >
         <div>{name}</div>
 
@@ -87,10 +83,7 @@ export default function TaskBox({
       {...listeners}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
-      className={clsx(
-        "shadow-[0px_2px_4px_0px_#00000066,_0px_7px_6px_-3px_#0000004D,_inset_0px_-3px_0px_0px_#00000033]",
-        "rounded-3xl p-3 min-h-30 bg-base-100 flex flex-col justify-between"
-      )}
+      className="rounded-3xl p-3 min-h-30 bg-base-100 flex flex-col justify-between shadow-elevated dark:border"
     >
       <div>{name}</div>
 

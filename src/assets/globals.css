@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import url("./style/custom-colors.css");
-@import url("./style/custom-styles.css");
+@import "./style/custom-colors.css";
+@import "./style/custom-styles.css";
 
 @plugin "daisyui" {
   themes:
@@ -17,7 +17,7 @@
   --color-base-200: oklch(0.98 0.0108 256.69);
   --color-base-300: oklch(0.96 0.0227 241.88);
   --color-base-content: oklch(0.3932 0.0574 240.41);
-  --color-primary: oklch(55% 0.3 240);
+  --color-primary: oklch(0.6158 0.2014 256.33);
   --color-primary-content: oklch(98% 0.01 240);
   --color-secondary: oklch(0.71 0.134 224.19);
   --color-secondary-content: oklch(98% 0.01 200);
@@ -42,23 +42,25 @@
   --color-base-200: oklch(16% 0.015 240);
   --color-base-300: oklch(20% 0.02 240);
   --color-base-content: oklch(92% 0.01 240);
-  --color-primary: oklch(60% 0.25 240);
+  --color-primary: oklch(0.6158 0.2014 256.33);
   --color-primary-content: oklch(98% 0.01 240);
   --color-secondary: oklch(65% 0.15 220);
   --color-secondary-content: oklch(98% 0.01 220);
   --color-accent: oklch(60% 0.2 160);
   --color-accent-content: oklch(98% 0.01 160);
-  --color-neutral: oklch(30% 0.05 240);
+  --color-neutral: oklch(0.7433 0.0574 240.41);
   --color-neutral-content: oklch(95% 0.01 240);
   --color-info: oklch(70% 0.2 220);
   --color-info-content: oklch(10% 0.01 220);
   --color-success: oklch(65% 0.25 140);
   --color-success-content: oklch(10% 0.01 140);
-  --color-warning: oklch(80% 0.25 80);
+  --color-warning: oklch(90% 0.1904 80);
   --color-warning-content: oklch(10% 0.01 80);
-  --color-error: oklch(65% 0.3 30);
+  --color-error: oklch(75% 0.3 30);
   --color-error-content: oklch(10% 0.01 30);
 }
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme {
   --font-IranYekan: var(--local-font-IranYekan), sans-serif;
@@ -74,6 +76,8 @@
   --color-coal: var(--color-coal);
   --color-stone: var(--color-stone);
 
+  --shadow-elevated: 0px 2px 4px 0px #00000066, 0px 7px 6px -3px #0000004D, inset 0px -3px 0px 0px #00000033;
+
   --animate-gradient: gradient 8s ease-in-out infinite;
   @keyframes gradient {
     0% {
@@ -84,6 +88,55 @@
     }
     100% {
       background-position: 0% 50%;
+    }
+  }
+}
+
+@layer components {
+  .wave {
+    position: absolute;
+    width: 100%;
+    top: -100px;
+    height: 100px;
+    background: url(/wave.svg);
+    background-size: 1000px 110px;
+  }
+
+  #wave1 {
+    bottom: 0px;
+    animation: animate 4s linear infinite;
+  }
+  #wave2 {
+    opacity: 0.5;
+    bottom: 10px;
+    animation: animate2 4s linear infinite;
+  }
+  #wave3 {
+    opacity: 0.2;
+    bottom: 15px;
+    animation: animate 3s linear infinite;
+  }
+  #wave4 {
+    opacity: 0.7;
+    bottom: 20px;
+    animation: animate2 3s linear infinite;
+  }
+
+  @keyframes animate {
+    0% {
+      background-position: 1000px;
+    }
+    100% {
+      background-position: 0px;
+    }
+  }
+
+  @keyframes animate2 {
+    0% {
+      background-position: 0px;
+    }
+    100% {
+      background-position: 1000px;
     }
   }
 }

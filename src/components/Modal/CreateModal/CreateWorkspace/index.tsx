@@ -7,10 +7,10 @@ import {
   ColorPicker,
   ErrorMessage,
   Heading,
+  Icon,
 } from "@/components/UI";
 import { schema, schemaType } from "@/schemas/modals/workspace";
 import { useCreateWorkspace } from "@/hooks/useWorkspaces";
-import Icon from "@/components/Icon";
 import { useEffect } from "react";
 
 type CreateWorkspaceModalProps = {

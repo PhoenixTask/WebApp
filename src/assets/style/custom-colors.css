@@ -1,7 +1,7 @@
 :root {
-  --color-sky: oklch(0.8 0.2 210);
-  --color-ocean: oklch(0.8 0.2 250);
-  --color-mint: oklch(0.8 0.2 185);
+  --color-sky: oklch(0.8 0.2 240);
+  --color-ocean: oklch(0.8 0.5 250);
+  --color-mint: oklch(0.8 0.2 170);
   --color-forest: oklch(0.8 0.2 150);
   --color-sun: oklch(0.8 0.2 65);
   --color-sand: oklch(0.8 0.4 65);
@@ -13,31 +13,17 @@
   --color-stone: oklch(0.2 0 0);
 }
 
-/* [data-theme="dark"] {
-    --color-sky: oklch(0.65 0.2 210);
-    --color-ocean: oklch(0.65 0.2 250);
-    --color-mint: oklch(0.65 0.2 185);
-    --color-forest: oklch(0.65 0.2 150);
-    --color-sun: oklch(0.7 0.15 65);
-    --color-sand: oklch(0.7 0.25 65);
-    --color-rose: oklch(0.7 0.2 25);
-    --color-cherry: oklch(0.7 0.3 25);
-    --color-grape: oklch(0.65 0.2 300);
-    --color-lavender: oklch(0.65 0.2 280);
-    --color-coal: oklch(0.9 0 0);
-    --color-stone: oklch(0.7 0 0);
-} */
 [data-theme="dark"] {
-  --color-sky: oklch(98% 0.003 220);
-  --color-ocean: oklch(98% 0.003 250);
-  --color-mint: oklch(98% 0.003 180);
-  --color-forest: oklch(98% 0.003 150);
-  --color-sun: oklch(98% 0.003 80);
-  --color-sand: oklch(98% 0.003 90);
-  --color-rose: oklch(98% 0.003 25);
-  --color-cherry: oklch(98% 0.003 25);
-  --color-grape: oklch(98% 0.003 300);
-  --color-lavender: oklch(98% 0.003 280);
-  --color-coal: oklch(36% 0.005 240);
-  --color-stone: oklch(50% 0.005 240);
+  --color-sky: oklch(0.9 0.2 240);
+  --color-ocean: oklch(0.9 0.5 250);
+  --color-mint: oklch(0.9 0.2 170);
+  --color-forest: oklch(0.9 0.2 150);
+  --color-sun: oklch(0.9 0.2 65);
+  --color-sand: oklch(0.9 0.4 65);
+  --color-rose: oklch(0.9 0.3 25);
+  --color-cherry: oklch(0.9 0.4 25);
+  --color-grape: oklch(0.9 0.2 300);
+  --color-lavender: oklch(0.9 0.1 280);
+  --color-coal: oklch(0.9 0 0);
+  --color-stone: oklch(0.7 0 0);
 }

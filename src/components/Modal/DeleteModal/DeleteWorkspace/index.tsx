@@ -1,5 +1,4 @@
-import Icon from "@/components/Icon";
-import { Button, Heading, Modal } from "@/components/UI";
+import { Button, Heading, Modal, Icon } from "@/components/UI";
 import { useDeleteWorkspace } from "@/hooks/useWorkspaces";
 import useActiveState from "@/store/useActiveState";
 

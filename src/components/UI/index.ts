@@ -9,3 +9,4 @@ export { default as ColorPicker } from "./ColorPicker";
 export { default as Modal } from "./Modal";
 export { default as FuzzyText } from "./FuzzyText";
 export { default as GradientText } from "./GradientText";
+export { default as Icon } from "./Icon";

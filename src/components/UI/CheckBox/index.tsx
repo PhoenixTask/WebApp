@@ -1,5 +1,5 @@
 import { forwardRef, InputHTMLAttributes } from "react";
-import Icon from "@/components/Icon";
+import { Icon } from "..";
 import clsx from "clsx";
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
