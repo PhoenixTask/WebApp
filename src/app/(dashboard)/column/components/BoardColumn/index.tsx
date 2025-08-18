@@ -71,8 +71,7 @@ export default function BoardColumn({ id, name, color, order, tasks }: BoardColu
         {...listeners}
         justifyContent="between"
         className={clsx(
-          "shadow-[0px_2px_4px_0px_#00000066,_0px_7px_6px_-3px_#0000004D,_inset_0px_-3px_0px_0px_#00000033]",
-          "w-64 p-3 rounded-3xl border-t-2 cursor-pointer bg-base-100",
+          "w-64 p-3 rounded-3xl border-t-2 cursor-pointer bg-base-100 shadow-elevated dark:border-2",
           colorVariant(color).border
         )}
       >
@@ -98,7 +97,7 @@ export default function BoardColumn({ id, name, color, order, tasks }: BoardColu
         </SortableContext>
         <Button
           className={clsx(
-            "shadow-[0px_2px_4px_0px_#00000066,_0px_7px_6px_-3px_#0000004D,_inset_0px_-3px_0px_0px_#00000033]",
+            "shadow-elevated",
             !show && "opacity-0"
           )}
           onClick={() => handleCreateTask()}

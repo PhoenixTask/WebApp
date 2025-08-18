@@ -57,7 +57,7 @@ export default function CalendarViewPage() {
 
   return (
     <div className="flex justify-center items-center">
-      <div className="w-full max-w-6xl mt-5">
+      <div className="w-full h-[720px] max-w-6xl mt-5 overflow-hidden">
         {!ready ? (
           <div className="px-2.5 w-full flex flex-col items-center gap-2">
             <p className="m-auto">{NO_PROJECT_MSG}</p>

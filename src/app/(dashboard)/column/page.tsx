@@ -120,10 +120,7 @@ export default function ColumnViewPage() {
       <Button
         onClick={handleCreateBoard}
         variant="secondary"
-        className={clsx(
-          "shadow-[0px_2px_4px_0px_#00000066,_0px_7px_6px_-3px_#0000004D,_inset_0px_-3px_0px_0px_#00000033]",
-          "w-64 h-12"
-        )}
+        className="w-64 h-12 shadow-elevated"
       >
         ایجاد ستون
       </Button>
