@@ -17,7 +17,7 @@
   --color-base-200: oklch(0.98 0.0108 256.69);
   --color-base-300: oklch(0.96 0.0227 241.88);
   --color-base-content: oklch(0.3932 0.0574 240.41);
-  --color-primary: oklch(55% 0.3 240);
+  --color-primary: oklch(0.6158 0.2014 256.33);
   --color-primary-content: oklch(98% 0.01 240);
   --color-secondary: oklch(0.71 0.134 224.19);
   --color-secondary-content: oklch(98% 0.01 200);
@@ -42,7 +42,7 @@
   --color-base-200: oklch(16% 0.015 240);
   --color-base-300: oklch(20% 0.02 240);
   --color-base-content: oklch(92% 0.01 240);
-  --color-primary: oklch(60% 0.25 240);
+  --color-primary: oklch(0.6158 0.2014 256.33);
   --color-primary-content: oklch(98% 0.01 240);
   --color-secondary: oklch(65% 0.15 220);
   --color-secondary-content: oklch(98% 0.01 220);
@@ -98,7 +98,7 @@
     width: 100%;
     top: -100px;
     height: 100px;
-    background: url(/view/wave.svg);
+    background: url(/wave.svg);
     background-size: 1000px 110px;
   }
 
