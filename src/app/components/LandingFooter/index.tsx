@@ -1,9 +1,16 @@
+"use client";
+
 import { Flex } from "@/components/UI";
 import GithubButton from "@/components/UI/GithubButton";
+import { useEffect, useState } from "react";
 
 export default function LandingFooter() {
   const startYear = 2024;
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
   return (
     <footer className="w-full mt-60 bg-primary">
       <div className="relative bg-primary">

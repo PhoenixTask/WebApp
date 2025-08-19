@@ -1,4 +1,6 @@
-import { Input, Link, Icon } from "@/components/UI";
+"use client";
+
+import { Link, Icon } from "@/components/UI";
 import clsx from "clsx";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 
@@ -53,9 +55,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
         </div>
       </div>
       <div className="flex items-center justify-between font-medium py-4.5 gap-4 border-y border-neutral">
-        <div className="flex items-center gap-4 px-4">
-          <Input withLabel={false} label="جستجو در تسک‌ها" />
-        </div>
+        <div className="flex items-center gap-4 px-4"></div>
       </div>
     </>
   );
