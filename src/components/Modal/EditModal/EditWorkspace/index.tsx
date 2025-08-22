@@ -89,7 +89,10 @@ export default function EditWorkspaceModal({
   );
 
   async function onSubmit(data: schemaType) {
-    EditWorkspaceAPI({ data, id: activeWorkspaceId! });
+    EditWorkspaceAPI({
+      data: { name: data.name, description: data.color },
+      id: activeWorkspaceId!,
+    });
     onClose();
   }
 }

@@ -12,5 +12,8 @@ export type CreateWorkspaceType = Omit<WorkspaceType, "id">;
 
 export type EditWorkspaceType = {
   id: string;
-  data: Omit<WorkspaceType, "id">;
+  data: {
+    name: string;
+    description: string;
+  };
 };

@@ -1,8 +1,7 @@
-"use client";
-
 import { Link, Icon } from "@/components/UI";
 import clsx from "clsx";
 import ChangeModeButton from "@/components/ChangeThemeMode";
+import TodayDateTime from "./TodayDateTime"
 
 type DashboardHeaderProps = {
   location: string;
@@ -54,8 +53,8 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
           <ChangeModeButton />
         </div>
       </div>
-      <div className="flex items-center justify-between font-medium py-4.5 gap-4 border-y border-neutral">
-        <div className="flex items-center gap-4 px-4"></div>
+      <div className="flex justify-center font-medium py-4.5 gap-4 border-y border-neutral">
+        <TodayDateTime />
       </div>
     </>
   );
