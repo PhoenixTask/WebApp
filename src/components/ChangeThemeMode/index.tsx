@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Button, Icon } from "@/components/UI";
-import { ThemeContext } from "@/context/ThemeContext";
+import { ThemeContext } from "@/providers/ThemeContext";
 
 export default function ChangeModeButton() {
   const { toggleTheme, theme } = useContext(ThemeContext);
