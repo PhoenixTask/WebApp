@@ -12,6 +12,8 @@ const routes = {
   "personal-info": "/personal-info",
 } as const;
 
+type routeType = (typeof routes)[keyof typeof routes];
+
 function sameForAllLocales(path: string) {
   return { en: path, fa: path };
 }
@@ -35,4 +37,4 @@ export const routing = defineRouting({
 export const { Link, redirect, usePathname, useRouter, getPathname } =
   createNavigation(routing);
 
-export { routes };
+export { routes, type routeType };

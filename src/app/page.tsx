@@ -1,19 +1,15 @@
-import { Flex } from "@/components/UI";
-import Footer from "./components/LandingFooter";
-import Navbar from "./components/LandingNavbar";
-import Section from "./components/LandingSection";
+"use client";
 
-export default function MainPage() {
-  return (
-    <Flex
-      justifyContent="center"
-      alignItems="center"
-      direction="col"
-      className="select-none"
-    >
-      <Navbar />
-      <Section />
-      <Footer />
-    </Flex>
-  );
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import LoadingPage from "./loading";
+
+export default function RootPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/en");
+  }, [router]);
+
+  return <LoadingPage />;
 }

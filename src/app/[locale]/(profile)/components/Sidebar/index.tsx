@@ -1,7 +1,9 @@
 import { Button, Heading, Flex, Icon } from "@/components/UI";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 export default function ProfileSidebar() {
+  const locale = useLocale();
   const router = useRouter();
 
   return (
@@ -20,7 +22,7 @@ export default function ProfileSidebar() {
           فونیکس تسک
         </Heading>
 
-        <Button onClick={() => router.back()}>
+        <Button onClick={() => router.push(`/${locale}/list`)}>
           <Icon iconName="Arrow" className="rotate-180" />
           <span>بازگشت</span>
         </Button>

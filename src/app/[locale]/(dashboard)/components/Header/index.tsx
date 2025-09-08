@@ -1,7 +1,7 @@
 import { Link, Icon } from "@/components/UI";
 import clsx from "clsx";
 import ChangeModeButton from "@/components/ChangeThemeMode";
-import TodayDateTime from "./TodayDateTime"
+import TodayDateTime from "./TodayDateTime";
 
 type DashboardHeaderProps = {
   location: string;
@@ -18,7 +18,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             weight="600"
             className={clsx(
               "px-5 flex items-center gap-1 hover:text-primary/70",
-              location === "list" ? "text-primary" : "text-base-content"
+              location.includes("list") ? "text-primary" : "text-base-content"
             )}
           >
             <Icon iconName="ListView" />
@@ -30,7 +30,7 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             weight="600"
             className={clsx(
               "px-5 flex items-center gap-1 hover:text-primary/70",
-              location === "column" ? "text-primary" : "text-base-content"
+              location.includes("column") ? "text-primary" : "text-base-content"
             )}
           >
             <Icon iconName="ColumnView" />
@@ -42,7 +42,9 @@ export default function DashboardHeader({ location }: DashboardHeaderProps) {
             weight="600"
             className={clsx(
               "px-5 flex items-center gap-1 hover:text-primary/70",
-              location === "calendar" ? "text-primary" : "text-base-content"
+              location.includes("calendar")
+                ? "text-primary"
+                : "text-base-content"
             )}
           >
             <Icon iconName="Calendar" />

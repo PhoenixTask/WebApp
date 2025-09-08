@@ -9,8 +9,10 @@ import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
 import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { useEffect } from "react";
+import { useLocale } from "next-intl";
 
 export default function LoginPage() {
+  const locale = useLocale();
   const router = useRouter();
   const {
     register,
@@ -65,7 +67,7 @@ export default function LoginPage() {
     await loginHandler(formData, {
       onSuccess: () => {
         toast.success("ورود با موفقیت انجام شد");
-        router.push("/list");
+        router.push(`/${locale}/list`);
       },
       onError: (err) => {
         errorToast(err);

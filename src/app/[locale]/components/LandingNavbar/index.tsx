@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import { GradientText, Heading, Link } from "@/components/UI";
+import { routeType } from "@/i18n/routing";
 import { useGetProfile } from "@/hooks/useUser";
 import { getUserId, removeTokens } from "@/functions/tokenManager";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 
-const menuItems = [
+const menuItems: { label: string; href: routeType }[] = [
   { label: "نمایش لیستی", href: "/list" },
   { label: "نمایش ستونی", href: "/column" },
   { label: "نمایش تقویمی", href: "/calendar" },
@@ -47,6 +48,7 @@ export default function LandingNavbar() {
                 {menuItems.map((item) => (
                   <li key={item.label}>
                     <Link
+                      i18n
                       target="_blank"
                       textSize="S"
                       weight="600"
@@ -59,6 +61,7 @@ export default function LandingNavbar() {
                 ))}
                 <li>
                   <Link
+                    i18n
                     target="_blank"
                     to="/personal-info"
                     textSize="S"
@@ -103,6 +106,7 @@ export default function LandingNavbar() {
                   >
                     <li>
                       <Link
+                        i18n
                         target="_blank"
                         to="/personal-info"
                         textSize="S"
@@ -124,6 +128,7 @@ export default function LandingNavbar() {
 
                 {menuItems.map((item) => (
                   <Link
+                    i18n
                     target="_blank"
                     textSize="M"
                     weight="600"
@@ -140,10 +145,10 @@ export default function LandingNavbar() {
         </div>
         {!userId && (
           <div className="flex items-center gap-3">
-            <Link to="/login" textSize="M" weight="600">
+            <Link i18n to="/login" textSize="M" weight="600">
               ورود
             </Link>
-            <Link to="/register" textSize="M" weight="600">
+            <Link i18n to="/register" textSize="M" weight="600">
               ثبت‌نام
             </Link>
           </div>

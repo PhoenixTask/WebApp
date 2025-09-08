@@ -9,8 +9,10 @@ import useModal from "@/store/useModal";
 import { useGetProfile, useUserInfo } from "@/hooks/useUser";
 import { getUserId, removeTokens } from "@/functions/tokenManager";
 import { useQueryClient } from "@tanstack/react-query";
+import { useLocale } from "next-intl";
 
 export default function DashboardSidebar() {
+  const locale = useLocale();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -71,6 +73,7 @@ export default function DashboardSidebar() {
 
       <div>
         <Link
+          i18n
           className="flex items-center gap-2"
           weight="800"
           textSize="M"
@@ -108,6 +111,6 @@ export default function DashboardSidebar() {
   function logoutHandler() {
     queryClient.clear();
     removeTokens();
-    router.push("/login");
+    router.push(`/${locale}/login`);
   }
 }

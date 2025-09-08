@@ -10,8 +10,10 @@ import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { chooseRandomName } from "@/functions/chooseRandomName";
 import { useEffect } from "react";
+import { useLocale } from "next-intl";
 
 export default function RegisterPage() {
+  const locale = useLocale();
   const router = useRouter();
 
   const {
@@ -76,7 +78,7 @@ export default function RegisterPage() {
     await registerHandler(registerData, {
       onSuccess: async () => {
         toast.success("ثبت نام با موفقیت انجام شد");
-        router.push("/login");
+        router.push(`/${locale}/list`);
       },
       onError: (err) => {
         errorToast(err);
