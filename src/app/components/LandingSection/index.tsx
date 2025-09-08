@@ -1,10 +1,10 @@
-import HomeHero from "./HomeHero";
+import HeroSection from "./HeroSection";
 import ProjectGallery from "./ProjectGallery";
 
 export default function LandingSection(){
   return (
     <>
-      <HomeHero />
+      <HeroSection />
       <ProjectGallery />
     </>
   )

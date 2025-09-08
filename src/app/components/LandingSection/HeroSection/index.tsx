@@ -1,7 +1,7 @@
 import { Flex, Heading } from "@/components/UI";
 import Image from "next/image";
 
-export default function HomeHero() {
+export default function HeroSection() {
   return (
     <Flex
       direction="col"

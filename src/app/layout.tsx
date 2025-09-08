@@ -4,6 +4,7 @@ import QueryProvider from "@/providers/TanstackQueryProvider";
 import localFont from "next/font/local";
 import "@/assets/globals.css";
 import { ThemeProvider } from "@/providers/ThemeContext";
+import { NextIntlClientProvider } from "next-intl";
 
 const IranYekan = localFont({
   src: [
@@ -92,7 +93,11 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       <body className="font-IranYekan">
         <Toaster position="top-left" />
         <ThemeProvider>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              {children}
+            </NextIntlClientProvider>
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
