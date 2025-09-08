@@ -1,8 +1,7 @@
 import { Flex } from "@/components/UI";
-import HomeHero from "./components/HomeHero";
-import LandingFooter from "./components/LandingFooter";
-import Navbar from "./components/Navbar";
-import ProjectGallery from "./components/ProjectGallery";
+import Footer from "./components/LandingFooter";
+import Navbar from "./components/LandingNavbar";
+import Section from "./components/LandingSection";
 
 export default function MainPage() {
   return (
@@ -13,9 +12,8 @@ export default function MainPage() {
       className="select-none"
     >
       <Navbar />
-      <HomeHero />
-      <ProjectGallery />
-      <LandingFooter />
+      <Section />
+      <Footer />
     </Flex>
   );
 }

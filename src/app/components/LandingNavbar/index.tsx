@@ -14,7 +14,7 @@ const menuItems = [
   { label: "نمایش تقویمی", href: "/calendar" },
 ];
 
-export default function Navbar() {
+export default function LandingNavbar() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
