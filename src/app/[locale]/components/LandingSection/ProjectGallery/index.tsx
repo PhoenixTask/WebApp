@@ -51,7 +51,7 @@ const content = [
   },
 ];
 
-export default function StickyScrollRevealDemo() {
+export default function ProjectGallery() {
   return (
     <div className="max-w-7xl py-4 my-10">
       <StickyScroll content={content} />

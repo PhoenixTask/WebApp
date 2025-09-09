@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Flex, Link, Button, Heading, Icon } from "@/components/UI";
+import { Flex, Link, Button, Icon } from "@/components/UI";
 import { useWorkspaces } from "@/hooks/useWorkspaces";
 import WorkspaceMenu from "./WorkspaceMenu";
 import useModal from "@/store/useModal";
@@ -10,6 +10,7 @@ import { useGetProfile, useUserInfo } from "@/hooks/useUser";
 import { getUserId, removeTokens } from "@/functions/tokenManager";
 import { useQueryClient } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
+import PhoenixTask from "@/components/PhoenixTask";
 
 export default function DashboardSidebar() {
   const locale = useLocale();
@@ -33,13 +34,7 @@ export default function DashboardSidebar() {
       className="h-screen overflow-hidden py-10 shadow-lg border-l border-neutral"
     >
       <div className="flex flex-col justify-center gap-2 w-72">
-        <Heading
-          as="h1"
-          size="XS"
-          className="flex justify-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary select-none"
-        >
-          فونیکس تسک
-        </Heading>
+        <PhoenixTask /> 
 
         {/* create new workspace */}
         <Button

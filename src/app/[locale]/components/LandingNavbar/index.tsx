@@ -1,23 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { GradientText, Heading, Link } from "@/components/UI";
+import { Link } from "@/components/UI";
 import { routeType } from "@/i18n/routing";
 import { useGetProfile } from "@/hooks/useUser";
 import { getUserId, removeTokens } from "@/functions/tokenManager";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import ChangeModeButton from "@/components/ChangeThemeMode";
-
-const menuItems: { label: string; href: routeType }[] = [
-  { label: "نمایش لیستی", href: "/list" },
-  { label: "نمایش ستونی", href: "/column" },
-  { label: "نمایش تقویمی", href: "/calendar" },
-];
+import { useTranslations } from "next-intl";
+import PhoenixTask from "@/components/PhoenixTask";
 
 export default function LandingNavbar() {
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const t = useTranslations();
+
+  const linkItems: { label: string; href: routeType }[] = [
+    { label: t("listLink"), href: "/list" },
+    { label: t("columnLink"), href: "/column" },
+    { label: t("calendarLink"), href: "/calendar" },
+  ];
 
   const userId = getUserId();
   const { data: userProfileURL } = useGetProfile(userId);
@@ -45,7 +49,7 @@ export default function LandingNavbar() {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
               >
-                {menuItems.map((item) => (
+                {linkItems.map((item) => (
                   <li key={item.label}>
                     <Link
                       i18n
@@ -67,7 +71,7 @@ export default function LandingNavbar() {
                     textSize="S"
                     weight="600"
                   >
-                    تنظیمات حساب کاربری
+                    {t("MainPage.personalInfoLink")}
                   </Link>
                 </li>
                 <li>
@@ -75,7 +79,7 @@ export default function LandingNavbar() {
                     className="text-error font-semibold text-sm"
                     onClick={logoutHandler}
                   >
-                    خروج از حساب کاربری
+                    {t("logoutLink")}
                   </a>
                 </li>
               </ul>
@@ -112,7 +116,7 @@ export default function LandingNavbar() {
                         textSize="S"
                         weight="600"
                       >
-                        تنظیمات حساب کاربری
+                        {t("MainPage.personalInfoLink")}
                       </Link>
                     </li>
                     <li>
@@ -120,13 +124,13 @@ export default function LandingNavbar() {
                         className="text-error font-semibold text-sm"
                         onClick={logoutHandler}
                       >
-                        خروج از حساب کاربری
+                        {t("logoutLink")}
                       </a>
                     </li>
                   </ul>
                 </div>
 
-                {menuItems.map((item) => (
+                {linkItems.map((item) => (
                   <Link
                     i18n
                     target="_blank"
@@ -146,25 +150,16 @@ export default function LandingNavbar() {
         {!userId && (
           <div className="flex items-center gap-3">
             <Link i18n to="/login" textSize="M" weight="600">
-              ورود
+              {t("Portal.Login.title")}
             </Link>
             <Link i18n to="/register" textSize="M" weight="600">
-              ثبت‌نام
+              {t("Portal.register.title")}
             </Link>
           </div>
         )}
       </div>
       <div className="flex">
-        <GradientText
-          colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
-          animationSpeed={10}
-          showBorder={false}
-          className="p-2"
-        >
-          <Heading as="h1" size="XS" className="select-none">
-            فونیکس تسک
-          </Heading>
-        </GradientText>
+        <PhoenixTask />
         <ChangeModeButton />
       </div>
     </div>

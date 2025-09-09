@@ -1,7 +1,12 @@
 import { Flex, Heading } from "@/components/UI";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 
-export default function HeroSection() {
+export default async function HeroSection() {
+  const t = await getTranslations();
+  const locale = await getLocale();
+
   return (
     <Flex
       direction="col"
@@ -18,10 +23,16 @@ export default function HeroSection() {
         <Image src="/logo/Original.svg" alt="Origin" width={500} height={500} />
       </Flex>
       <Heading as="h1" size="XL" weight="900">
-        PhoenixTask
+        {t("MainPage.heroTitle")}
       </Heading>
-      <Heading as="h2" size="S" align="center" weight="800">
-        یک تسک منیجر اوپن سورس با الهام از ترللو و کوئرا تسک منیجر :)
+      <Heading
+        direction={locale === "en" ? "ltr" : "rtl"}
+        as="h2"
+        size="S"
+        align="center"
+        weight="800"
+      >
+        {t("MainPage.heroSlogan")}
       </Heading>
     </Flex>
   );
