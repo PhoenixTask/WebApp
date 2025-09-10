@@ -21,9 +21,9 @@
   --color-primary-content: oklch(98% 0.01 240);
   --color-secondary: oklch(0.71 0.134 224.19);
   --color-secondary-content: oklch(98% 0.01 200);
-  --color-accent: oklch(65% 0.25 160);
+  --color-accent: oklch(52% 0.2 160);
   --color-accent-content: oklch(98% 0.01 160);
-  --color-neutral: oklch(0.57 0.0574 240.41);
+  --color-neutral: oklch(57% 0.0574 240.41);
   --color-neutral-content: oklch(98% 0.01 240);
   --color-info: oklch(70% 0.2 220);
   --color-info-content: oklch(98% 0.01 220);
@@ -46,7 +46,7 @@
   --color-primary-content: oklch(98% 0.01 240);
   --color-secondary: oklch(65% 0.15 220);
   --color-secondary-content: oklch(98% 0.01 220);
-  --color-accent: oklch(60% 0.2 160);
+  --color-accent: oklch(65% 0.2 160);
   --color-accent-content: oklch(98% 0.01 160);
   --color-neutral: oklch(0.7433 0.0574 240.41);
   --color-neutral-content: oklch(95% 0.01 240);
@@ -76,7 +76,9 @@
   --color-coal: var(--color-coal);
   --color-stone: var(--color-stone);
 
-  --shadow-elevated: 0px 2px 4px 0px #00000066, 0px 7px 6px -3px #0000004D, inset 0px -3px 0px 0px #00000033;
+  --shadow-elevated:
+    0px 2px 4px 0px #00000066, 0px 7px 6px -3px #0000004d,
+    inset 0px -3px 0px 0px #00000033;
 
   --animate-gradient: gradient 8s ease-in-out infinite;
   @keyframes gradient {

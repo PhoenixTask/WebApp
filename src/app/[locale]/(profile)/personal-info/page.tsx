@@ -13,7 +13,8 @@ import {
   useGetProfile,
 } from "@/hooks/useUser";
 import { getUserId } from "@/functions/tokenManager";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { direction } from "@/functions/localeProperty";
 
 export default function PersonalInfoPage() {
   const {
@@ -25,6 +26,7 @@ export default function PersonalInfoPage() {
     resolver: zodResolver(schema),
   });
 
+  const locale = useLocale();
   const t = useTranslations();
 
   const { data: userInfo } = useUserInfo();
@@ -87,7 +89,7 @@ export default function PersonalInfoPage() {
             </Flex>
           </Flex>
 
-          <Flex direction="col" gap="S">
+          <Flex {...direction(locale)} direction="col" gap="S">
             <Input
               disabled
               label={t("Profile.userName")}

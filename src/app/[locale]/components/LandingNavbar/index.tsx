@@ -10,6 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 import { useTranslations } from "next-intl";
 import PhoenixTask from "@/components/PhoenixTask";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function LandingNavbar() {
   const router = useRouter();
@@ -158,8 +159,9 @@ export default function LandingNavbar() {
           </div>
         )}
       </div>
-      <div className="flex">
+      <div className="flex items-center gap-2">
         <PhoenixTask />
+        <LanguageSwitcher />
         <ChangeModeButton />
       </div>
     </div>

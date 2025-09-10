@@ -6,6 +6,7 @@ import ChangeModeButton from "@/components/ChangeThemeMode";
 import TodayDateTime from "./TodayDateTime";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function DashboardHeader() {
   const location = usePathname().slice(1);
@@ -55,6 +56,7 @@ export default function DashboardHeader() {
           </Link>
         </div>
         <div className="flex items-center justify-center px-5">
+          <LanguageSwitcher />
           <ChangeModeButton />
         </div>
       </div>
