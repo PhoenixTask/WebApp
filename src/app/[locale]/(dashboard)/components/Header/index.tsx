@@ -1,13 +1,14 @@
+"use client";
+
 import { Link, Icon } from "@/components/UI";
 import clsx from "clsx";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 import TodayDateTime from "./TodayDateTime";
+import { usePathname } from "next/navigation";
 
-type DashboardHeaderProps = {
-  location: string;
-};
+export default function DashboardHeader() {
+  const location = usePathname().slice(1);
 
-export default function DashboardHeader({ location }: DashboardHeaderProps) {
   return (
     <>
       <div className="flex justify-between shadow">

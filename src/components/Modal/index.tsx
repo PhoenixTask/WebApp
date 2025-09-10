@@ -1,3 +1,5 @@
+"use client";
+
 import useModal from "@/store/useModal";
 import {
   CreateWorkspace,

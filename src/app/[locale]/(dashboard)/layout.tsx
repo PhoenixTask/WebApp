@@ -1,15 +1,12 @@
-"use client";
 import Modal from "@/components/Modal";
 import DashboardHeader from "./components/Header";
 import DashboardSidebar from "./components/Sidebar";
-import { usePathname } from "next/navigation";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
-}
+};
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
-  const location = usePathname();
   return (
     <div className="h-screen grid 2xl:grid-cols-12 2xl:grid-rows-12">
       <Modal />
@@ -17,7 +14,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         <DashboardSidebar />
       </div>
       <div className="2xl:col-span-10 2xl:row-span-2">
-        <DashboardHeader location={location.slice(1)} />
+        <DashboardHeader />
       </div>
       <div
         className="2xl:col-span-10 2xl:row-span-10 pt-4 overflow-y-scroll items-center"
