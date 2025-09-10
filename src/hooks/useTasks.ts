@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CreateTaskAPI,
-  GetTaskAPI,
+  GetTasksAPI,
   DeleteTaskAPI,
   EditTaskAPI,
   EditTaskBoardAPI,
@@ -26,7 +26,7 @@ import errorToast from "@/functions/errorToast";
 export const useTasks = (boardId: string) => {
   return useQuery({
     queryKey: ["tasks", boardId],
-    queryFn: () => GetTaskAPI({ id: boardId }),
+    queryFn: () => GetTasksAPI({ id: boardId }),
     staleTime: 1000 * 60 * 5,
     select: (tasks) => tasks.sort((a, b) => a.order - b.order),
   });
