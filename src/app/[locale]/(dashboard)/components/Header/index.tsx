@@ -5,9 +5,11 @@ import clsx from "clsx";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 import TodayDateTime from "./TodayDateTime";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function DashboardHeader() {
   const location = usePathname().slice(1);
+  const t = useTranslations();
 
   return (
     <>
@@ -23,7 +25,7 @@ export default function DashboardHeader() {
             )}
           >
             <Icon iconName="ListView" />
-            <span>نمایش لیستی</span>
+            <span>{t("listLink")}</span>
           </Link>
           <Link
             to="column"
@@ -35,7 +37,7 @@ export default function DashboardHeader() {
             )}
           >
             <Icon iconName="ColumnView" />
-            <span>نمایش ستونی</span>
+            <span>{t("columnLink")}</span>
           </Link>
           <Link
             to="calendar"
@@ -49,7 +51,7 @@ export default function DashboardHeader() {
             )}
           >
             <Icon iconName="Calendar" />
-            <span>نمایش تقویم</span>
+            <span>{t("calendarLink")}</span>
           </Link>
         </div>
         <div className="flex items-center justify-center px-5">

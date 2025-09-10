@@ -9,14 +9,23 @@ import { Button, Flex } from "@/components/UI";
 import useActiveState from "@/store/useActiveState";
 import useModal from "@/store/useModal";
 import { BoardAndTasksV2Type } from "@/types/board";
+import { useTranslations } from "next-intl";
 
 type BoardColumnProps = BoardAndTasksV2Type;
 
-export default function BoardColumn({ id, name, color, order, tasks }: BoardColumnProps) {
+export default function BoardColumn({
+  id,
+  name,
+  color,
+  order,
+  tasks,
+}: BoardColumnProps) {
   const [show, setShow] = useState(false);
 
   const { storeActiveBoard } = useActiveState();
   const { openModal } = useModal();
+
+  const t = useTranslations("Dashboard");
 
   const {
     attributes,
@@ -33,10 +42,7 @@ export default function BoardColumn({ id, name, color, order, tasks }: BoardColu
     },
   });
 
-  const tasksId = useMemo(
-    () => tasks.map((task) => task.id),
-    [tasks]
-  );
+  const tasksId = useMemo(() => tasks.map((task) => task.id), [tasks]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -96,13 +102,10 @@ export default function BoardColumn({ id, name, color, order, tasks }: BoardColu
           ))}
         </SortableContext>
         <Button
-          className={clsx(
-            "shadow-elevated",
-            !show && "opacity-0"
-          )}
+          className={clsx("shadow-elevated", !show && "opacity-0")}
           onClick={() => handleCreateTask()}
         >
-          ایجاد تسک
+          {t("newTask")}
         </Button>
       </div>
     </div>

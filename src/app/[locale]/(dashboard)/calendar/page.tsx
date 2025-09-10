@@ -10,7 +10,6 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { EventDropArg, DatesSetArg } from "@fullcalendar/core";
 import { useTasksByDeadline, useEditTaskDeadline } from "@/hooks/useTasks";
 import useActiveState from "@/store/useActiveState";
-import { NO_PROJECT_MSG } from "@/constants";
 import {
   format,
   isBefore,
@@ -21,13 +20,19 @@ import {
 import useModal from "@/store/useModal";
 import { TaskType } from "@/types/task";
 import faLocale from "@fullcalendar/core/locales/fa";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DateToString } from "@/functions/date";
+import { useLocale } from "next-intl";
+import NoProject from "../components/NoProject";
 
 export default function CalendarViewPage() {
   const { openModal } = useModal();
+
   const { activeProjectId, activeWorkspaceId } = useActiveState();
+
   const today = new Date();
+
+  const locale = useLocale();
 
   const [startDate, setStartDate] = useState(
     format(startOfMonth(today), "yyyy-MM-dd")
@@ -44,7 +49,6 @@ export default function CalendarViewPage() {
     Start: startDate,
     End: endDate,
   });
-  const ready = Boolean(activeProjectId && activeWorkspaceId);
 
   const events = (tasks ?? []).map((t: TaskType) => ({
     id: t?.id || "",
@@ -55,39 +59,42 @@ export default function CalendarViewPage() {
   }));
   const todayBarrier = startOfDay(new Date());
 
+  if (!activeProjectId || !activeWorkspaceId) return <NoProject />;
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-full h-[720px] max-w-6xl mt-5 overflow-hidden">
-        {!ready ? (
-          <div className="px-2.5 w-full flex flex-col items-center gap-2">
-            <p className="m-auto">{NO_PROJECT_MSG}</p>
-          </div>
-        ) : (
-          <FullCalendar
-            locale={faLocale}
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            initialDate={new Date()}
-            editable
-            droppable
-            selectable
-            events={events}
-            eventAllow={(info) =>
-              startOfDay(info.start).getTime() >= todayBarrier.getTime()
-            }
-            dateClick={handleDateClick}
-            eventDrop={handleEventDrop}
-            datesSet={handleDatesSet}
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek",
-            }}
-          />
-        )}
+        <FullCalendar
+          {...calendarLanguage(locale)}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          initialDate={new Date()}
+          editable
+          droppable
+          selectable
+          events={events}
+          eventAllow={(info) =>
+            startOfDay(info.start).getTime() >= todayBarrier.getTime()
+          }
+          dateClick={handleDateClick}
+          eventDrop={handleEventDrop}
+          datesSet={handleDatesSet}
+          headerToolbar={{
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek",
+          }}
+        />
       </div>
     </div>
   );
+
+  function calendarLanguage(locale: string) {
+    if (locale === "fa") {
+      return { locale: faLocale };
+    }
+    return {};
+  }
 
   function handleDateClick(arg: DateClickArg) {
     const today = startOfDay(new Date());

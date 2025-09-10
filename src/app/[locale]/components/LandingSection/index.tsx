@@ -1,4 +1,4 @@
-import { direction } from "@/functions/direction";
+import { direction } from "@/functions/localeProperty";
 import HeroSection from "./HeroSection";
 import ProjectGallery from "./ProjectGallery";
 

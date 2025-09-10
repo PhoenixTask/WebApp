@@ -26,11 +26,12 @@ import {
 } from "@dnd-kit/sortable";
 import BoardColumn from "./components/BoardColumn";
 import TaskBox from "./components/BoardColumn/TaskBox";
-import { NO_BOARD_MSG, NO_PROJECT_MSG } from "@/constants";
 import useModal from "@/store/useModal";
-import clsx from "clsx";
 import { BoardAndTasksV2Type, BoardType } from "@/types/board";
 import { TaskWithBoardIdType } from "@/types/task";
+import NoProject from "../components/NoProject";
+import NoBoard from "../components/NoBoard";
+import { useTranslations } from "next-intl";
 
 export default function ColumnViewPage() {
   const { activeWorkspaceId, activeProjectId } = useActiveState();
@@ -40,6 +41,8 @@ export default function ColumnViewPage() {
   const { mutate: EditTasksOrderAPI } = useEditTasksOrder();
   const { mutate: EditTasksBoardAndOrderAPI } = useEditTasksBoardAndOrderType();
   const { openModal } = useModal();
+
+  const t = useTranslations("Dashboard");
 
   const [boards, setBoards] = useState<BoardType[]>([]);
   const [tasks, setTasks] = useState<TaskWithBoardIdType[]>([]);
@@ -67,28 +70,9 @@ export default function ColumnViewPage() {
     setBoards(boardsData);
   }, [allTasksInProjectData, boardsData]);
 
-  if (!activeProjectId || !activeWorkspaceId) {
-    return (
-      <div className="px-2.5 w-full flex flex-col items-center gap-2">
-        <p className="m-auto">{NO_PROJECT_MSG}</p>
-      </div>
-    );
-  }
+  if (!activeProjectId || !activeWorkspaceId) return <NoProject />;
 
-  if (boards.length === 0) {
-    return (
-      <div className="px-2.5 w-full flex flex-col items-center gap-5">
-        <Button
-          onClick={() => openModal("create-board")}
-          variant="outline"
-          size="small"
-        >
-          ایجاد ستون
-        </Button>
-        <p className="m-auto">{NO_BOARD_MSG}</p>
-      </div>
-    );
-  }
+  if (boards.length === 0) return <NoBoard />;
 
   return (
     <div className="flex gap-4 min-h-[79vh] overflow-x-scroll overflow-y-hidden p-2">
@@ -122,7 +106,7 @@ export default function ColumnViewPage() {
         variant="secondary"
         className="w-64 h-12 shadow-elevated"
       >
-        ایجاد ستون
+        {t("newBoard")}
       </Button>
     </div>
   );

@@ -5,6 +5,7 @@ import { Button, Icon } from "@/components/UI";
 import clsx from "clsx";
 import useModal from "@/store/useModal";
 import { colorVariant } from "@/functions/colorInterpretation";
+import { useTranslations } from "next-intl";
 
 type WorkspaceMenu = {
   workspaces: WorkspaceType[];
@@ -17,6 +18,8 @@ export default function WorkspaceMenu({ workspaces }: WorkspaceMenu) {
   const { data: projects, isError } = useProjects(activeWorkspaceId);
 
   const { openModal } = useModal();
+
+  const t = useTranslations();
 
   return (
     <ul className="menu w-full">
@@ -63,7 +66,7 @@ export default function WorkspaceMenu({ workspaces }: WorkspaceMenu) {
                 <ul>
                   {isError && (
                     <li className="text-error p-2 font-bold">
-                      خطا در بارگذاری پروژه‌ها
+                      {t("Dashboard.serverError")}
                     </li>
                   )}
 
@@ -94,14 +97,12 @@ export default function WorkspaceMenu({ workspaces }: WorkspaceMenu) {
                               mode="warning-bubble"
                               onClick={() => handleEditProject(projectId)}
                               className="w-4 h-4"
-                              aria-label="ویرایش"
                             />
                             {/* delete project */}
                             <Button
                               mode="error-bubble"
                               onClick={() => handleDeleteProject(projectId)}
                               className="w-3 h-3"
-                              aria-label="حذف"
                             />
                           </div>
                         </a>
@@ -117,7 +118,7 @@ export default function WorkspaceMenu({ workspaces }: WorkspaceMenu) {
                     className="w-full my-2"
                   >
                     <Icon iconName="SquarePlus" />
-                    <span>ایجاد پروژه‌ی جدید</span>
+                    <span>{t("Dashboard.newProject")}</span>
                   </Button>
                 </ul>
               )}

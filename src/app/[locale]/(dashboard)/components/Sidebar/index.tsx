@@ -9,15 +9,17 @@ import useModal from "@/store/useModal";
 import { useGetProfile, useUserInfo } from "@/hooks/useUser";
 import { getUserId, removeTokens } from "@/functions/tokenManager";
 import { useQueryClient } from "@tanstack/react-query";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import PhoenixTask from "@/components/PhoenixTask";
 
 export default function DashboardSidebar() {
-  const locale = useLocale();
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const { openModal } = useModal();
+
+  const locale = useLocale();
+  const t = useTranslations();
 
   const { data: workspaces, isLoading, isError } = useWorkspaces();
 
@@ -31,10 +33,10 @@ export default function DashboardSidebar() {
       direction="col"
       justifyContent="between"
       alignItems="center"
-      className="h-screen overflow-hidden py-10 shadow-lg border-l border-neutral"
+      className="h-screen overflow-hidden py-5 shadow-lg border-l border-neutral"
     >
       <div className="flex flex-col justify-center gap-2 w-72">
-        <PhoenixTask /> 
+        <PhoenixTask />
 
         {/* create new workspace */}
         <Button
@@ -44,7 +46,7 @@ export default function DashboardSidebar() {
           className="flex items-center"
         >
           <Icon iconName="SquarePlus" />
-          <span>ایجاد میزکار جدید</span>
+          <span>{t("Dashboard.newWorkspace")}</span>
         </Button>
 
         <div
@@ -56,9 +58,8 @@ export default function DashboardSidebar() {
             {/* Loading/Error */}
             {isLoading && <Icon iconName="Loading" />}
             {isError && (
-              <div className="flex flex-col items-center mt-10 font-bold text-error">
-                <span>اوپس...😵‍💫</span>
-                <span>نمی‌تونم به سرور متصل بشم</span>
+              <div className="mt-10 font-bold text-error">
+                {t("Dashboard.serverError")}
               </div>
             )}
             {workspaces && <WorkspaceMenu workspaces={workspaces} />}
@@ -78,7 +79,7 @@ export default function DashboardSidebar() {
             {userProfileURL && (
               <Image
                 src={userProfileURL}
-                alt="تصویر پروفایل"
+                alt={t("Dashboard.altProfileImage")}
                 width={100}
                 height={100}
                 className="object-cover"
@@ -88,7 +89,7 @@ export default function DashboardSidebar() {
 
           {userInfo && userInfo.firstName && userInfo.lastName
             ? `${userInfo.firstName} ${userInfo.lastName}`
-            : "بی‌نام و نشان"}
+            : t("Dashboard.noName")}
         </Link>
 
         <Button
@@ -97,7 +98,7 @@ export default function DashboardSidebar() {
           onClick={logoutHandler}
         >
           <Icon width={16} iconName="Logout" />
-          خروج
+          {t("logoutLink")}
         </Button>
       </div>
     </Flex>

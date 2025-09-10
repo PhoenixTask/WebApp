@@ -6,7 +6,9 @@ import { useBoards } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
 import useModal from "@/store/useModal";
 import { Button } from "@/components/UI";
-import { NO_BOARD_MSG, NO_PROJECT_MSG } from "@/constants";
+import { useTranslations } from "next-intl";
+import NoProject from "../components/NoProject";
+import NoBoard from "../components/NoBoard";
 
 export default function ListViewPage() {
   const { activeWorkspaceId, activeProjectId } = useActiveState();
@@ -15,33 +17,11 @@ export default function ListViewPage() {
 
   const { openModal } = useModal();
 
-  if (!activeProjectId || !activeWorkspaceId) {
-    return (
-      <div className="px-2.5 w-full flex flex-col items-center gap-2">
-        <div className="m-auto">
-          <p>{NO_PROJECT_MSG}</p>
-        </div>
-      </div>
-    );
-  }
+  const t = useTranslations();
 
-  if (boards?.length === 0) {
-    return (
-      <div className="px-2.5 w-full flex flex-col items-center gap-5">
-        {/* create new board */}
-        <Button
-          onClick={() => openModal("create-board")}
-          variant="outline"
-          size="small"
-        >
-          ایجاد ستون
-        </Button>
-        <div className="m-auto">
-          <p>{NO_BOARD_MSG}</p>
-        </div>
-      </div>
-    );
-  }
+  if (!activeProjectId || !activeWorkspaceId) return <NoProject />;
+
+  if (boards?.length === 0) return <NoBoard />;
 
   return (
     <div className="p-2.5 w-full flex flex-col items-center gap-2">
@@ -50,7 +30,7 @@ export default function ListViewPage() {
         variant="outline"
         size="small"
       >
-        ایجاد ستون
+        {t("Dashboard.newBoard")}
       </Button>
       {boards?.map(({ id, name, color }: BoardType) => (
         <CollapsibleBoard
