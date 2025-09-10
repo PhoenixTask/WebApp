@@ -33,7 +33,7 @@ const Heading: FC<Props> = ({
   weight = "800",
   align = "right",
   className = "",
-  direction = "rtl",
+  direction,
 }) => {
   return createElement(
     as,

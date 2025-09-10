@@ -1,12 +1,15 @@
-"use client";
-
 import { Flex } from "@/components/UI";
 import GithubButton from "@/components/UI/GithubButton";
-import { useLocale, useTranslations } from "next-intl";
+import { direction } from "@/functions/direction";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export default function LandingFooter() {
-  const locale = useLocale();
-  const t = useTranslations("MainPage");
+type Props = {
+  locale: string;
+};
+
+export default async function LandingFooter({ locale }: Props) {
+  setRequestLocale(locale);
+  const t = await getTranslations("MainPage");
 
   console.log("LandingFooter:", locale);
 
@@ -32,10 +35,7 @@ export default function LandingFooter() {
             <GithubButton username="PhoenixTask" repo="dotnet-backend" />
           </div>
 
-          <div
-            dir={locale === "en" ? "ltr" : "rtl"}
-            className="w-52 text-xs text-white"
-          >
+          <div {...direction(locale)} className="w-52 text-xs text-white">
             © {startYear}-{currentYear} {t("madeWith")}
           </div>
         </Flex>

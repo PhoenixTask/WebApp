@@ -1,13 +1,21 @@
 import { Flex } from "@/components/UI";
 import AuthHeader from "./components/AuthHeader";
+import { direction } from "@/functions/direction";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 };
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export default async function AuthLayout({
+  children,
+  params,
+}: AuthLayoutProps) {
+  const { locale } = await params;
+
   return (
     <Flex
+      {...direction(locale)}
       direction="col"
       alignItems="between"
       className="m-0 p-0 h-screen w-full overflow-hidden relative"

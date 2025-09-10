@@ -10,11 +10,13 @@ import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { chooseRandomName } from "@/functions/chooseRandomName";
 import { useEffect } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function RegisterPage() {
-  const locale = useLocale();
   const router = useRouter();
+
+  const locale = useLocale();
+  const t = useTranslations("Portal");
 
   const {
     register,
@@ -31,19 +33,28 @@ export default function RegisterPage() {
   return (
     <div className="backdrop-blur-md text-base-content bg-base-100/60 max-w-xl w-full shadow-xl p-6 rounded-3xl">
       <Heading align="center" className="mb-8" as="h2" size="S">
-        به جمع فونیکس تسکی‌ها بپیوند😎
+        {t("Register.welcome")}
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Flex gap={`${errors ? "XS" : "M"}`} direction="col">
-          <Input id="username" label="نام کاربری" {...register("username")} />
+          <Input
+            id="username"
+            label={t("userName")}
+            {...register("username")}
+          />
           <ErrorMessage error={errors.username} />
 
-          <Input id="email" label="ایمیل" type="email" {...register("email")} />
+          <Input
+            id="email"
+            label={t("email")}
+            type="email"
+            {...register("email")}
+          />
           <ErrorMessage error={errors.email} />
 
           <Input
             id="password"
-            label="رمز عبور"
+            label={t("password")}
             type="password"
             {...register("password")}
           />
@@ -51,7 +62,7 @@ export default function RegisterPage() {
 
           <Input
             id="confirmPassword"
-            label="تکرار رمز عبور"
+            label={t("confirmPassword")}
             type="password"
             {...register("confirmPassword")}
           />
@@ -64,7 +75,7 @@ export default function RegisterPage() {
             size="full"
             className="h-11"
           >
-            ثبت‌نام
+            {t("Register.title")}
           </Button>
         </Flex>
       </form>

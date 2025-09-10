@@ -3,12 +3,10 @@
 import React from "react";
 import { StickyScroll } from "./StickyScrollReveal";
 import Image from "next/image";
-import { useTranslations, useLocale } from "next-intl";
-import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 export default function ProjectGallery() {
   const t = useTranslations("MainPage.Features");
-  const locale = useLocale();
 
   const features = [
     {
@@ -56,7 +54,7 @@ export default function ProjectGallery() {
   ];
 
   return (
-    <div dir={locale === "en" ? "ltr" : "rtl"} className="max-w-7xl py-4 my-10">
+    <div className="max-w-7xl py-4 my-10">
       <StickyScroll content={features} />
     </div>
   );

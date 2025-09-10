@@ -3,7 +3,13 @@ import Footer from "./components/LandingFooter";
 import Navbar from "./components/LandingNavbar";
 import Section from "./components/LandingSection";
 
-export default function MainPage() {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function MainPage({ params }: Props) {
+  const { locale } = await params;
+
   return (
     <Flex
       justifyContent="center"
@@ -12,8 +18,8 @@ export default function MainPage() {
       className="select-none"
     >
       <Navbar />
-      <Section />
-      <Footer />
+      <Section locale={locale} />
+      <Footer locale={locale} />
     </Flex>
   );
 }
