@@ -6,15 +6,18 @@
     "Features": [
       {
         "title": "Column View of Tasks",
-        "description": "In the column view, your tasks are displayed in customizable columns. With drag & drop functionality, you can easily move tasks between columns, change priorities, and manage project progress visually and quickly."
+        "description": "In the column view, your tasks are displayed in customizable columns. With drag & drop functionality, you can easily move tasks between columns, change priorities, and manage project progress visually and quickly.",
+        "altImage": "Column View"
       },
       {
         "title": "List View of Tasks",
-        "description": "The list view allows you to see all tasks in a linear and compact structure. In this view, task details such as descriptions, labels, and deadlines are visible and editable all at once; ideal for quick review and precise management."
+        "description": "The list view allows you to see all tasks in a linear and compact structure. In this view, task details such as descriptions, labels, and deadlines are visible and editable all at once; ideal for quick review and precise management.",
+        "altImage": "List View"
       },
       {
         "title": "Calendar View of Tasks",
-        "description": "In the calendar view, your tasks and events are displayed daily, weekly, or monthly on an interactive calendar. This helps you plan deadlines and events more accurately and manage tasks directly from the calendar."
+        "description": "In the calendar view, your tasks and events are displayed daily, weekly, or monthly on an interactive calendar. This helps you plan deadlines and events more accurately and manage tasks directly from the calendar.",
+        "altImage": "Calendar View"
       }
     ],
     "madeWith": "Made with 🩷"

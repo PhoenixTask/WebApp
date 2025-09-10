@@ -1,11 +1,12 @@
+"use client";
+
 import { Flex, Heading } from "@/components/UI";
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
-import { getLocale } from "next-intl/server";
+import { useLocale, useTranslations } from "next-intl";
 
-export default async function HeroSection() {
-  const t = await getTranslations();
-  const locale = await getLocale();
+export default function HeroSection() {
+  const locale = useLocale();
+  const t = useTranslations("MainPage");
 
   return (
     <Flex
@@ -23,7 +24,7 @@ export default async function HeroSection() {
         <Image src="/logo/Original.svg" alt="Origin" width={500} height={500} />
       </Flex>
       <Heading as="h1" size="XL" weight="900">
-        {t("MainPage.heroTitle")}
+        {t("heroTitle")}
       </Heading>
       <Heading
         direction={locale === "en" ? "ltr" : "rtl"}
@@ -32,7 +33,7 @@ export default async function HeroSection() {
         align="center"
         weight="800"
       >
-        {t("MainPage.heroSlogan")}
+        {t("heroSlogan")}
       </Heading>
     </Flex>
   );
