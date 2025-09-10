@@ -51,7 +51,6 @@
     },
     "noProject": "Please choose a project from one of your workspaces😘",
     "noBoard": "This project doesn’t have any boards.",
-    "altProfileImage": "Profile Picture",
     "serverError": "Oops, I can't connect to the server.",
     "noName": "Anonymous"
   },
@@ -139,6 +138,7 @@
       }
     }
   },
+  "altProfileImage": "Profile Picture",
   "brandName": "Phoenix Task",
   "listLink": "List View",
   "columnLink": "Column View",

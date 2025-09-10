@@ -1,11 +1,16 @@
+"use client";
+
 import { Button, Flex, Icon } from "@/components/UI";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import PhoenixTask from "@/components/PhoenixTask";
+import { useTranslations } from "next-intl";
 
 export default function ProfileSidebar() {
-  const locale = useLocale();
   const router = useRouter();
+
+  const locale = useLocale();
+  const t = useTranslations("Profile");
 
   return (
     <Flex
@@ -19,7 +24,7 @@ export default function ProfileSidebar() {
 
         <Button onClick={() => router.push(`/${locale}/list`)}>
           <Icon iconName="Arrow" className="rotate-180" />
-          <span>بازگشت</span>
+          <span>{t("back")}</span>
         </Button>
       </div>
     </Flex>

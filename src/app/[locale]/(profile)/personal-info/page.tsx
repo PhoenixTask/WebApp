@@ -13,6 +13,7 @@ import {
   useGetProfile,
 } from "@/hooks/useUser";
 import { getUserId } from "@/functions/tokenManager";
+import { useTranslations } from "next-intl";
 
 export default function PersonalInfoPage() {
   const {
@@ -23,6 +24,8 @@ export default function PersonalInfoPage() {
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
   });
+
+  const t = useTranslations();
 
   const { data: userInfo } = useUserInfo();
 
@@ -46,14 +49,6 @@ export default function PersonalInfoPage() {
 
   return (
     <div className="w-96 mr-14">
-      <Heading
-        as="h3"
-        size="S"
-        weight="600"
-        className="text-neutral-content mb-9"
-      >
-        اطلاعات فردی
-      </Heading>
       <Flex direction="col">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <Flex gap="S" className="mb-6">
@@ -63,7 +58,7 @@ export default function PersonalInfoPage() {
                   {userProfileURL && (
                     <Image
                       src={userProfileURL}
-                      alt="تصویر پروفایل"
+                      alt={t("altProfileImage")}
                       width={100}
                       height={100}
                       objectFit="cover"
@@ -77,7 +72,7 @@ export default function PersonalInfoPage() {
                 className="border border-primary rounded-lg p-2 cursor-pointer grid place-content-center text-xl text-primary"
                 htmlFor="img"
               >
-                تغییر پروفایل
+                {t("Profile.changeProfile")}
               </label>
               <input
                 hidden
@@ -87,7 +82,7 @@ export default function PersonalInfoPage() {
                 onChange={handleProfileImageUpload}
               />{" "}
               <span className="text-xs text-neutral">
-                این تصویر رو همه می‌تونن ببینن🤭
+                {t("Profile.profileSubWarning")}
               </span>
             </Flex>
           </Flex>
@@ -95,17 +90,22 @@ export default function PersonalInfoPage() {
           <Flex direction="col" gap="S">
             <Input
               disabled
-              label="نام کاربری"
+              label={t("Profile.userName")}
               id="username"
               {...register("username")}
             />
             {/* <ErrorMessage error={errors.username} /> */}
 
-            <Input disabled label="ایمیل" id="email" {...register("email")} />
+            <Input
+              disabled
+              label={t("Profile.email")}
+              id="email"
+              {...register("email")}
+            />
             {/* <ErrorMessage error={errors.email} /> */}
 
             <Input
-              label="نام"
+              label={t("Profile.firstName")}
               id="firstName"
               className={errors.firstName?.message}
               {...register("firstName")}
@@ -113,7 +113,7 @@ export default function PersonalInfoPage() {
             <ErrorMessage error={errors.firstName} />
 
             <Input
-              label="نام خانوادگی"
+              label={t("Profile.lastName")}
               id="lastName"
               className={errors.lastName?.message}
               {...register("lastName")}
@@ -123,7 +123,7 @@ export default function PersonalInfoPage() {
 
           <div className="relative">
             <Button type="submit" size="full">
-              ثبت تغییرات
+              {t("Profile.confirmButton")}
             </Button>
           </div>
         </form>

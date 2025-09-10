@@ -1,4 +1,3 @@
-"use client";
 import { Flex } from "@/components/UI";
 import ProfileSidebar from "./components/Sidebar";
 

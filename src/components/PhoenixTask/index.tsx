@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 
 export default function PhoenixTask() {
   const t = useTranslations();
-  
+
   return (
     <GradientText
       colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}

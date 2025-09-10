@@ -79,7 +79,7 @@ export default function DashboardSidebar() {
             {userProfileURL && (
               <Image
                 src={userProfileURL}
-                alt={t("Dashboard.altProfileImage")}
+                alt={t("altProfileImage")}
                 width={100}
                 height={100}
                 className="object-cover"

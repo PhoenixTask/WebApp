@@ -38,7 +38,7 @@ export default function LandingNavbar() {
               >
                 <Image
                   src={userProfileURL}
-                  alt="تصویر پروفایل"
+                  alt={t("altProfileImage")}
                   width={100}
                   height={100}
                   className="object-cover"
