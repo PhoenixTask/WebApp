@@ -9,9 +9,10 @@ import {
   Heading,
   Icon,
 } from "@/components/UI";
-import { schema, schemaType } from "@/schemas/modals/workspace";
+import { getSchema, schemaType } from "@/schemas/modals/workspace";
 import { useCreateWorkspace } from "@/hooks/useWorkspaces";
 import { useEffect } from "react";
+import { useSchema } from "@/hooks/useSchema";
 
 type CreateWorkspaceModalProps = {
   onClose: () => void;
@@ -20,6 +21,8 @@ type CreateWorkspaceModalProps = {
 export default function CreateWorkspaceModal({
   onClose,
 }: CreateWorkspaceModalProps) {
+  const { t, schema } = useSchema(getSchema, "Modals.Create.Workspace");
+
   const {
     register,
     handleSubmit,
@@ -48,12 +51,16 @@ export default function CreateWorkspaceModal({
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
-        ساخت میزکار جدید
+        {t("title")}
       </Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control mb-4">
-          <Input withLabel={false} label="نام میزکار" {...register("name")} />
+          <Input
+            withLabel={false}
+            label={t("name")}
+            {...register("name")}
+          />
           <ErrorMessage error={errors.name} />
         </div>
 
@@ -71,7 +78,7 @@ export default function CreateWorkspaceModal({
             variant="primary"
             disabled={!isValid}
           >
-            ایجاد
+            {t("button")}
           </Button>
         </div>
       </form>

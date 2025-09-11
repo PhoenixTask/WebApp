@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, ErrorMessage, Heading, Input, Modal, Icon } from "@/components/UI";
-import { schema, schemaType } from "@/schemas/modals/task";
+import {
+  Button,
+  ErrorMessage,
+  Heading,
+  Input,
+  Modal,
+  Icon,
+} from "@/components/UI";
+import { getSchema, schemaType } from "@/schemas/modals/task";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useCreateTask } from "@/hooks/useTasks";
@@ -10,8 +17,8 @@ import PersianDatePicker from "@/components/PersianDatePicker";
 import { newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
 import { DateToString } from "@/functions/date";
-import { priorityLabel } from "@/constants";
 import { useBoards } from "@/hooks/useBoards";
+import { useSchema } from "@/hooks/useSchema";
 
 type CreateTaskModalProps = {
   onClose: () => void;
@@ -22,6 +29,10 @@ export default function CreateTaskModal({
   onClose,
   selectedDate,
 }: CreateTaskModalProps) {
+  const { t, schema } = useSchema(getSchema, "Modals.Create.Task");
+
+  const prioritiesLabel = t("priorities").split(",");
+
   const {
     register,
     handleSubmit,
@@ -65,7 +76,7 @@ export default function CreateTaskModal({
   return (
     <Modal size="lg" onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
-        ساخت تسک جدید
+        {t("title")}
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-row items-center mb-2">
@@ -73,14 +84,12 @@ export default function CreateTaskModal({
             htmlFor="board-select"
             className="ml-2 text-sm font-medium text-gray-700"
           >
-            انتخاب بورد:
+            {t("selectBoard")}
           </label>
           <select
             id="board-select"
             value={activeBoardId || ""}
-            onClick={(e) =>
-              storeActiveBoard((e.target as HTMLSelectElement).value)
-            }
+            onChange={(e) => storeActiveBoard(e.target.value)}
             className="w-52 px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
           >
             {boards?.map((board) => (
@@ -92,7 +101,7 @@ export default function CreateTaskModal({
         </div>
 
         <div className="form-control mb-4 w-52">
-          <Input withLabel={false} label="عنوان تسک" {...register("name")} />
+          <Input withLabel={false} label={t("name")} {...register("name")} />
           <ErrorMessage error={errors.name} />
         </div>
         <div className="form-control mb-4">
@@ -100,7 +109,7 @@ export default function CreateTaskModal({
             className="resize-none h-20"
             withLabel={false}
             type="textarea"
-            label="توضیحات تسک"
+            label={t("description")}
             {...register("description")}
           />
           <ErrorMessage error={errors.description} />
@@ -114,12 +123,13 @@ export default function CreateTaskModal({
               onClick={() => setOpenPopover((prev) => !prev)}
             >
               <Icon iconName="Flag" className={priorityColors[priority]} />
-              <span className="ml-2">{priorityLabel[priority]}</span>
+              <span className="ml-2">{prioritiesLabel[priority]}</span>
             </div>
 
             <PriorityPopover
               anchorRef={buttonRef}
               openPopover={openPopover}
+              prioritiesLabel={prioritiesLabel}
               onClose={() => setOpenPopover(false)}
               onSelect={(val) => {
                 setValue("priority", val, {
@@ -142,7 +152,7 @@ export default function CreateTaskModal({
             variant="primary"
             disabled={!isValid}
           >
-            ایجاد
+            {t("button")}
           </Button>
         </div>
       </form>

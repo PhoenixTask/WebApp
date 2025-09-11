@@ -3,7 +3,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { localeType } from "@/i18n/locales";
-import { Fragment } from "react";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

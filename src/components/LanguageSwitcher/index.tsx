@@ -71,7 +71,7 @@ export default function LanguageSwitcher() {
       >
         {routing.locales.map((lang) => {
           const isActive = locale === lang;
-          const label = languages[locale].name;
+          const label = languages[lang].name;
 
           return (
             <li key={lang}>

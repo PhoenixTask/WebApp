@@ -7,7 +7,7 @@ import {
   Modal,
   Icon,
 } from "@/components/UI";
-import { schema, schemaType } from "@/schemas/modals/task";
+import { getSchema, schemaType } from "@/schemas/modals/task";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEditTask } from "@/hooks/useTasks";
@@ -17,14 +17,18 @@ import PersianDatePicker from "@/components/PersianDatePicker";
 import { newDate } from "date-fns-jalali";
 import { DateObject } from "react-multi-date-picker";
 import { DateToString, ChangeFormStrDate } from "@/functions/date";
-import { priorityLabel } from "@/constants";
 import { GetOneTaskAPI } from "@/services/task";
+import { useSchema } from "@/hooks/useSchema";
 
 type EditTaskModalProps = {
   onClose: () => void;
 };
 
 export default function EditTaskModal({ onClose }: EditTaskModalProps) {
+  const { t, schema } = useSchema(getSchema, "Modals.Edit.Task");
+
+  const prioritiesLabel = t("priorities").split(",");
+
   const {
     register,
     handleSubmit,
@@ -86,11 +90,11 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
   return (
     <Modal size="lg" onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
-        ویرایش تسک
+        {t("title")}
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control mb-4 w-52">
-          <Input withLabel={false} label="عنوان تسک" {...register("name")} />
+          <Input withLabel={false} label={t("name")} {...register("name")} />
           <ErrorMessage error={errors.name} />
         </div>
         <div className="form-control mb-4">
@@ -98,7 +102,7 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
             className="resize-none h-20"
             withLabel={false}
             type="textarea"
-            label="توضیحات تسک"
+            label={t("description")}
             {...register("description")}
           />
           <ErrorMessage error={errors.description} />
@@ -112,12 +116,13 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
               onClick={() => setOpenPopover((prev) => !prev)}
             >
               <Icon iconName="Flag" className={priorityColors[priority]} />
-              <span className="ml-2">{priorityLabel[priority]}</span>
+              <span className="ml-2">{prioritiesLabel[priority]}</span>
             </div>
 
             <PriorityPopover
               anchorRef={buttonRef}
               openPopover={openPopover}
+              prioritiesLabel={prioritiesLabel}
               onClose={() => setOpenPopover(false)}
               onSelect={(val) => {
                 setValue("priority", val, {
@@ -138,7 +143,7 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
             variant="primary"
             disabled={!isValid}
           >
-            ویرایش
+            {t("button")}
           </Button>
         </div>
       </form>

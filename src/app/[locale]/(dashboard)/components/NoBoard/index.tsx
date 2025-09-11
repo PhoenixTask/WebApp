@@ -16,11 +16,7 @@ export default function NoBoard() {
       {...direction(locale)}
       className="px-2.5 w-full flex flex-col items-center gap-5"
     >
-      <Button
-        onClick={() => openModal("create-board")}
-        variant="outline"
-        size="default"
-      >
+      <Button onClick={() => openModal("create-board")} variant="outline">
         {t("Dashboard.newBoard")}
       </Button>
       <div className="m-auto">{t("Dashboard.noBoard")}</div>

@@ -3,20 +3,20 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { schema, schemaType } from "@/schemas/register";
+import { getSchema, schemaType } from "@/schemas/register";
 import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { chooseRandomName } from "@/functions/chooseRandomName";
 import { useEffect } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useSchema } from "@/hooks/useSchema";
+import { direction } from "@/functions/languageHandler";
 
 export default function RegisterPage() {
   const router = useRouter();
 
-  const locale = useLocale();
-  const t = useTranslations("Portal");
+  const { t, locale, schema } = useSchema(getSchema, "Portal");
 
   const {
     register,
@@ -42,7 +42,7 @@ export default function RegisterPage() {
             label={t("userName")}
             {...register("username")}
           />
-          <ErrorMessage error={errors.username} />
+          <ErrorMessage {...direction(locale)} error={errors.username} />
 
           <Input
             id="email"
@@ -50,7 +50,7 @@ export default function RegisterPage() {
             type="email"
             {...register("email")}
           />
-          <ErrorMessage error={errors.email} />
+          <ErrorMessage {...direction(locale)} error={errors.email} />
 
           <Input
             id="password"
@@ -58,7 +58,7 @@ export default function RegisterPage() {
             type="password"
             {...register("password")}
           />
-          <ErrorMessage error={errors.password} />
+          <ErrorMessage {...direction(locale)} error={errors.password} />
 
           <Input
             id="confirmPassword"
@@ -66,7 +66,7 @@ export default function RegisterPage() {
             type="password"
             {...register("confirmPassword")}
           />
-          <ErrorMessage error={errors.confirmPassword} />
+          <ErrorMessage {...direction(locale)} error={errors.confirmPassword} />
 
           <Button
             disabled={isLoading}

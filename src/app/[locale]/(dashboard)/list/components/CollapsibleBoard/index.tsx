@@ -5,8 +5,8 @@ import useModal from "@/store/useModal";
 import useActiveState from "@/store/useActiveState";
 import { useState } from "react";
 import { MiladiToShamsi } from "@/functions/date";
-import { priorityLabel } from "@/constants";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 type CollapsibleBoardProps = {
   boardName: string;
@@ -19,6 +19,10 @@ export default function CollapsibleBoard({
   boardName,
   boardColor,
 }: CollapsibleBoardProps) {
+  const t = useTranslations("Dashboard");
+
+  const prioritiesLabel = t("ListPage.priorities").split(",");
+
   const { storeActiveBoard, storeActiveTask } = useActiveState();
 
   const { data: tasks } = useTasks(boardId);
@@ -62,15 +66,15 @@ export default function CollapsibleBoard({
       >
         <div className="flex flex-col w-full">
           {!tasks || !tasks[0] ? (
-            <div className="m-auto mt-2">این ستون هیچ تسکی نداره😔</div>
+            <div className="m-auto mt-2">{t("noTask")}</div>
           ) : (
             <table className="w-full table-fixed border-separate border-spacing-y-2 text-sm text-base-content">
               <thead>
                 <tr className="text-base font-semibold text-center">
-                  <th className="py-3 px-2">عنوان</th>
-                  <th className="py-3 px-2">اولویت</th>
-                  <th className="py-3 px-2">ضرب‌العجل</th>
-                  <th className="py-3 px-2">توضیحات</th>
+                  <th className="py-3 px-2">{t("ListPage.title")}</th>
+                  <th className="py-3 px-2">{t("ListPage.priority")}</th>
+                  <th className="py-3 px-2">{t("ListPage.deadline")}</th>
+                  <th className="py-3 px-2">{t("ListPage.description")}</th>
                   <th className="w-16" />
                 </tr>
               </thead>
@@ -89,7 +93,7 @@ export default function CollapsibleBoard({
                         <div className="flex justify-center gap-1">
                           <div
                             className="tooltip"
-                            data-tip={priorityLabel[priority]}
+                            data-tip={prioritiesLabel[priority]}
                           >
                             <Icon
                               className={clsx(
@@ -107,13 +111,11 @@ export default function CollapsibleBoard({
                       <td className="py-2 flex gap-2 justify-center items-center">
                         <Button
                           mode="warning-bubble"
-                          aria-label="ویرایش"
                           className="w-5 h-5"
                           onClick={(e) => handleEditTask(e, taskId)}
                         />
                         <Button
                           mode="error-bubble"
-                          aria-label="حذف"
                           className="w-4 h-4"
                           onClick={(e) => handleDeleteTask(e, taskId)}
                         />
@@ -125,9 +127,7 @@ export default function CollapsibleBoard({
             </table>
           )}
         </div>
-        <Button onClick={handleCreateTask} size="small">
-          ایجاد تسک
-        </Button>
+        <Button onClick={handleCreateTask}>{t("newTask")}</Button>
       </Flex>
     </div>
   );

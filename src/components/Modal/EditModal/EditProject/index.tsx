@@ -9,17 +9,20 @@ import {
   Heading,
   Icon,
 } from "@/components/UI";
-import { schema, schemaType } from "@/schemas/modals/project";
+import { getSchema, schemaType } from "@/schemas/modals/project";
 import { useEditProject } from "@/hooks/useProjects";
 import useActiveState from "@/store/useActiveState";
 import { GetOneProjectAPI } from "@/services/project";
 import { useEffect } from "react";
+import { useSchema } from "@/hooks/useSchema";
 
 type EditProjectModalProps = {
   onClose: () => void;
 };
 
 export default function EditProjectModal({ onClose }: EditProjectModalProps) {
+  const { t, schema } = useSchema(getSchema, "Modals.Edit.Project");
+
   const {
     register,
     handleSubmit,
@@ -57,12 +60,12 @@ export default function EditProjectModal({ onClose }: EditProjectModalProps) {
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
-        ویرایش پروژه
+        {t("title")}
       </Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control mb-4">
-          <Input withLabel={false} label="نام پروژه" {...register("name")} />
+          <Input withLabel={false} label={t("name")} {...register("name")} />
           <ErrorMessage error={errors.name} />
         </div>
 
@@ -80,7 +83,7 @@ export default function EditProjectModal({ onClose }: EditProjectModalProps) {
             variant="primary"
             disabled={!isValid}
           >
-            ویرایش
+            {t("button")}
           </Button>
         </div>
       </form>

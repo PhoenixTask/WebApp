@@ -1,9 +1,9 @@
 "use client";
 
-import { Button, Input, Flex, Heading, ErrorMessage } from "@/components/UI";
+import { Button, Input, Flex, ErrorMessage } from "@/components/UI";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { schema, schemaType } from "@/schemas/personalInfo";
+import { getSchema, schemaType } from "@/schemas/personalInfo";
 import Image from "next/image";
 import { useEffect } from "react";
 import {
@@ -13,10 +13,12 @@ import {
   useGetProfile,
 } from "@/hooks/useUser";
 import { getUserId } from "@/functions/tokenManager";
-import { useLocale, useTranslations } from "next-intl";
 import { direction } from "@/functions/languageHandler";
+import { useSchema } from "@/hooks/useSchema";
 
 export default function PersonalInfoPage() {
+  const { t, locale, schema } = useSchema(getSchema);
+
   const {
     register,
     handleSubmit,
@@ -25,9 +27,6 @@ export default function PersonalInfoPage() {
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
   });
-
-  const locale = useLocale();
-  const t = useTranslations();
 
   const { data: userInfo } = useUserInfo();
 
@@ -112,7 +111,7 @@ export default function PersonalInfoPage() {
               className={errors.firstName?.message}
               {...register("firstName")}
             />
-            <ErrorMessage error={errors.firstName} />
+            <ErrorMessage {...direction(locale)} error={errors.firstName} />
 
             <Input
               label={t("Profile.lastName")}
@@ -120,7 +119,7 @@ export default function PersonalInfoPage() {
               className={errors.lastName?.message}
               {...register("lastName")}
             />
-            <ErrorMessage error={errors.lastName} />
+            <ErrorMessage {...direction(locale)} error={errors.lastName} />
           </Flex>
 
           <div className="relative">

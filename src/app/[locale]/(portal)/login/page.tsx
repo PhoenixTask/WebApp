@@ -9,16 +9,13 @@ import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
 import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { useEffect } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { localeType } from "@/i18n/locales";
+import { useSchema } from "@/hooks/useSchema";
+import { direction } from "@/functions/languageHandler";
 
 export default function LoginPage() {
   const router = useRouter();
 
-  const locale = useLocale() as localeType;
-  const t = useTranslations("Portal");
-
-  const schema = getSchema(locale as "en" | "fa");
+  const { t, locale, schema } = useSchema(getSchema, "Portal");
 
   const {
     register,
@@ -45,7 +42,7 @@ export default function LoginPage() {
               label={t("userName")}
               {...register("username")}
             />
-            <ErrorMessage error={errors.username} />
+            <ErrorMessage {...direction(locale)} error={errors.username} />
 
             <Flex direction="col">
               <Input
@@ -54,7 +51,7 @@ export default function LoginPage() {
                 type="password"
                 label={t("password")}
               />
-              <ErrorMessage error={errors.password} />
+              <ErrorMessage {...direction(locale)} error={errors.password} />
             </Flex>
           </Flex>
           <Flex gap="M" direction="col">

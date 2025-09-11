@@ -6,7 +6,7 @@ type AuthLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export default async function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="h-screen grid 2xl:grid-cols-12 2xl:grid-rows-12">
       <Modal />

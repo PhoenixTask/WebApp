@@ -47,10 +47,12 @@
       "title": "Title",
       "priority": "Priority",
       "deadline": "Deadline",
-      "description": "Description"
+      "description": "Description",
+      "priorities": "No Priority,Low,Medium,High,Urgent"
     },
     "noProject": "Please choose a project from one of your workspaces😘",
     "noBoard": "This project doesn’t have any boards.",
+    "noTask": "This board doesn’t have any tasks.",
     "serverError": "Oops, I can't connect to the server.",
     "noName": "Anonymous"
   },
@@ -68,50 +70,50 @@
     "Create": {
       "Workspace": {
         "title": "Create New Workspace",
-        "titleLabel": "Workspace Name",
+        "name": "Workspace Name",
         "button": "Create"
       },
       "Project": {
         "title": "Create New Project",
-        "titleLabel": "Project Name",
+        "name": "Project Name",
         "button": "Create"
       },
       "Board": {
         "title": "Create New Board",
-        "titleLabel": "Board Name",
+        "name": "Board Name",
         "button": "Create"
       },
       "Task": {
         "title": "Create New Task",
-        "titleLabel": "Task Name",
-        "DescriptionLabel": "Task Description",
+        "name": "Task Name",
+        "description": "Task Description",
         "selectBoard": "Select Board",
-        "priority": ["No Priority", "Low", "Medium", "High", "Urgent"],
+        "priorities": "No Priority,Low,Medium,High,Urgent",
         "button": "Create"
       }
     },
     "Edit": {
       "Workspace": {
         "title": "Edit Workspace",
-        "titleLabel": "Workspace Name",
+        "name": "Workspace Name",
         "button": "Edit"
       },
       "Project": {
         "title": "Edit Project",
-        "titleLabel": "Project Name",
+        "name": "Project Name",
         "button": "Edit"
       },
       "Board": {
         "title": "Edit Board",
-        "titleLabel": "Board Name",
+        "name": "Board Name",
         "button": "Edit"
       },
       "Task": {
         "title": "Edit Task",
-        "titleLabel": "Task Name",
-        "DescriptionLabel": "Task Description",
+        "name": "Task Name",
+        "description": "Task Description",
         "selectBoard": "Select Board",
-        "priority": ["No Priority", "Low", "Medium", "High", "Urgent"],
+        "priorities": "No Priority,Low,Medium,High,Urgent",
         "button": "Edit"
       }
     },
