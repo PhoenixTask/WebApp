@@ -14,7 +14,7 @@ import {
 } from "@/hooks/useUser";
 import { getUserId } from "@/functions/tokenManager";
 import { useLocale, useTranslations } from "next-intl";
-import { direction } from "@/functions/localeProperty";
+import { direction } from "@/functions/languageHandler";
 
 export default function PersonalInfoPage() {
   const {

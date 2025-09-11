@@ -1,6 +1,6 @@
 import { Flex } from "@/components/UI";
 import AuthHeader from "./components/AuthHeader";
-import { direction } from "@/functions/localeProperty";
+import { direction } from "@/functions/languageHandler";
 
 type AuthLayoutProps = {
   children: React.ReactNode;

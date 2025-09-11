@@ -4,18 +4,21 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { schema, schemaType } from "@/schemas/login";
+import { getSchema, schemaType } from "@/schemas/login";
 import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
 import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { localeType } from "@/i18n/locales";
 
 export default function LoginPage() {
   const router = useRouter();
 
-  const locale = useLocale();
+  const locale = useLocale() as localeType;
   const t = useTranslations("Portal");
+
+  const schema = getSchema(locale as "en" | "fa");
 
   const {
     register,

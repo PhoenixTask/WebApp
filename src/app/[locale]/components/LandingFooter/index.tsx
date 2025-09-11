@@ -1,6 +1,6 @@
 import { Flex } from "@/components/UI";
 import GithubButton from "@/components/UI/GithubButton";
-import { direction } from "@/functions/localeProperty";
+import { direction } from "@/functions/languageHandler";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 type Props = {

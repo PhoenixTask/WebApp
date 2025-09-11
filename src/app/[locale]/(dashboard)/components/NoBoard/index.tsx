@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/UI";
-import { direction } from "@/functions/localeProperty";
+import { direction } from "@/functions/languageHandler";
 import useModal from "@/store/useModal";
 import { useLocale, useTranslations } from "next-intl";
 

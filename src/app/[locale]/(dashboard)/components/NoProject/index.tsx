@@ -1,6 +1,6 @@
 "use client";
 
-import { direction } from "@/functions/localeProperty";
+import { direction } from "@/functions/languageHandler";
 import { useLocale, useTranslations } from "next-intl";
 
 export default function NoProject() {

@@ -1,5 +1,5 @@
 import { format } from "date-fns-jalali";
-import { ConvertToFaNumber } from "./numberFormat";
+import { ConvertToFaNumber } from "./languageHandler";
 
 // Date(Miladi) => "YYYY-MM-DD"(Miladi)
 export function DateToString(date: Date): string {

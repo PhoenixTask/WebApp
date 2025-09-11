@@ -1,5 +1,5 @@
 import { getRequestConfig } from "next-intl/server";
-import { localeType, timeZones } from "./locales";
+import { localeType, languages } from "./locales";
 import { routing } from "./routing";
 
 async function loadMessages(
@@ -31,7 +31,7 @@ function resolveLocale(locale?: string): localeType {
 export default getRequestConfig(async ({ requestLocale }) => {
   const locale = resolveLocale(await requestLocale);
   const messages = await loadMessages(locale);
-  const timeZone = timeZones[locale] ?? "UTC";
+  const timeZone = languages[locale].timeZone ?? "UTC";
 
   return { locale, messages, timeZone };
 });

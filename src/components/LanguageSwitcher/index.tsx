@@ -4,11 +4,11 @@ import { startTransition, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { routing, usePathname } from "@/i18n/routing";
-import { languages } from "@/i18n/locales";
+import { languages, localeType } from "@/i18n/locales";
 import clsx from "clsx";
 
 export default function LanguageSwitcher() {
-  const locale = useLocale();
+  const locale = useLocale() as localeType;
   const pathname = usePathname();
   const router = useRouter();
 
@@ -63,7 +63,7 @@ export default function LanguageSwitcher() {
         tabIndex={0}
         className="btn m-1 rounded-full bg-accent text-accent-content"
       >
-        {languages[locale]}
+        {languages[locale].name}
       </label>
       <ul
         tabIndex={0}
@@ -71,7 +71,7 @@ export default function LanguageSwitcher() {
       >
         {routing.locales.map((lang) => {
           const isActive = locale === lang;
-          const label = languages[lang];
+          const label = languages[locale].name;
 
           return (
             <li key={lang}>
