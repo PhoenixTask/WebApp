@@ -9,17 +9,20 @@ import {
   Heading,
   Icon,
 } from "@/components/UI";
-import { schema, schemaType } from "@/schemas/modals/board";
+import { getSchema, schemaType } from "@/schemas/modals/board";
 import { useEditBoard } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
 import { GetOneBoardAPI } from "@/services/board";
 import { useEffect, useRef } from "react";
+import { useSchema } from "@/hooks/useSchema";
 
 type EditBoardModalProps = {
   onClose: () => void;
 };
 
 export default function EditBoardModal({ onClose }: EditBoardModalProps) {
+  const { t, schema } = useSchema(getSchema, "Modals.Edit.Board");
+
   const {
     register,
     handleSubmit,
@@ -62,12 +65,12 @@ export default function EditBoardModal({ onClose }: EditBoardModalProps) {
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
-        ویرایش ستون
+        {t("title")}
       </Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control mb-4">
-          <Input withLabel={false} label="نام ستون" {...register("name")} />
+          <Input withLabel={false} label={t("name")} {...register("name")} />
           <ErrorMessage error={errors.name} />
         </div>
 
@@ -80,7 +83,7 @@ export default function EditBoardModal({ onClose }: EditBoardModalProps) {
 
         <div className="modal-action flex justify-center">
           <Button type="submit" size="full" disabled={!isValid}>
-            ویرایش
+            {t("button")}
           </Button>
         </div>
       </form>

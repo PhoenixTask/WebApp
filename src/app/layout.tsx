@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 import QueryProvider from "@/providers/TanstackQueryProvider";
 import localFont from "next/font/local";
 import "@/assets/globals.css";
-import { ThemeProvider } from "@/context/ThemeContext";
+import { ThemeProvider } from "@/providers/ThemeContext";
 
 const IranYekan = localFont({
   src: [
@@ -53,7 +53,7 @@ const IranYekan = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "فونیکس تسک",
+  title: "Phoenix Task",
   description: "a web-app for everything",
   icons: {
     icon: [

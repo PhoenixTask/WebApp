@@ -1,0 +1,45 @@
+"use client";
+
+import CollapsibleBoard from "./components/CollapsibleBoard";
+import { BoardType } from "@/types/board";
+import { useBoards } from "@/hooks/useBoards";
+import useActiveState from "@/store/useActiveState";
+import useModal from "@/store/useModal";
+import { Button } from "@/components/UI";
+import { useTranslations } from "next-intl";
+import NoProject from "../components/NoProject";
+import NoBoard from "../components/NoBoard";
+
+export default function ListViewPage() {
+  const { activeWorkspaceId, activeProjectId } = useActiveState();
+
+  const { data: boards } = useBoards(activeProjectId);
+
+  const { openModal } = useModal();
+
+  const t = useTranslations();
+
+  if (!activeProjectId || !activeWorkspaceId) return <NoProject />;
+
+  if (boards?.length === 0) return <NoBoard />;
+
+  return (
+    <div className="p-2.5 w-full flex flex-col items-center gap-2">
+      <Button
+        onClick={() => openModal("create-board")}
+        variant="outline"
+        size="small"
+      >
+        {t("Dashboard.newBoard")}
+      </Button>
+      {boards?.map(({ id, name, color }: BoardType) => (
+        <CollapsibleBoard
+          key={id}
+          boardId={id}
+          boardName={name}
+          boardColor={color}
+        />
+      ))}
+    </div>
+  );
+}

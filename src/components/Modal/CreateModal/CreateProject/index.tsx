@@ -9,10 +9,11 @@ import {
   Heading,
   Icon,
 } from "@/components/UI";
-import { schema, schemaType } from "@/schemas/modals/project";
+import { getSchema, schemaType } from "@/schemas/modals/project";
 import { useCreateProject } from "@/hooks/useProjects";
 import useActiveState from "@/store/useActiveState";
 import { useEffect } from "react";
+import { useSchema } from "@/hooks/useSchema";
 
 type CreateProjectModalProps = {
   onClose: () => void;
@@ -21,6 +22,8 @@ type CreateProjectModalProps = {
 export default function CreateProjectModal({
   onClose,
 }: CreateProjectModalProps) {
+  const { t, schema } = useSchema(getSchema, "Modals.Create.Project");
+
   const {
     register,
     handleSubmit,
@@ -51,12 +54,12 @@ export default function CreateProjectModal({
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
-        ساخت پروژه‌ی جدید
+        {t("title")}
       </Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control mb-4">
-          <Input withLabel={false} label="نام پروژه" {...register("name")} />
+          <Input withLabel={false} label={t("name")} {...register("name")} />
           <ErrorMessage error={errors.name} />
         </div>
 
@@ -74,7 +77,7 @@ export default function CreateProjectModal({
             variant="primary"
             disabled={!isValid}
           >
-            ایجاد
+            {t("button")}
           </Button>
         </div>
       </form>

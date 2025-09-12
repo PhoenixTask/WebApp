@@ -23,6 +23,7 @@ type Props = {
   size?: keyof typeof Size;
   weight?: keyof typeof fontWeight;
   className?: string;
+  direction?: "rtl" | "ltr";
 };
 
 const Heading: FC<Props> = ({
@@ -32,10 +33,12 @@ const Heading: FC<Props> = ({
   weight = "800",
   align = "right",
   className = "",
+  direction,
 }) => {
   return createElement(
     as,
     {
+      dir: direction,
       className: clsx(
         Size[size],
         fontWeight[weight],

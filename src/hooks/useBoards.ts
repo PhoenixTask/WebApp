@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CreateBoardAPI,
-  GetBoardAPI,
+  GetBoardsAPI,
   DeleteBoardAPI,
   EditBoardAPI,
   EditBoardsOrderAPI,
@@ -22,7 +22,7 @@ export const useBoards = (projectId: string | null) => {
       if (projectId === null) {
         return Promise.resolve([]);
       }
-      return GetBoardAPI({ id: projectId });
+      return GetBoardsAPI({ id: projectId });
     },
     staleTime: 1000 * 60 * 5,
     select: (boards) => boards.sort((a, b) => a.order - b.order),

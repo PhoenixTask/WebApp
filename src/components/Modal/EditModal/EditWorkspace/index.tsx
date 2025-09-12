@@ -9,11 +9,12 @@ import {
   Heading,
   Icon,
 } from "@/components/UI";
-import { schema, schemaType } from "@/schemas/modals/workspace";
+import { getSchema, schemaType } from "@/schemas/modals/workspace";
 import { useEditWorkspace } from "@/hooks/useWorkspaces";
 import useActiveState from "@/store/useActiveState";
 import { GetOneWorkspaceAPI } from "@/services/workspace";
 import { useEffect } from "react";
+import { useSchema } from "@/hooks/useSchema";
 
 type EditWorkspaceModalProps = {
   onClose: () => void;
@@ -22,6 +23,8 @@ type EditWorkspaceModalProps = {
 export default function EditWorkspaceModal({
   onClose,
 }: EditWorkspaceModalProps) {
+  const { t, schema } = useSchema(getSchema, "Modals.Edit.Workspace");
+
   const {
     register,
     handleSubmit,
@@ -58,12 +61,12 @@ export default function EditWorkspaceModal({
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
-        ویرایش میزکار
+        {t("title")}
       </Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control mb-4">
-          <Input withLabel={false} label="نام میزکار" {...register("name")} />
+          <Input withLabel={false} label={t("name")} {...register("name")} />
           <ErrorMessage error={errors.name} />
         </div>
 
@@ -81,7 +84,7 @@ export default function EditWorkspaceModal({
             variant="primary"
             disabled={!isValid}
           >
-            ویرایش
+            {t("button")}
           </Button>
         </div>
       </form>

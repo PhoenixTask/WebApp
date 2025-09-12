@@ -8,7 +8,7 @@ import {
   AllTasksInProjectType,
 } from "@/types/project";
 
-export const GetProjectAPI = async ({
+export const GetProjectsAPI = async ({
   id: workspaceId,
 }: WorkspaceIdType): Promise<ProjectType[]> => {
   const response = await Axios.get(`/v1/workspace/${workspaceId}/project`);
@@ -38,8 +38,8 @@ export const GetOneProjectAPI = async ({ id }: ProjectIdType) => {
 export const GetAllTasksInProjectAPI = async ({
   id: projectId,
 }: ProjectIdType): Promise<AllTasksInProjectType[]> => {
-  const response = await Axios.get(
-    `/v1/task/tasks-with-board?projectId=${projectId}`
-  );
+  const response = await Axios.get("/v1/task/tasks-with-board", {
+    params: { projectId },
+  });
   return response.data;
 };

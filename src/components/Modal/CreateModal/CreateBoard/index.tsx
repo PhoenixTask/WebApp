@@ -9,16 +9,19 @@ import {
   Heading,
   Icon,
 } from "@/components/UI";
-import { schema, schemaType } from "@/schemas/modals/board";
+import { getSchema, schemaType } from "@/schemas/modals/board";
 import { useCreateBoard } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
 import { useEffect } from "react";
+import { useSchema } from "@/hooks/useSchema";
 
 type CreateBoardModalProps = {
   onClose: () => void;
 };
 
 export default function CreateBoardModal({ onClose }: CreateBoardModalProps) {
+  const { t, schema } = useSchema(getSchema, "Modals.Create.Board");
+
   const {
     register,
     handleSubmit,
@@ -49,12 +52,12 @@ export default function CreateBoardModal({ onClose }: CreateBoardModalProps) {
   return (
     <Modal onClose={onClose} closeIcon={<Icon iconName="Close" />}>
       <Heading as="h3" align="center" className="mb-4">
-        ساخت ستون جدید
+        {t("title")}
       </Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control mb-4">
-          <Input withLabel={false} label="نام ستون" {...register("name")} />
+          <Input withLabel={false} label={t("name")} {...register("name")} />
           <ErrorMessage error={errors.name} />
         </div>
 
@@ -67,7 +70,7 @@ export default function CreateBoardModal({ onClose }: CreateBoardModalProps) {
 
         <div className="modal-action flex justify-center">
           <Button type="submit" size="full" disabled={!isValid}>
-            ایجاد
+            {t("button")}
           </Button>
         </div>
       </form>

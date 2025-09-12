@@ -1,14 +1,22 @@
+import { localeType } from "@/i18n/locales";
 import { z } from "zod";
 
 const errorMessages = {
-  nameRequired: "نمی‌تونی نامی برای ستون مشخص نکنی!",
+  en: {
+    nameRequired: "You must provide a name for the column!",
+  },
+  fa: {
+    nameRequired: "نمی‌تونی نامی برای ستون مشخص نکنی!",
+  },
 };
 
-const schema = z.object({
-  name: z.string().trim().min(1, errorMessages.nameRequired),
-  color: z.string(),
-});
+export const getSchema = (locale: localeType) =>
+  z.object({
+    name: z
+      .string()
+      .trim()
+      .min(1, { message: errorMessages[locale].nameRequired }),
+    color: z.string(),
+  });
 
-type schemaType = z.infer<typeof schema>;
-
-export { schema, type schemaType };
+export type schemaType = z.infer<ReturnType<typeof getSchema>>;

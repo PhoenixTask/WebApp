@@ -50,6 +50,14 @@ const processQueue = (
   failedQueue = [];
 };
 
+function redirectToLogin() {
+  if (typeof window === "undefined") return;
+
+  const locale = window.location.pathname.split("/")[1] || "en";
+
+  window.location.replace(`/${locale}/login`);
+}
+
 Axios.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -107,18 +115,21 @@ Axios.interceptors.response.use(
           return Axios(originalRequest);
         } catch (refreshError) {
           removeTokens();
+          
           processQueue(refreshError as AxiosError, null);
 
-          window.location.href = "/login";
+          redirectToLogin();
           return Promise.reject(refreshError);
         } finally {
           isRefreshing = false;
         }
       } else {
         removeTokens();
+
         isRefreshing = false;
         processQueue(error, null);
-        window.location.href = "/login";
+
+        redirectToLogin();
         return Promise.reject(error);
       }
     }

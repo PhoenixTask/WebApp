@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  LoginType,
-  RegisterType,
-  EditUserInfoType,
-  UploadProfileType,
-} from "@/types/user";
+import { LoginType, RegisterType, EditUserInfoType } from "@/types/user";
 import {
   EditUserInfoAPI,
   GetProfileAPI,

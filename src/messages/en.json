@@ -1,0 +1,149 @@
+{
+  "MainPage": {
+    "personalInfoLink": "Account Settings",
+    "heroTitle": "Phoenix Task",
+    "heroSlogan": "An open-source task manager inspired by Trello and Quera Task Manager :)",
+    "Features": [
+      {
+        "title": "Column View of Tasks",
+        "description": "In the column view, your tasks are displayed in customizable columns. With drag & drop functionality, you can easily move tasks between columns, change priorities, and manage project progress visually and quickly.",
+        "altImage": "Column View"
+      },
+      {
+        "title": "List View of Tasks",
+        "description": "The list view allows you to see all tasks in a linear and compact structure. In this view, task details such as descriptions, labels, and deadlines are visible and editable all at once; ideal for quick review and precise management.",
+        "altImage": "List View"
+      },
+      {
+        "title": "Calendar View of Tasks",
+        "description": "In the calendar view, your tasks and events are displayed daily, weekly, or monthly on an interactive calendar. This helps you plan deadlines and events more accurately and manage tasks directly from the calendar.",
+        "altImage": "Calendar View"
+      }
+    ],
+    "madeWith": "Made with 🩷"
+  },
+  "Portal": {
+    "Login": {
+      "title": "Login",
+      "welcome": "Welcome back 😄",
+      "header": "Haven’t signed up yet?"
+    },
+    "Register": {
+      "title": "Register",
+      "welcome": "Join the Phoenix Task community 😎",
+      "header": "Already signed up?"
+    },
+    "userName": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password"
+  },
+  "Dashboard": {
+    "newWorkspace": "Create New Workspace",
+    "newProject": "Create New Project",
+    "newBoard": "Create New Board",
+    "newTask": "Create New Task",
+    "ListPage": {
+      "title": "Title",
+      "priority": "Priority",
+      "deadline": "Deadline",
+      "description": "Description",
+      "priorities": "No Priority,Low,Medium,High,Urgent"
+    },
+    "noProject": "Please choose a project from one of your workspaces😘",
+    "noBoard": "This project doesn’t have any boards.",
+    "noTask": "This board doesn’t have any tasks.",
+    "serverError": "Oops, I can't connect to the server.",
+    "noName": "Anonymous"
+  },
+  "Profile": {
+    "back": "Back",
+    "changeProfile": "Change Profile",
+    "profileSubWarning": "Everyone can see this picture 🤭",
+    "userName": "Username",
+    "email": "Email",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "confirmButton": "Save Changes"
+  },
+  "Modals": {
+    "Create": {
+      "Workspace": {
+        "title": "Create New Workspace",
+        "name": "Workspace Name",
+        "button": "Create"
+      },
+      "Project": {
+        "title": "Create New Project",
+        "name": "Project Name",
+        "button": "Create"
+      },
+      "Board": {
+        "title": "Create New Board",
+        "name": "Board Name",
+        "button": "Create"
+      },
+      "Task": {
+        "title": "Create New Task",
+        "name": "Task Name",
+        "description": "Task Description",
+        "selectBoard": "Select Board",
+        "priorities": "No Priority,Low,Medium,High,Urgent",
+        "button": "Create"
+      }
+    },
+    "Edit": {
+      "Workspace": {
+        "title": "Edit Workspace",
+        "name": "Workspace Name",
+        "button": "Edit"
+      },
+      "Project": {
+        "title": "Edit Project",
+        "name": "Project Name",
+        "button": "Edit"
+      },
+      "Board": {
+        "title": "Edit Board",
+        "name": "Board Name",
+        "button": "Edit"
+      },
+      "Task": {
+        "title": "Edit Task",
+        "name": "Task Name",
+        "description": "Task Description",
+        "selectBoard": "Select Board",
+        "priorities": "No Priority,Low,Medium,High,Urgent",
+        "button": "Edit"
+      }
+    },
+    "Delete": {
+      "Workspace": {
+        "title": "Are you sure you want to delete this workspace?",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "Project": {
+        "title": "Are you sure you want to delete this project?",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "Board": {
+        "title": "Are you sure you want to delete this board?",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "Task": {
+        "title": "Are you sure you want to delete this task?",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      }
+    }
+  },
+  "altProfileImage": "Profile Picture",
+  "brandName": "Phoenix Task",
+  "listLink": "List View",
+  "columnLink": "Column View",
+  "calendarLink": "Calendar View",
+  "logoutLink": "Log Out"
+}

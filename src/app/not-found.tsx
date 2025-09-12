@@ -7,7 +7,7 @@ export default function NotFound() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 text-base-content p-4">
+    <div dir="ltr" className="min-h-screen flex flex-col items-center justify-center bg-base-100 text-base-content p-4">
       <div className="card w-full max-w-lg bg-base-300 shadow-xl p-8 text-center">
         <div className="card-body items-center text-center">
           <FuzzyText
@@ -19,16 +19,16 @@ export default function NotFound() {
           >
             404
           </FuzzyText>
-          
+
           <Heading as="h1" className="text-3xl font-semibold mb-4 mt-2">
-            این صفحه وجود نداره!😓
+            This page doesn&apos;t exist!😓
           </Heading>
           <div className="card-actions justify-center">
             <Button
               className="btn btn-primary btn-lg"
-              onClick={() => router.back()}
+              onClick={() => router.push("/")}
             >
-              بازگشت به صفحه‌ی قبل
+              back to home page
             </Button>
           </div>
         </div>

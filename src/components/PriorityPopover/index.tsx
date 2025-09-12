@@ -1,5 +1,4 @@
 import { Icon } from "@/components/UI";
-import { priorityLabel } from "@/constants";
 import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -8,16 +7,26 @@ type PriorityPopoverType = {
   onClose: () => void;
   onSelect: (val: number) => void;
   openPopover: boolean;
+  prioritiesLabel: string[];
 };
 
 export default function PriorityPopover({
   anchorRef,
   onClose,
-  openPopover = false,
   onSelect,
+  openPopover = false,
+  prioritiesLabel,
 }: PriorityPopoverType) {
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const popoverRef = useRef<HTMLDivElement>(null);
+
+  const colors = [
+    "text-neutral",
+    "text-success",
+    "text-info",
+    "text-warning",
+    "text-error",
+  ];
 
   useLayoutEffect(() => {
     if (!anchorRef.current) return;
@@ -41,22 +50,11 @@ export default function PriorityPopover({
         onClick={onClose}
       >
         <ul className="menu">
-          {[0, 1, 2, 3, 4].map((index) => (
+          {prioritiesLabel.map((label, index) => (
             <li key={index} onClick={() => onSelect(index)}>
               <a>
-                <Icon
-                  iconName="Flag"
-                  className={
-                    [
-                      "text-neutral",
-                      "text-success",
-                      "text-info",
-                      "text-warning",
-                      "text-error",
-                    ][index]
-                  }
-                />
-                <span>{priorityLabel[index]}</span>
+                <Icon iconName="Flag" className={colors[index]} />
+                <span>{label}</span>
               </a>
             </li>
           ))}

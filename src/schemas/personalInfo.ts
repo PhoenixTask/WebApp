@@ -1,23 +1,36 @@
+import { localeType } from "@/i18n/locales";
 import { z } from "zod";
 
 const errorMessages = {
-  emailRequired: "وارد کردن ایمیل الزامی است.",
-  invalidEmail: "ایمیل نامعتبر است.",
-  firstNameRequired: "نام را وارد کنید.",
-  lastNameRequired: "نام خانوادگی را وارد کنید.",
-  username: "نام‌کاربری نامعتبر است.",
+  en: {
+    firstNameRequired: "First name is required.",
+    lastNameRequired: "Last name is required.",
+    emailRequired: "Email is required.",
+    invalidEmail: "Invalid email.",
+    username: "Invalid username.",
+  },
+  fa: {
+    firstNameRequired: "نام را وارد کنید.",
+    lastNameRequired: "نام خانوادگی را وارد کنید.",
+    emailRequired: "وارد کردن ایمیل الزامی است.",
+    invalidEmail: "ایمیل نامعتبر است.",
+    username: "نام‌کاربری نامعتبر است.",
+  },
 };
 
-const schema = z.object({
-  firstName: z.string().min(1, errorMessages.firstNameRequired),
-  lastName: z.string().min(1, errorMessages.lastNameRequired),
-  email: z
-    .string()
-    .min(1, errorMessages.emailRequired)
-    .email(errorMessages.invalidEmail),
-  username: z.string().min(3, errorMessages.username),
-});
+export const getSchema = (locale: localeType) =>
+  z.object({
+    firstName: z
+      .string()
+      .min(1, { message: errorMessages[locale].firstNameRequired }),
+    lastName: z
+      .string()
+      .min(1, { message: errorMessages[locale].lastNameRequired }),
+    email: z
+      .string()
+      .min(1, { message: errorMessages[locale].emailRequired })
+      .email({ message: errorMessages[locale].invalidEmail }),
+    username: z.string().min(3, { message: errorMessages[locale].username }),
+  });
 
-type schemaType = z.infer<typeof schema>;
-
-export { schema, type schemaType };
+export type schemaType = z.infer<ReturnType<typeof getSchema>>;

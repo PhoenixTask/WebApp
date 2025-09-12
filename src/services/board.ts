@@ -8,7 +8,7 @@ import {
 } from "@/types/board";
 import { ProjectIdType } from "@/types/project";
 
-export const GetBoardAPI = async ({
+export const GetBoardsAPI = async ({
   id: projectId,
 }: ProjectIdType): Promise<BoardType[]> => {
   const response = await Axios.get(`/v1/project/${projectId}/board`);

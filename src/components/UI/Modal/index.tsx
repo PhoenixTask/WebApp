@@ -1,6 +1,7 @@
-"use client";
-import Button from "../Button";
+import { Button } from "../";
+import { useLocale } from "next-intl";
 import clsx from "clsx";
+import { direction } from "@/functions/languageHandler";
 
 type ModalProps = {
   children: React.ReactNode;
@@ -26,9 +27,13 @@ export default function Modal({
     e.stopPropagation();
     if (e.target === e.currentTarget) onClose();
   };
+
+  const locale = useLocale();
+
   return (
     <div
       className="modal modal-open fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+      {...direction(locale)}
       onClick={handleClose}
     >
       <div className={clsx("modal-box relative", sizeClasses[size])}>

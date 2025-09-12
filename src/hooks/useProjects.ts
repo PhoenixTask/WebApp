@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CreateProjectAPI,
-  GetProjectAPI,
+  GetProjectsAPI,
   DeleteProjectAPI,
   EditProjectAPI,
   GetAllTasksInProjectAPI,
@@ -22,7 +22,7 @@ export const useProjects = (workspaceId: string | null) => {
       if (workspaceId === null) {
         return Promise.resolve([]);
       }
-      return GetProjectAPI({ id: workspaceId });
+      return GetProjectsAPI({ id: workspaceId });
     },
     staleTime: 1000 * 60 * 5,
   });
