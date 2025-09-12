@@ -4,7 +4,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, {
   DateClickArg,
-  DropArg,
 } from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { EventDropArg, DatesSetArg } from "@fullcalendar/core";
@@ -104,10 +103,6 @@ export default function CalendarViewPage() {
     openModal("create-task", {
       selectedDate: arg.date,
     });
-  }
-
-  function handleExternalDrop(arg: DropArg): void {
-    console.log("handleExternalDrop", arg);
   }
 
   async function handleEventDrop(arg: EventDropArg): Promise<void> {
