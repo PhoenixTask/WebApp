@@ -1,27 +1,36 @@
 "use client";
 
-import { Link } from "@/components/UI";
+import { Link, Heading } from "@/components/UI";
 import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { direction } from "@/functions/languageHandler";
 
 export default function AuthHeader() {
   const currentPath = usePathname();
 
+  const locale = useLocale();
   const t = useTranslations();
 
   return (
-    <header className="flex justify-between items-center mx-20 mt-10 h-11">
-      <h1 className="logo h-fit">{t("brandName")}</h1>
-      <div className="flex gap-2 items-center">
-        <h6 className="font-medium">
+    <header
+      dir="rtl"
+      className="flex justify-between items-center mx-20 mt-10 h-11"
+    >
+      <div className="flex items-center gap-2">
+        <LanguageSwitcher />
+        <Heading as="h1">{t("brandName")}</Heading>
+      </div>
+      <div {...direction(locale)} className="flex gap-2 items-center">
+        <Heading as="h6">
           {currentPath.includes("/login")
             ? t("Portal.Login.header")
             : t("Portal.Register.header")}
-        </h6>
+        </Heading>
         <Link
           i18n
-          weight="800"
-          textSize="S"
+          textSize="M"
+          underline
           to={currentPath.includes("/login") ? "/register" : "/login"}
         >
           {currentPath.includes("/login")

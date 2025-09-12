@@ -8,14 +8,19 @@ import { getSchema, schemaType } from "@/schemas/login";
 import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
 import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
 import { direction } from "@/functions/languageHandler";
+import { getRefreshToken } from "@/functions/tokenManager";
 
 export default function LoginPage() {
+  const [checking, setChecking] = useState(true);
+
   const router = useRouter();
 
   const { t, locale, schema } = useSchema(getSchema, "Portal");
+
+  const { loginHandler, isLoading } = useAuth();
 
   const {
     register,
@@ -23,11 +28,23 @@ export default function LoginPage() {
     setFocus,
     formState: { errors },
   } = useForm<schemaType>({ resolver: zodResolver(schema) });
-  const { loginHandler, isLoading } = useAuth();
+
+  useEffect(() => {
+    const refreshToken = getRefreshToken();
+    if (refreshToken) {
+      router.replace(`/${locale}/list`);
+    } else {
+      setChecking(false);
+    }
+  }, [router]);
 
   useEffect(() => {
     setFocus("username");
   }, []);
+
+  if (checking) {
+    return null;
+  }
 
   return (
     <div className="backdrop-blur-md text-base-content bg-base-100/60 max-w-xl w-full shadow-xl p-6 rounded-3xl">
