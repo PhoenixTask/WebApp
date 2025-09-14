@@ -4,17 +4,17 @@ import Image from "next/image";
 import { Link } from "@/components/UI";
 import { routeType } from "@/i18n/routing";
 import { useGetProfile } from "@/hooks/useUser";
-import { getUserId, removeTokens } from "@/functions/tokenManager";
+import { getUserId } from "@/functions/tokenManager";
 import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 import { useTranslations } from "next-intl";
 import PhoenixTask from "@/components/PhoenixTask";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useProtect } from "@/providers/ProtectContext";
 
 export default function LandingNavbar() {
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const { isAuthenticated, logout } = useProtect();
 
   const t = useTranslations();
 
@@ -98,7 +98,7 @@ export default function LandingNavbar() {
                   >
                     <Image
                       src={userProfileURL}
-                      alt="تصویر پروفایل"
+                      alt={t("Portal.userName")}
                       width={100}
                       height={100}
                       className="object-cover"
@@ -148,28 +148,27 @@ export default function LandingNavbar() {
             )}
           </div>
         </div>
-        {!userId && (
+        {!isAuthenticated && (
           <div className="flex items-center gap-3">
             <Link i18n to="/login" textSize="M" weight="600">
               {t("Portal.Login.title")}
             </Link>
             <Link i18n to="/register" textSize="M" weight="600">
-              {t("Portal.register.title")}
+              {t("Portal.Register.title")}
             </Link>
           </div>
         )}
       </div>
       <div className="flex items-center gap-2">
-        <PhoenixTask />
         <LanguageSwitcher />
         <ChangeModeButton />
+        <PhoenixTask />
       </div>
     </div>
   );
 
   function logoutHandler() {
-    queryClient.clear();
-    removeTokens();
+    logout();
     router.refresh();
   }
 }

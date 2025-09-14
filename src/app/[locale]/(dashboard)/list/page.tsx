@@ -6,11 +6,19 @@ import { useBoards } from "@/hooks/useBoards";
 import useActiveState from "@/store/useActiveState";
 import useModal from "@/store/useModal";
 import { Button } from "@/components/UI";
-import { useTranslations } from "next-intl";
-import NoProject from "../components/NoProject";
-import NoBoard from "../components/NoBoard";
+import { useLocale, useTranslations } from "next-intl";
+import NoProject from "@/components/NoProject";
+import NoBoard from "@/components/NoBoard";
+import { useProtect } from "@/providers/ProtectContext";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ListViewPage() {
+  const router = useRouter();
+  const { isAuthenticated } = useProtect();
+
+  const locale = useLocale();
+
   const { activeWorkspaceId, activeProjectId } = useActiveState();
 
   const { data: boards } = useBoards(activeProjectId);
@@ -18,6 +26,12 @@ export default function ListViewPage() {
   const { openModal } = useModal();
 
   const t = useTranslations();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace(`/${locale}/login`);
+    }
+  }, [isAuthenticated, router]);
 
   if (!activeProjectId || !activeWorkspaceId) return <NoProject />;
 

@@ -2,16 +2,12 @@
 
 import { Flex } from "@/components/UI";
 import GithubButton from "@/components/UI/GithubButton";
+import { useLocale, useTranslations } from "next-intl";
 import { direction } from "@/functions/languageHandler";
-import { getTranslations, setRequestLocale } from "next-intl/server";
 
-type Props = {
-  locale: string;
-};
-
-export default async function LandingFooter({ locale }: Props) {
-  setRequestLocale(locale);
-  const t = await getTranslations("MainPage");
+export default function LandingFooter() {
+  const locale = useLocale();
+  const t = useTranslations("MainPage");
 
   const startYear = 2024;
   const currentYear = new Date().getFullYear();

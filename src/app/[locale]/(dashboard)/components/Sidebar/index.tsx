@@ -7,14 +7,15 @@ import { useWorkspaces } from "@/hooks/useWorkspaces";
 import WorkspaceMenu from "./WorkspaceMenu";
 import useModal from "@/store/useModal";
 import { useGetProfile, useUserInfo } from "@/hooks/useUser";
-import { getUserId, removeTokens } from "@/functions/tokenManager";
-import { useQueryClient } from "@tanstack/react-query";
+import { getUserId } from "@/functions/tokenManager";
 import { useLocale, useTranslations } from "next-intl";
 import PhoenixTask from "@/components/PhoenixTask";
+import { useProtect } from "@/providers/ProtectContext";
 
 export default function DashboardSidebar() {
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const { logout } = useProtect();
+  ``;
 
   const { openModal } = useModal();
 
@@ -105,8 +106,7 @@ export default function DashboardSidebar() {
   );
 
   function logoutHandler() {
-    queryClient.clear();
-    removeTokens();
+    logout();
     router.push(`/${locale}/login`);
   }
 }

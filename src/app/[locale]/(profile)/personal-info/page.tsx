@@ -15,8 +15,13 @@ import {
 import { getUserId } from "@/functions/tokenManager";
 import { direction } from "@/functions/languageHandler";
 import { useSchema } from "@/hooks/useSchema";
+import { useProtect } from "@/providers/ProtectContext";
+import { useRouter } from "next/navigation";
 
 export default function PersonalInfoPage() {
+  const router = useRouter();
+  const { isAuthenticated } = useProtect();
+
   const { t, locale, schema } = useSchema(getSchema);
 
   const {
@@ -36,6 +41,12 @@ export default function PersonalInfoPage() {
 
   const userId = getUserId();
   const { data: userProfileURL } = useGetProfile(userId!);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace(`/${locale}/login`);
+    }
+  }, [isAuthenticated, router]);
 
   useEffect(() => {
     if (!userInfo) return;

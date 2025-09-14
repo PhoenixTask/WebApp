@@ -19,7 +19,7 @@ export default async function MainPage({ params }: Props) {
     >
       <Navbar />
       <Section locale={locale} />
-      <Footer locale={locale} />
+      <Footer />
     </Flex>
   );
 }

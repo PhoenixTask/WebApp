@@ -29,11 +29,18 @@ import TaskBox from "./components/BoardColumn/TaskBox";
 import useModal from "@/store/useModal";
 import { BoardAndTasksV2Type, BoardType } from "@/types/board";
 import { TaskWithBoardIdType } from "@/types/task";
-import NoProject from "../components/NoProject";
-import NoBoard from "../components/NoBoard";
-import { useTranslations } from "next-intl";
+import NoProject from "@/components/NoProject";
+import NoBoard from "@/components/NoBoard";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useProtect } from "@/providers/ProtectContext";
 
 export default function ColumnViewPage() {
+  const router = useRouter();
+  const { isAuthenticated } = useProtect();
+
+  const locale = useLocale();
+
   const { activeWorkspaceId, activeProjectId } = useActiveState();
   const { data: allTasksInProjectData } = useAllTasksInProject(activeProjectId);
   const { data: boardsData } = useBoards(activeProjectId);
@@ -62,6 +69,12 @@ export default function ColumnViewPage() {
   );
 
   const boardsId = useMemo(() => boards.map((board) => board.id), [boards]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace(`/${locale}/login`);
+    }
+  }, [isAuthenticated, router]);
 
   useEffect(() => {
     if (!allTasksInProjectData || !boardsData) return;

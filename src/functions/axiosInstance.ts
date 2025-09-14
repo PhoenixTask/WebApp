@@ -16,10 +16,11 @@ const Axios = axios.create({
   baseURL: BASE_URL,
 });
 
+// Request Interceptor
 Axios.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
-    if (token) {
+    if (token && config.headers) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
@@ -30,6 +31,7 @@ Axios.interceptors.request.use(
   }
 );
 
+// Refresh Queue Logic
 let isRefreshing = false;
 let failedQueue: {
   resolve: (value?: any) => void;
@@ -41,23 +43,19 @@ const processQueue = (
   token: string | null = null
 ) => {
   failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
+    if (error) prom.reject(error);
+    else prom.resolve(token);
   });
   failedQueue = [];
 };
 
 function redirectToLogin() {
   if (typeof window === "undefined") return;
-
   const locale = window.location.pathname.split("/")[1] || "en";
-
   window.location.replace(`/${locale}/login`);
 }
 
+// Response Interceptor
 Axios.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -65,12 +63,7 @@ Axios.interceptors.response.use(
       _retry?: boolean;
     };
 
-    console.log(error);
-
-    if (
-      (error.response?.status === 401 && !originalRequest._retry) ||
-      error.code === "ERR_NETWORK"
-    ) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -81,9 +74,7 @@ Axios.interceptors.response.use(
             }
             return Axios(originalRequest);
           })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
+          .catch((err) => Promise.reject(err));
       }
 
       originalRequest._retry = true;
@@ -92,51 +83,46 @@ Axios.interceptors.response.use(
       const refreshToken = getRefreshToken();
       const userId = getUserId();
 
-      if (refreshToken && userId) {
-        try {
-          const { token: newAccessToken, refreshToken: newRefreshToken } =
-            await RefreshAPI({
-              userId,
-              refreshToken,
-            });
-
-          setAccessToken(newAccessToken);
-          setRefreshToken(newRefreshToken);
-
-          if (Axios.defaults.headers.common) {
-            Axios.defaults.headers.common["Authorization"] =
-              "Bearer " + newAccessToken;
-          }
-          if (originalRequest.headers) {
-            originalRequest.headers["Authorization"] =
-              "Bearer " + newAccessToken;
-          }
-          processQueue(null, newAccessToken);
-          return Axios(originalRequest);
-        } catch (refreshError) {
-          removeTokens();
-          
-          processQueue(refreshError as AxiosError, null);
-
-          redirectToLogin();
-          return Promise.reject(refreshError);
-        } finally {
-          isRefreshing = false;
-        }
-      } else {
+      if (!refreshToken || !userId) {
         removeTokens();
-
-        isRefreshing = false;
         processQueue(error, null);
-
         redirectToLogin();
+        isRefreshing = false;
         return Promise.reject(error);
+      }
+
+      try {
+        const { token: newAccessToken, refreshToken: newRefreshToken } =
+          await RefreshAPI({ userId, refreshToken });
+
+        setAccessToken(newAccessToken);
+        setRefreshToken(newRefreshToken);
+
+        if (Axios.defaults.headers.common) {
+          Axios.defaults.headers.common["Authorization"] =
+            "Bearer " + newAccessToken;
+        }
+        if (originalRequest.headers) {
+          originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
+        }
+
+        processQueue(null, newAccessToken);
+
+        return Axios(originalRequest);
+      } catch (refreshError) {
+        removeTokens();
+        processQueue(refreshError as AxiosError, null);
+        redirectToLogin();
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
       }
     }
 
     if (error.response?.status !== 401) {
       errorToast(error);
     }
+
     return Promise.reject(error);
   }
 );

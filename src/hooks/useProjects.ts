@@ -13,7 +13,6 @@ import {
 } from "@/types/project";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
-import { promise } from "zod";
 
 export const useProjects = (workspaceId: string | null) => {
   return useQuery({

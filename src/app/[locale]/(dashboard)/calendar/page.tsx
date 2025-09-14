@@ -2,9 +2,7 @@
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin, {
-  DateClickArg,
-} from "@fullcalendar/interaction";
+import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { EventDropArg, DatesSetArg } from "@fullcalendar/core";
 import { useTasksByDeadline, useEditTaskDeadline } from "@/hooks/useTasks";
@@ -19,12 +17,17 @@ import {
 import useModal from "@/store/useModal";
 import { TaskType } from "@/types/task";
 import faLocale from "@fullcalendar/core/locales/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateToString } from "@/functions/date";
 import { useLocale } from "next-intl";
-import NoProject from "../components/NoProject";
+import NoProject from "@/components/NoProject";
+import { useRouter } from "next/navigation";
+import { useProtect } from "@/providers/ProtectContext";
 
 export default function CalendarViewPage() {
+  const router = useRouter();
+  const { isAuthenticated } = useProtect();
+
   const { openModal } = useModal();
 
   const { activeProjectId, activeWorkspaceId } = useActiveState();
@@ -57,6 +60,12 @@ export default function CalendarViewPage() {
       : new Date().toISOString(),
   }));
   const todayBarrier = startOfDay(new Date());
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push(`/${locale}/login`); 
+    }
+  }, [isAuthenticated, router]);
 
   if (!activeProjectId || !activeWorkspaceId) return <NoProject />;
 
