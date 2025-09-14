@@ -20,8 +20,8 @@ import {
   EditTaskDeadlineType,
   EditTasksBoardAndOrderType,
 } from "@/types/task";
-import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
+import successToast from "@/functions/successToast";
 
 export const useTasks = (boardId: string) => {
   return useQuery({
@@ -50,7 +50,7 @@ export const useCreateTask = () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
-      toast.success("تسک با موفقیت ایجاد شد.");
+      successToast("taskCreated");
     },
     onError: (error) => {
       errorToast(error);
@@ -67,7 +67,7 @@ export const useDeleteTask = () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
-      toast.success("تسک با موفقیت حذف شد.");
+      successToast("taskDeleted");
     },
     onError: (error) => {
       errorToast(error);
@@ -84,7 +84,7 @@ export const useEditTask = () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
       queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
-      toast.success("تسک با موفقیت ویرایش شد.");
+      successToast("taskUpdated");
     },
     onError: (error) => {
       errorToast(error);
@@ -128,7 +128,6 @@ export const useTasksByDeadline = ({
   Start,
   End,
 }: GetTasksByDeadlineType) => {
-  const queryClient = useQueryClient();
   return useQuery({
     queryKey: ["tasks-by-deadline", ProjectId, Start, End],
     queryFn: () => {

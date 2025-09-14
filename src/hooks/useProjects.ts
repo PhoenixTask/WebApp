@@ -11,8 +11,8 @@ import {
   CreateProjectType,
   EditProjectType,
 } from "@/types/project";
-import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
+import successToast from "@/functions/successToast";
 
 export const useProjects = (workspaceId: string | null) => {
   return useQuery({
@@ -34,7 +34,7 @@ export const useCreateProject = () => {
     mutationFn: (data: CreateProjectType) => CreateProjectAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
-      toast.success("پروژه با موفقیت ایجاد شد.");
+      successToast("projectCreated");
     },
     onError: (error) => {
       errorToast(error);
@@ -51,7 +51,7 @@ export const useDeleteProject = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
-      toast.success("پروژه با موفقیت حذف شد.");
+      successToast("projectDeleted");
     },
     onError: (error) => {
       errorToast(error);
@@ -66,7 +66,7 @@ export const useEditProject = () => {
     mutationFn: ({ data, id }: EditProjectType) => EditProjectAPI({ data, id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
-      toast.success("پروژه با موفقیت ویرایش شد.");
+      successToast("projectUpdated");
     },
     onError: (error) => {
       errorToast(error);

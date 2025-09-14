@@ -1,5 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import errorToast from "./errorToast";
+import { getLocale } from "./languageHandler";
 import {
   getAccessToken,
   getRefreshToken,
@@ -50,8 +51,7 @@ const processQueue = (
 };
 
 function redirectToLogin() {
-  if (typeof window === "undefined") return;
-  const locale = window.location.pathname.split("/")[1] || "en";
+  const locale = getLocale();
   window.location.replace(`/${locale}/login`);
 }
 

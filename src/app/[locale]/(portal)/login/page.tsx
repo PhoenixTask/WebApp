@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSchema, schemaType } from "@/schemas/login";
@@ -12,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
 import { direction } from "@/functions/languageHandler";
 import { getRefreshToken } from "@/functions/tokenManager";
+import { successToast } from "@/functions/successToast";
 
 export default function LoginPage() {
   const [checking, setChecking] = useState(true);
@@ -90,7 +90,7 @@ export default function LoginPage() {
   async function onSubmit(formData: schemaType) {
     await loginHandler(formData, {
       onSuccess: () => {
-        toast.success("ورود با موفقیت انجام شد");
+        successToast("loginSuccess");
         router.push(`/${locale}/list`);
       },
       onError: (err) => {

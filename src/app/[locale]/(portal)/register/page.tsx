@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSchema, schemaType } from "@/schemas/register";
 import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
-import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { chooseRandomName } from "@/functions/chooseRandomName";
@@ -13,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
 import { direction } from "@/functions/languageHandler";
 import { getRefreshToken } from "@/functions/tokenManager";
+import { successToast } from "@/functions/successToast";
 
 export default function RegisterPage() {
   const [checking, setChecking] = useState(true);
@@ -104,7 +104,7 @@ export default function RegisterPage() {
 
     await registerHandler(registerData, {
       onSuccess: async () => {
-        toast.success("ثبت نام با موفقیت انجام شد");
+        successToast("registerSuccess");
         router.push(`/${locale}/list`);
       },
       onError: (err) => {

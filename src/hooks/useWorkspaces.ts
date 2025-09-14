@@ -8,6 +8,7 @@ import {
 import { CreateWorkspaceType, EditWorkspaceType } from "@/types/workspace";
 import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
+import successToast from "@/functions/successToast";
 
 export const useWorkspaces = () => {
   return useQuery({
@@ -24,7 +25,7 @@ export const useCreateWorkspace = () => {
     mutationFn: (data: CreateWorkspaceType) => CreateWorkspaceAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-      toast.success("میزکار با موفقیت ایجاد شد.");
+      successToast("workspaceCreated");
     },
     onError: (error) => {
       errorToast(error);
@@ -39,7 +40,7 @@ export const useDeleteWorkspace = () => {
     mutationFn: (id: string) => DeleteWorkspaceAPI({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-      toast.success("میزکار با موفقیت حذف شد.");
+      successToast("workspaceDeleted");
     },
     onError: (error) => {
       errorToast(error);
@@ -55,7 +56,7 @@ export const useEditWorkspace = () => {
       EditWorkspaceAPI({ data, id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-      toast.success("میزکار با موفقیت ویرایش شد.");
+      successToast("workspaceUpdated");
     },
     onError: (error) => {
       errorToast(error);

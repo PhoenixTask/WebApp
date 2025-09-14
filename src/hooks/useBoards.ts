@@ -12,8 +12,8 @@ import {
   EditBoardType,
   EditBoardOrdersType,
 } from "@/types/board";
-import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
+import successToast from "@/functions/successToast";
 
 export const useBoards = (projectId: string | null) => {
   return useQuery<BoardType[] | []>({
@@ -49,7 +49,7 @@ export const useCreateBoard = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
       queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
-      toast.success("ستون با موفقیت ایجاد شد.");
+      successToast("columnCreated");
     },
     onError: (error) => {
       errorToast(error);
@@ -65,7 +65,7 @@ export const useDeleteBoard = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
       queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
-      toast.success("ستون با موفقیت حذف شد.");
+      successToast("columnDeleted");
     },
     onError: (error) => {
       errorToast(error);
@@ -81,7 +81,7 @@ export const useEditBoard = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
       queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
-      toast.success("ستون با موفقیت ویرایش شد.");
+      successToast("columnUpdated");
     },
     onError: (error) => {
       errorToast(error);

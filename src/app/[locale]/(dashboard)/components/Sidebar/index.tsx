@@ -11,6 +11,7 @@ import { getUserId } from "@/functions/tokenManager";
 import { useLocale, useTranslations } from "next-intl";
 import PhoenixTask from "@/components/PhoenixTask";
 import { useProtect } from "@/providers/ProtectContext";
+import { direction } from "@/functions/languageHandler";
 
 export default function DashboardSidebar() {
   const router = useRouter();
@@ -59,7 +60,10 @@ export default function DashboardSidebar() {
             {/* Loading/Error */}
             {isLoading && <Icon iconName="Loading" />}
             {isError && (
-              <div className="mt-10 font-bold text-error">
+              <div
+                {...direction(locale)}
+                className="mt-10 font-bold text-error"
+              >
                 {t("Dashboard.serverError")}
               </div>
             )}

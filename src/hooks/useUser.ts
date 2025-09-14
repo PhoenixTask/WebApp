@@ -14,8 +14,8 @@ import {
   setUserId,
 } from "@/functions/tokenManager";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
 import errorToast from "@/functions/errorToast";
+import successToast from "@/functions/successToast";
 import { convertFileToBase64 } from "@/functions/convertFileToBase64";
 
 type AuthCallbacks = {
@@ -83,7 +83,7 @@ export const useEditUserInfo = () => {
     mutationFn: (data: EditUserInfoType) => EditUserInfoAPI(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-settings"] });
-      toast.success("ویرایش با موفقیت انجام شد.");
+      successToast("accountUpdated");
     },
     onError: (error) => {
       errorToast(error);
@@ -105,7 +105,7 @@ export const useUploadProfile = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
-      toast.success("تصویر پروفایل با موفقیت آپلود شد.");
+      successToast("profileImageUploaded");
     },
     onError: (error) => {
       errorToast(error);
