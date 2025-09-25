@@ -5,14 +5,12 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSchema, schemaType } from "@/schemas/register";
 import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
-import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
-import { chooseRandomName } from "@/functions/chooseRandomName";
 import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
 import { direction } from "@/functions/languageHandler";
-import { getRefreshToken } from "@/functions/tokenManager";
-import { successToast } from "@/functions/successToast";
+import { useProtect } from "@/providers/ProtectContext";
+import { chooseRandomName } from "@/functions/chooseRandomName";
 
 export default function RegisterPage() {
   const [checking, setChecking] = useState(true);
@@ -21,17 +19,18 @@ export default function RegisterPage() {
 
   const { t, locale, schema } = useSchema(getSchema, "Portal");
 
+  const { isAuthenticated, registerFunction } = useProtect();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setFocus,
   } = useForm<schemaType>({ resolver: zodResolver(schema) });
-  const { registerHandler, isLoading } = useAuth();
+  const { isLoading } = useAuth();
 
   useEffect(() => {
-    const refreshToken = getRefreshToken();
-    if (refreshToken) {
+    if (isAuthenticated) {
       router.replace(`/${locale}/list`);
     } else {
       setChecking(false);
@@ -102,14 +101,6 @@ export default function RegisterPage() {
     const { firstName, lastName } = chooseRandomName();
     const registerData = { ...formData, firstName, lastName };
 
-    await registerHandler(registerData, {
-      onSuccess: async () => {
-        successToast("registerSuccess");
-        router.push(`/${locale}/list`);
-      },
-      onError: (err) => {
-        errorToast(err);
-      },
-    });
+    registerFunction(registerData, locale);
   }
 }

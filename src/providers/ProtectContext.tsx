@@ -4,9 +4,16 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { getRefreshToken, removeTokens } from "@/functions/tokenManager";
 import { useQueryClient } from "@tanstack/react-query";
 import Loading from "@/app/loading";
+import { useAuth } from "@/hooks/useUser";
+import successToast from "@/functions/successToast";
+import errorToast from "@/functions/errorToast";
+import { LoginType, RegisterType } from "@/types/user";
+import { useRouter } from "next/navigation";
 
 type ProtectContextType = {
   isAuthenticated: boolean;
+  loginFunction: (formData: LoginType, locale: string) => Promise<void>;
+  registerFunction: (formData: RegisterType, locale: string) => Promise<void>;
   logout: () => void;
 };
 
@@ -29,6 +36,10 @@ export const ProtectProvider = ({
 
   const queryClient = useQueryClient();
 
+  const { loginHandler, registerHandler } = useAuth();
+
+  const router = useRouter();
+
   useEffect(() => {
     checkAuth();
     setIsLoading(false);
@@ -39,7 +50,9 @@ export const ProtectProvider = ({
   }
 
   return (
-    <ProtectContext.Provider value={{ isAuthenticated, logout }}>
+    <ProtectContext.Provider
+      value={{ isAuthenticated, loginFunction, registerFunction, logout }}
+    >
       {children}
     </ProtectContext.Provider>
   );
@@ -50,6 +63,32 @@ export const ProtectProvider = ({
 
     setIsAuthenticated(hasToken);
     return hasToken;
+  }
+
+  async function loginFunction(formData: LoginType, locale: string) {
+    await loginHandler(formData, {
+      onSuccess: () => {
+        successToast("loginSuccess");
+        setIsAuthenticated(true);
+        router.push(`/${locale}/list`);
+      },
+      onError: (err) => {
+        errorToast(err);
+      },
+    });
+  }
+
+  async function registerFunction(formData: RegisterType, locale: string) {
+    await registerHandler(formData, {
+      onSuccess: () => {
+        successToast("registerSuccess");
+        setIsAuthenticated(true);
+        router.push(`/${locale}/list`);
+      },
+      onError: (err) => {
+        errorToast(err);
+      },
+    });
   }
 
   function logout() {

@@ -54,7 +54,7 @@ export default function ProjectGallery() {
   ];
 
   return (
-    <div className="max-w-7xl py-4 my-10">
+    <div className="max-w-7xl py-4 my-10 mx-5">
       <StickyScroll content={features} />
     </div>
   );

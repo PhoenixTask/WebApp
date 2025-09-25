@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import "@/assets/globals.css";
 import { ThemeProvider } from "@/providers/ThemeContext";
 import { ProtectProvider } from "@/providers/ProtectContext";
+import clsx from "clsx";
 
 const IranYekan = localFont({
   src: [
@@ -80,13 +81,17 @@ export const metadata: Metadata = {
 
 type RootLayoutProps = {
   children: React.ReactNode;
+  params: { locale: string };
 };
 
-export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
+export default function RootLayout({
+  children,
+  params,
+}: Readonly<RootLayoutProps>) {
   return (
     <html
-      dir="rtl"
-      lang="fa"
+      lang={params?.locale ?? "en"}
+      dir={params?.locale === "en" ? "ltr" : "rtl"}
       data-theme="default"
       className={IranYekan.variable}
     >

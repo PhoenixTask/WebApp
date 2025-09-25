@@ -5,13 +5,11 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSchema, schemaType } from "@/schemas/login";
 import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
-import errorToast from "@/functions/errorToast";
 import { useAuth } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
 import { direction } from "@/functions/languageHandler";
-import { getRefreshToken } from "@/functions/tokenManager";
-import { successToast } from "@/functions/successToast";
+import { useProtect } from "@/providers/ProtectContext";
 
 export default function LoginPage() {
   const [checking, setChecking] = useState(true);
@@ -20,7 +18,9 @@ export default function LoginPage() {
 
   const { t, locale, schema } = useSchema(getSchema, "Portal");
 
-  const { loginHandler, isLoading } = useAuth();
+  const { isLoading } = useAuth();
+
+  const { isAuthenticated, loginFunction } = useProtect();
 
   const {
     register,
@@ -30,8 +30,7 @@ export default function LoginPage() {
   } = useForm<schemaType>({ resolver: zodResolver(schema) });
 
   useEffect(() => {
-    const refreshToken = getRefreshToken();
-    if (refreshToken) {
+    if (isAuthenticated) {
       router.replace(`/${locale}/list`);
     } else {
       setChecking(false);
@@ -87,15 +86,7 @@ export default function LoginPage() {
     </div>
   );
 
-  async function onSubmit(formData: schemaType) {
-    await loginHandler(formData, {
-      onSuccess: () => {
-        successToast("loginSuccess");
-        router.push(`/${locale}/list`);
-      },
-      onError: (err) => {
-        errorToast(err);
-      },
-    });
+  function onSubmit(formData: schemaType) {
+    loginFunction(formData, locale);
   }
 }

@@ -18,10 +18,10 @@ export default async function AuthLayout({
       {...direction(locale)}
       direction="col"
       alignItems="between"
-      className="m-0 p-0 h-screen w-full overflow-hidden relative"
+      className="p-0 h-screen w-full overflow-hidden relative"
     >
       <AuthHeader />
-      <section className="flex justify-center items-center mt-32 z-50 -m-4">
+      <section className="flex justify-center items-center mt-32 mx-2 z-50 -m-4">
         {children}
       </section>
       <div className="absolute top-96 w-screen h-screen -z-10 -skew-y-6 bg-gradient-to-l from-primary to-secondary" />

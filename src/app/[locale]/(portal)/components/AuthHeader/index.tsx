@@ -15,9 +15,9 @@ export default function AuthHeader() {
   return (
     <header
       dir="rtl"
-      className="flex justify-between items-center mx-20 mt-10 h-11"
+      className="flex justify-center items-center flex-wrap md:justify-between mx-5 mt-10 h-11"
     >
-      <div className="flex items-center gap-2">
+      <div className="hidden items-center gap-2 md:flex">
         <LanguageSwitcher />
         <Heading as="h1">{t("brandName")}</Heading>
       </div>

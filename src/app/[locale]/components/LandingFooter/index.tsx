@@ -26,12 +26,15 @@ export default function LandingFooter() {
           gap="L"
           className="max-w-6xl mx-auto px-6 py-8 md:flex-row md:justify-between"
         >
-          <div className="space-x-5">
+          <div className="flex gap-x-5">
             <GithubButton username="PhoenixTask" repo="WebApp" />
             <GithubButton username="PhoenixTask" repo="dotnet-backend" />
           </div>
 
-          <div {...direction(locale)} className="w-52 text-xs text-white">
+          <div
+            {...direction(locale)}
+            className="w-52 text-xs flex justify-center text-white"
+          >
             © {startYear}-{currentYear} {t("madeWith")}
           </div>
         </Flex>
