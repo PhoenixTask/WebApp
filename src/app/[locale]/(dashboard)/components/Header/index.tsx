@@ -26,7 +26,7 @@ export default function DashboardHeader() {
             )}
           >
             <Icon iconName="ListView" />
-            <span>{t("listLink")}</span>
+            <span>{t("Dashboard.listLink")}</span>
           </Link>
           <Link
             to="column"
@@ -38,7 +38,7 @@ export default function DashboardHeader() {
             )}
           >
             <Icon iconName="ColumnView" />
-            <span>{t("columnLink")}</span>
+            <span>{t("Dashboard.columnLink")}</span>
           </Link>
           <Link
             to="calendar"
@@ -52,7 +52,7 @@ export default function DashboardHeader() {
             )}
           >
             <Icon iconName="Calendar" />
-            <span>{t("calendarLink")}</span>
+            <span>{t("Dashboard.calendarLink")}</span>
           </Link>
         </div>
         <div className="flex items-center justify-center px-5">

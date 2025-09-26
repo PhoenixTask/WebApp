@@ -1,6 +1,9 @@
 {
   "MainPage": {
     "personalInfoLink": "تنظیمات حساب کاربری",
+    "listLink": "نمایش لیستی",
+    "columnLink": "نمایش ستونی",
+    "calendarLink": "نمایش تقویمی",
     "heroTitle": "Phoenix Task",
     "heroSlogan": "یک تسک منیجر اوپن سورس با الهام از ترللو و کوئرا تسک منیجر :)",
     "Features": [
@@ -39,6 +42,9 @@
     "confirmPassword": "تکرار رمز عبور"
   },
   "Dashboard": {
+    "listLink": "لیستی",
+    "columnLink": "ستونی",
+    "calendarLink": "تقویمی",
     "newWorkspace": "ایجاد میزکار جدید",
     "newProject": "ایجاد پروژه‌ی جدید",
     "newBoard": "ایجاد ستون جدید",
@@ -142,8 +148,5 @@
   },
   "brandName": "فونیکس تسک",
   "altProfileImage": "تصویر پروفایل",
-  "listLink": "نمایش لیستی",
-  "columnLink": "نمایش ستونی",
-  "calendarLink": "نمایش تقویمی",
   "logoutLink": "خروج از حساب کاربری"
 }

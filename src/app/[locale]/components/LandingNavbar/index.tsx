@@ -19,9 +19,9 @@ export default function LandingNavbar() {
   const t = useTranslations();
 
   const linkItems: { label: string; href: routeType }[] = [
-    { label: t("listLink"), href: "/list" },
-    { label: t("columnLink"), href: "/column" },
-    { label: t("calendarLink"), href: "/calendar" },
+    { label: t("MainPage.listLink"), href: "/list" },
+    { label: t("MainPage.columnLink"), href: "/column" },
+    { label: t("MainPage.calendarLink"), href: "/calendar" },
   ];
 
   const userId = getUserId();

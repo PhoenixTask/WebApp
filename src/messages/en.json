@@ -1,6 +1,9 @@
 {
   "MainPage": {
     "personalInfoLink": "Account Settings",
+    "listLink": "List View",
+    "columnLink": "Column View",
+    "calendarLink": "Calendar View",
     "heroTitle": "Phoenix Task",
     "heroSlogan": "An open-source task manager inspired by Trello and Quera Task Manager :)",
     "Features": [
@@ -39,6 +42,9 @@
     "confirmPassword": "Confirm Password"
   },
   "Dashboard": {
+    "listLink": "List",
+    "columnLink": "Column",
+    "calendarLink": "Calendar",
     "newWorkspace": "Create New Workspace",
     "newProject": "Create New Project",
     "newBoard": "Create New Board",
@@ -142,8 +148,5 @@
   },
   "altProfileImage": "Profile Picture",
   "brandName": "Phoenix Task",
-  "listLink": "List View",
-  "columnLink": "Column View",
-  "calendarLink": "Calendar View",
   "logoutLink": "Log Out"
 }
