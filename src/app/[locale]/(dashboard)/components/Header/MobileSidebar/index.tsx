@@ -1,4 +1,6 @@
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import DashboardSidebar from "../../Sidebar";
+import ChangeModeButton from "@/components/ChangeThemeMode";
 
 export default function MobileSidebar() {
   return (
@@ -16,7 +18,11 @@ export default function MobileSidebar() {
           aria-label="close sidebar"
           className="drawer-overlay"
         />
-        <div className="menu bg-base-200 h-full overflow-y-hidden">
+        <div className="flex flex-col bg-base-200 h-full overflow-y-hidden">
+          <div className="flex items-center justify-between px-4 gap-x-5">
+            <LanguageSwitcher />
+            <ChangeModeButton />
+          </div>
           <DashboardSidebar />
         </div>
       </div>

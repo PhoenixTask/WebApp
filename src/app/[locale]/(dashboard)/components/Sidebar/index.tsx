@@ -38,7 +38,7 @@ export default function DashboardSidebar() {
       alignItems="center"
       className="h-screen overflow-x-hidden py-5"
     >
-      <div className="flex flex-col justify-center w-72">
+      <div className="flex flex-col justify-center w-72 px-2">
         <PhoenixTask />
 
         {/* create new workspace */}

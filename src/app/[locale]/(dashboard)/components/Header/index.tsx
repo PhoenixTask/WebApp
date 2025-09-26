@@ -29,7 +29,7 @@ export default function DashboardHeader() {
           </div>
 
           {/* actions */}
-          <div className="flex items-center gap-4">
+          <div className="items-center gap-4 hidden 2xl:flex">
             <LanguageSwitcher />
             <ChangeModeButton />
           </div>
