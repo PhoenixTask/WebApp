@@ -17,7 +17,7 @@ You can either host it as-is, or fork and customize it to fit your own needs.
 
 ## 🛠 Tech Stack
 
-- **Frontend:** NextJS 14(TypeScript), Tailwind4, dnd-kit, zustand, tanstack query
+- **Frontend:** NextJS 15(TypeScript), Tailwind4, dnd-kit, zustand, tanstack query
 - **Backend:** ASP.NET Core (.NET 9)
 
 ## 📦 Installation & Development
