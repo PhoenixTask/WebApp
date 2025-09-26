@@ -19,7 +19,7 @@ export default function TodayDateTime() {
   }, []);
 
   return (
-    <div className="flex justify-center gap-4 w-80 bg-base-content text-base-100 py-3 rounded-2xl shadow-elevated select-none">
+    <div className="flex justify-center gap-x-4 w-80 bg-base-content text-base-100 py-3 rounded-2xl shadow-elevated select-none">
       <div>{gregorianDate}</div>
       <div>{jalaliDate}</div>
       <div>{time}</div>

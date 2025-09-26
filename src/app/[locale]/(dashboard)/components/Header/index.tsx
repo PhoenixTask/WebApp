@@ -7,60 +7,60 @@ import TodayDateTime from "./TodayDateTime";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import MobileSidebar from "./MobileSidebar";
 
 export default function DashboardHeader() {
   const location = usePathname().slice(1);
   const t = useTranslations();
 
+  const navLinks = [
+    { to: "list", icon: "ListView", label: t("Dashboard.listLink") },
+    { to: "column", icon: "ColumnView", label: t("Dashboard.columnLink") },
+    { to: "calendar", icon: "Calendar", label: t("Dashboard.calendarLink") },
+  ] as const;
+
   return (
     <>
-      <div className="flex justify-between shadow">
-        <div className="flex items-center py-6">
-          <Link
-            to="list"
-            textSize="S"
-            weight="600"
-            className={clsx(
-              "px-5 flex items-center gap-1 hover:text-primary/70",
-              location.includes("list") ? "text-primary" : "text-base-content"
-            )}
-          >
-            <Icon iconName="ListView" />
-            <span>{t("Dashboard.listLink")}</span>
-          </Link>
-          <Link
-            to="column"
-            textSize="S"
-            weight="600"
-            className={clsx(
-              "px-5 flex items-center gap-1 hover:text-primary/70",
-              location.includes("column") ? "text-primary" : "text-base-content"
-            )}
-          >
-            <Icon iconName="ColumnView" />
-            <span>{t("Dashboard.columnLink")}</span>
-          </Link>
-          <Link
-            to="calendar"
-            textSize="S"
-            weight="600"
-            className={clsx(
-              "px-5 flex items-center gap-1 hover:text-primary/70",
-              location.includes("calendar")
-                ? "text-primary"
-                : "text-base-content"
-            )}
-          >
-            <Icon iconName="Calendar" />
-            <span>{t("Dashboard.calendarLink")}</span>
-          </Link>
+      <div className="relative">
+        <div className="flex items-center justify-between px-4 gap-x-5 mt-2 absolute">
+          {/* logo or menu */}
+          <div className="2xl:hidden">
+            <MobileSidebar />
+          </div>
+
+          {/* actions */}
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            <ChangeModeButton />
+          </div>
         </div>
-        <div className="flex items-center justify-center px-5">
-          <LanguageSwitcher />
-          <ChangeModeButton />
+
+        {/* nav links */}
+        <div className="flex overflow-x-auto justify-end 2xl:justify-center py-2 border-b border-neutral bg-base-100">
+          <div className="flex sm:gap-2">
+            {navLinks.map(({ to, icon, label }) => (
+              <Link
+                key={to}
+                to={to}
+                textSize="S"
+                weight="600"
+                className={clsx(
+                  "px-4 py-3 flex items-center gap-2 whitespace-nowrap hover:text-primary/70",
+                  location.includes(to)
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-base-content"
+                )}
+              >
+                <Icon iconName={icon} />
+                <span>{label}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="flex justify-center font-medium py-4.5 gap-4 border-y border-neutral">
+
+      {/* date */}
+      <div className="flex justify-center font-medium py-3 sm:py-4 border-b border-neutral">
         <TodayDateTime />
       </div>
     </>

@@ -32,12 +32,13 @@ export default function DashboardSidebar() {
 
   return (
     <Flex
+      dir="ltr"
       direction="col"
       justifyContent="between"
       alignItems="center"
-      className="h-screen overflow-hidden py-5 shadow-lg border-l border-neutral"
+      className="h-screen overflow-x-hidden py-5"
     >
-      <div className="flex flex-col justify-center gap-2 w-72">
+      <div className="flex flex-col justify-center w-72">
         <PhoenixTask />
 
         {/* create new workspace */}
@@ -80,6 +81,10 @@ export default function DashboardSidebar() {
           textSize="M"
           to="/personal-info"
         >
+          {userInfo && userInfo.firstName && userInfo.lastName
+            ? `${userInfo.firstName} ${userInfo.lastName}`
+            : t("Dashboard.noName")}
+
           <div className="relative w-10 h-10 overflow-hidden bg-base-300 text-base-content flex justify-center items-center rounded-full">
             {userProfileURL && (
               <Image
@@ -91,10 +96,6 @@ export default function DashboardSidebar() {
               />
             )}
           </div>
-
-          {userInfo && userInfo.firstName && userInfo.lastName
-            ? `${userInfo.firstName} ${userInfo.lastName}`
-            : t("Dashboard.noName")}
         </Link>
 
         <Button
@@ -102,8 +103,8 @@ export default function DashboardSidebar() {
           className="w-fit mt-5 flex items-center gap-2 text-base font-extrabold text-error hover:text-error/60 transition-colors duration-300"
           onClick={logoutHandler}
         >
-          <Icon width={16} iconName="Logout" />
           {t("logoutLink")}
+          <Icon width={16} iconName="Logout" />
         </Button>
       </div>
     </Flex>
