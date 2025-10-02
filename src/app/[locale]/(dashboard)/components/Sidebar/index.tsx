@@ -7,7 +7,7 @@ import { useWorkspaces } from "@/hooks/useWorkspaces";
 import WorkspaceMenu from "./WorkspaceMenu";
 import useModal from "@/store/useModal";
 import { useGetProfile, useUserInfo } from "@/hooks/useUser";
-import { getUserId } from "@/functions/tokenManager";
+import { getUserId } from "@/functions/userIdManager";
 import { useLocale, useTranslations } from "next-intl";
 import PhoenixTask from "@/components/PhoenixTask";
 import { useProtect } from "@/providers/ProtectContext";

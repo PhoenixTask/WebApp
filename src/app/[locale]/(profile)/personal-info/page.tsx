@@ -12,7 +12,7 @@ import {
   useUploadProfile,
   useGetProfile,
 } from "@/hooks/useUser";
-import { getUserId } from "@/functions/tokenManager";
+import { getUserId } from "@/functions/userIdManager";
 import { direction } from "@/functions/languageHandler";
 import { useSchema } from "@/hooks/useSchema";
 import { useProtect } from "@/providers/ProtectContext";

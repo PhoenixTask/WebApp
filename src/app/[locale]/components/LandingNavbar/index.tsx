@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Link } from "@/components/UI";
 import { routeType } from "@/i18n/routing";
 import { useGetProfile } from "@/hooks/useUser";
-import { getUserId } from "@/functions/tokenManager";
+import { getUserId } from "@/functions/userIdManager";
 import { useRouter } from "next/navigation";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 import { useTranslations } from "next-intl";

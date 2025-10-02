@@ -5,14 +5,10 @@ import {
   GetProfileAPI,
   GetUserInfoAPI,
   LoginAPI,
+  LogoutAPI,
   RegisterAPI,
   UploadProfileAPI,
 } from "@/services/user";
-import {
-  setAccessToken,
-  setRefreshToken,
-  setUserId,
-} from "@/functions/tokenManager";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import errorToast from "@/functions/errorToast";
 import successToast from "@/functions/successToast";
@@ -31,9 +27,6 @@ export const useAuth = () => {
 
     try {
       const response = await LoginAPI(data);
-      setAccessToken(response.token);
-      setRefreshToken(response.refreshToken);
-      setUserId(response.userId);
       callbacks?.onSuccess?.();
       return response;
     } catch (err) {
@@ -61,8 +54,13 @@ export const useAuth = () => {
     }
   };
 
+  const logoutHandler = async () => {
+    await LogoutAPI();
+  };
+
   return {
     loginHandler,
+    logoutHandler,
     registerHandler,
     isLoading,
   };

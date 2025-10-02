@@ -19,7 +19,6 @@ export type RegisterType = {
 
 export type RefreshType = {
   userId: string;
-  refreshToken: string;
 };
 
 export type UserInfoType = {

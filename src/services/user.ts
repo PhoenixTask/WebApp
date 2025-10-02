@@ -14,13 +14,18 @@ export const RegisterAPI = async (data: RegisterType) => {
   return response.data;
 };
 
-export const LoginAPI = async (data: LoginType): Promise<LoginReturnsType> => {
-  const response = await Axios.post("/v2/user/login", data);
+export const LoginAPI = async (data: LoginType) => {
+  const response = await Axios.post("/v3/user/login", data);
+  return response.data;
+};
+
+export const LogoutAPI = async () => {
+  const response = await Axios.post("/v1/user/logout");
   return response.data;
 };
 
 export const RefreshAPI = async (data: RefreshType) => {
-  const response = await Axios.post("/v1/user/refresh-token", data);
+  const response = await Axios.post("/v2/user/refresh-token", data);
   return response.data;
 };
 
