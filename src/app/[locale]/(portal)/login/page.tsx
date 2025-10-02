@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
 import { direction } from "@/functions/languageHandler";
 import { useProtect } from "@/providers/ProtectContext";
+import GoogleAuth from "@/components/GoogleAuth";
 
 export default function LoginPage() {
   const [checking, setChecking] = useState(true);
@@ -68,6 +69,10 @@ export default function LoginPage() {
                 label={t("password")}
               />
               <ErrorMessage {...direction(locale)} error={errors.password} />
+            </Flex>
+
+            <Flex justifyContent="center">
+              <GoogleAuth />
             </Flex>
           </Flex>
           <Flex gap="M" direction="col">

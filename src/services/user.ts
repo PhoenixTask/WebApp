@@ -2,10 +2,10 @@ import Axios from "@/functions/axiosInstance";
 import {
   RegisterType,
   LoginType,
+  GoogleLoginType,
+  RefreshType,
   EditUserInfoType,
   UserInfoType,
-  LoginReturnsType,
-  RefreshType,
   UploadProfileType,
 } from "@/types/user";
 
@@ -23,6 +23,11 @@ export const LogoutAPI = async () => {
   const response = await Axios.post("/v1/user/logout");
   return response.data;
 };
+
+export const GoogleLoginAPI = async (data: GoogleLoginType) => {
+  const response = await Axios.post("/v2/user/google-login", data);
+  return response.data;
+}
 
 export const RefreshAPI = async (data: RefreshType) => {
   const response = await Axios.post("/v2/user/refresh-token", data);
