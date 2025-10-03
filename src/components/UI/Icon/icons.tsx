@@ -13,6 +13,7 @@ export { default as Emoji } from "./icons/Emoji";
 export { default as Eye } from "./icons/Eye";
 export { default as Flag } from "./icons/Flag";
 export { default as Github } from "./icons/Github";
+export { default as Google } from "./icons/Google";
 export { default as LightMode } from "./icons/LightMode";
 export { default as Link } from "./icons/Link";
 export { default as ListView } from "./icons/ListView";
