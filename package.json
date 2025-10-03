@@ -30,7 +30,7 @@
     "date-fns": "^4.1.0",
     "date-fns-jalali": "4.1.0-0",
     "motion": "^12.23.12",
-    "next": "15.4.6",
+    "next": "15.5.4",
     "next-intl": "^4.3.6",
     "react": "19.1.1",
     "react-date-object": "^2.1.9",
