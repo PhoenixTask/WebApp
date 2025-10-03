@@ -8,6 +8,7 @@ import useActiveState from "@/store/useActiveState";
 import useModal from "@/store/useModal";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useCompleteTask } from "@/hooks/useTasks";
 
 type TaskBoxProps = TaskWithBoardIdType;
 
@@ -23,6 +24,8 @@ export default function TaskBox({
   const [show, setShow] = useState(false);
   const { storeActiveTask } = useActiveState();
   const { openModal } = useModal();
+
+  const { mutate: CompleteTaskAPI } = useCompleteTask();
 
   const {
     attributes,
@@ -89,7 +92,7 @@ export default function TaskBox({
 
       <div
         className={clsx(
-          "overflow-hidden border-t border-neutral transition-all duration-300",
+          "overflow-hidden border-t border-neutral transition-all duration-300 flex justify-between items-center",
           show ? "max-h-16 pt-1" : "max-h-0 pt-0"
         )}
       >
@@ -109,9 +112,18 @@ export default function TaskBox({
             <Icon iconName="Remove" />
           </Button>
         </div>
+        <input
+          type="checkbox"
+          onClick={() => handleCompleteTask(id)}
+          className="checkbox"
+        />
       </div>
     </div>
   );
+
+  function handleCompleteTask(taskId: string) {
+    CompleteTaskAPI({ id: taskId, isComplete: true });
+  }
 
   function handleDeleteTask() {
     storeActiveTask(id);

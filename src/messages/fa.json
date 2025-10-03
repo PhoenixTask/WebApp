@@ -50,6 +50,7 @@
     "newBoard": "ایجاد ستون جدید",
     "newTask": "ایجاد تسک جدید",
     "ListPage": {
+      "complete": "وضعیت",
       "title": "عنوان",
       "priority": "اولویت",
       "deadline": "ضرب‌العجل",

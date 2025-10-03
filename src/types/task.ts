@@ -51,12 +51,11 @@ export type EditTaskBoardType = {
 };
 
 export type EditTasksBoardAndOrderType = {
-  taskRequests: 
-    {
-      taskId: string;
-      boardId: string;
-      order: number;
-    }[],
+  taskRequests: {
+    taskId: string;
+    boardId: string;
+    order: number;
+  }[];
 };
 
 export type GetTasksByDeadlineType = {
@@ -68,4 +67,9 @@ export type GetTasksByDeadlineType = {
 export type EditTaskDeadlineType = {
   taskId: string;
   newDeadLine: string;
+};
+
+export type CompleteTaskType = {
+  id: string;
+  isComplete: boolean;
 };

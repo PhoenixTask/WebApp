@@ -50,6 +50,7 @@
     "newBoard": "Create New Board",
     "newTask": "Create New Task",
     "ListPage": {
+      "complete": "status",
       "title": "Title",
       "priority": "Priority",
       "deadline": "Deadline",

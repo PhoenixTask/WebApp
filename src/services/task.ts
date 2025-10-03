@@ -9,6 +9,7 @@ import {
   GetTasksByDeadlineType,
   EditTaskDeadlineType,
   EditTasksBoardAndOrderType,
+  CompleteTaskType,
 } from "@/types/task";
 import { BoardIdType } from "@/types/board";
 
@@ -16,6 +17,13 @@ export const GetTasksAPI = async ({
   id: boardId,
 }: BoardIdType): Promise<TaskType[]> => {
   const response = await Axios.get(`/v1/board/${boardId}/task`);
+  return response.data;
+};
+
+export const CompleteTaskAPI = async ({ id, isComplete }: CompleteTaskType) => {
+  const response = await Axios.patch(
+    `v1/task/complete/${id}?isComplete=${isComplete}`
+  );
   return response.data;
 };
 

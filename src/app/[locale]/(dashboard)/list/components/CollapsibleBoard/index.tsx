@@ -1,6 +1,6 @@
 import { Button, Flex, Icon } from "@/components/UI";
 import { colorVariant, priorityColor } from "@/functions/colorInterpretation";
-import { useTasks } from "@/hooks/useTasks";
+import { useTasks, useCompleteTask } from "@/hooks/useTasks";
 import useModal from "@/store/useModal";
 import useActiveState from "@/store/useActiveState";
 import { useState } from "react";
@@ -26,6 +26,7 @@ export default function CollapsibleBoard({
   const { storeActiveBoard, storeActiveTask } = useActiveState();
 
   const { data: tasks } = useTasks(boardId);
+  const { mutate: CompleteTaskAPI } = useCompleteTask();
   const { openModal } = useModal();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -71,6 +72,7 @@ export default function CollapsibleBoard({
             <table className="w-full table-fixed border-separate border-spacing-y-2 text-sm text-base-content">
               <thead>
                 <tr className="text-base font-semibold text-center">
+                  <th className="py-3 px-2 w-20">{t("ListPage.complete")}</th>
                   <th className="py-3 px-2">{t("ListPage.title")}</th>
                   <th className="py-3 px-2">{t("ListPage.priority")}</th>
                   <th className="py-3 px-2">{t("ListPage.deadline")}</th>
@@ -86,8 +88,25 @@ export default function CollapsibleBoard({
                     priority,
                     deadLine,
                     description,
+                    isComplete,
                   }) => (
-                    <tr key={taskId} className={"shadow-sm rounded-md"}>
+                    <tr
+                      key={taskId}
+                      className={clsx(
+                        isComplete && "line-through bg-base-300",
+                        "shadow-sm rounded-md"
+                      )}
+                    >
+                      <td className="py-2 px-2">
+                        <input
+                          type="checkbox"
+                          defaultChecked={isComplete}
+                          onClick={() =>
+                            handleCompleteTask(taskId, isComplete!)
+                          }
+                          className="checkbox"
+                        />
+                      </td>
                       <td className="py-2 px-2">{taskName}</td>
                       <td className="py-2 px-2">
                         <div className="flex justify-center gap-1">
@@ -131,6 +150,10 @@ export default function CollapsibleBoard({
       </Flex>
     </div>
   );
+
+  function handleCompleteTask(taskId: string, isComplete: boolean) {
+    CompleteTaskAPI({ id: taskId, isComplete: !isComplete });
+  }
 
   function handleClickBoard() {
     storeActiveBoard(boardId);

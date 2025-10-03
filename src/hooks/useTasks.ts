@@ -9,6 +9,7 @@ import {
   GetTasksByDeadlineAPI,
   EditTaskDeadlineAPI,
   EditTasksBoardAndOrderAPI,
+  CompleteTaskAPI,
 } from "@/services/task";
 import {
   CreateTaskType,
@@ -19,6 +20,7 @@ import {
   GetTasksByDeadlineType,
   EditTaskDeadlineType,
   EditTasksBoardAndOrderType,
+  CompleteTaskType,
 } from "@/types/task";
 import errorToast from "@/functions/errorToast";
 import successToast from "@/functions/successToast";
@@ -29,6 +31,23 @@ export const useTasks = (boardId: string) => {
     queryFn: () => GetTasksAPI({ id: boardId }),
     staleTime: 1000 * 60 * 5,
     select: (tasks) => tasks.sort((a, b) => a.order - b.order),
+  });
+};
+
+export const useCompleteTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CompleteTaskType) => CompleteTaskAPI(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks-by-deadline"] });
+      queryClient.invalidateQueries({ queryKey: ["all-tasks-in-project"] });
+      successToast("taskUpdated");
+    },
+    onError: (error) => {
+      errorToast(error);
+    },
   });
 };
 
