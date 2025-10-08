@@ -6,7 +6,8 @@ import useActiveState from "@/store/useActiveState";
 import { useState } from "react";
 import { MiladiToShamsi } from "@/functions/date";
 import clsx from "clsx";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { direction } from "@/functions/languageHandler";
 
 type CollapsibleBoardProps = {
   boardName: string;
@@ -19,6 +20,7 @@ export default function CollapsibleBoard({
   boardName,
   boardColor,
 }: CollapsibleBoardProps) {
+  const locale = useLocale();
   const t = useTranslations("Dashboard");
 
   const prioritiesLabel = t("ListPage.priorities").split(",");
@@ -67,7 +69,9 @@ export default function CollapsibleBoard({
       >
         <div className="flex flex-col w-full">
           {!tasks || !tasks[0] ? (
-            <div className="m-auto mt-2">{t("noTask")}</div>
+            <div className="m-auto mt-2" {...direction(locale)}>
+              {t("noTask")}
+            </div>
           ) : (
             <table className="w-full table-fixed border-separate border-spacing-y-2 text-sm text-base-content">
               <thead>

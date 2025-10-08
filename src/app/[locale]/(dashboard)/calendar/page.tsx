@@ -5,6 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { EventDropArg, DatesSetArg } from "@fullcalendar/core";
+import faLocale from "@fullcalendar/core/locales/fa";
 import { useTasksByDeadline, useEditTaskDeadline } from "@/hooks/useTasks";
 import useActiveState from "@/store/useActiveState";
 import {
@@ -16,7 +17,6 @@ import {
 } from "date-fns";
 import useModal from "@/store/useModal";
 import { TaskType } from "@/types/task";
-import faLocale from "@fullcalendar/core/locales/fa";
 import { useEffect, useState } from "react";
 import { DateToString } from "@/functions/date";
 import { useLocale } from "next-intl";
@@ -63,7 +63,7 @@ export default function CalendarViewPage() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push(`/${locale}/login`); 
+      router.push(`/${locale}/login`);
     }
   }, [isAuthenticated, router]);
 
@@ -71,7 +71,7 @@ export default function CalendarViewPage() {
 
   return (
     <div className="flex justify-center items-center">
-      <div className="w-full h-[720px] max-w-6xl mt-5 overflow-hidden">
+      <div className="w-full h-[720px] max-w-6xl mt-5 px-5 overflow-hidden">
         <FullCalendar
           {...calendarLanguage(locale)}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -88,9 +88,9 @@ export default function CalendarViewPage() {
           eventDrop={handleEventDrop}
           datesSet={handleDatesSet}
           headerToolbar={{
-            left: "prev,next today",
+            left: "prev,next",
             center: "title",
-            right: "dayGridMonth,timeGridWeek",
+            right: "today",
           }}
         />
       </div>

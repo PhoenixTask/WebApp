@@ -38,7 +38,7 @@ export default function ListViewPage() {
   if (boards?.length === 0) return <NoBoard />;
 
   return (
-    <div className="p-2.5 w-full flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center p-2.5 w-full gap-2">
       <Button
         onClick={() => openModal("create-board")}
         variant="outline"
