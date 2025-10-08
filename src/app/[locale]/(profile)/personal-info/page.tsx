@@ -12,7 +12,6 @@ import {
   useUploadProfile,
   useGetProfile,
 } from "@/hooks/useUser";
-import { getUserId } from "@/functions/tokenManager";
 import { direction } from "@/functions/languageHandler";
 import { useSchema } from "@/hooks/useSchema";
 import { useProtect } from "@/providers/ProtectContext";
@@ -39,8 +38,7 @@ export default function PersonalInfoPage() {
 
   const { mutateAsync: UploadProfileAPI } = useUploadProfile();
 
-  const userId = getUserId();
-  const { data: userProfileURL } = useGetProfile(userId!);
+  const { data: userProfileURL } = useGetProfile(userInfo?.id);
 
   useEffect(() => {
     if (!isAuthenticated) {

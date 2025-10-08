@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { getRefreshToken, removeTokens } from "@/functions/tokenManager";
+import { getUserId, removeUserId } from "@/functions/userIdManager";
 import { useQueryClient } from "@tanstack/react-query";
 import Loading from "@/app/loading";
 import { useAuth } from "@/hooks/useUser";
@@ -36,7 +36,7 @@ export const ProtectProvider = ({
 
   const queryClient = useQueryClient();
 
-  const { loginHandler, registerHandler } = useAuth();
+  const { loginHandler, logoutHandler, registerHandler } = useAuth();
 
   const router = useRouter();
 
@@ -58,8 +58,8 @@ export const ProtectProvider = ({
   );
 
   function checkAuth() {
-    const token = getRefreshToken();
-    const hasToken = !!token;
+    const userId = getUserId();
+    const hasToken = !!userId;
 
     setIsAuthenticated(hasToken);
     return hasToken;
@@ -82,8 +82,7 @@ export const ProtectProvider = ({
     await registerHandler(formData, {
       onSuccess: () => {
         successToast("registerSuccess");
-        setIsAuthenticated(true);
-        router.push(`/${locale}/list`);
+        router.push(`/${locale}/login`);
       },
       onError: (err) => {
         errorToast(err);
@@ -91,8 +90,10 @@ export const ProtectProvider = ({
     });
   }
 
-  function logout() {
-    removeTokens();
+  async function logout() {
+    await logoutHandler();
+
+    removeUserId();
     queryClient.clear();
     queryClient.invalidateQueries();
     setIsAuthenticated(false);

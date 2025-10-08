@@ -5,7 +5,6 @@ import {
   Input,
   Button,
   ColorPicker,
-  ErrorMessage,
   Heading,
   Icon,
 } from "@/components/UI";
@@ -58,12 +57,16 @@ export default function CreateProjectModal({
       </Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-control mb-4">
-          <Input withLabel={false} label={t("name")} {...register("name")} />
-          <ErrorMessage error={errors.name} />
+        <div className="mb-4">
+          <Input
+            withLabel={false}
+            label={t("name")}
+            {...register("name")}
+            error={errors.name}
+          />
         </div>
 
-        <div className="form-control mb-4">
+        <div className="mb-4">
           <ColorPicker
             colorName={color}
             setColorName={(newColor) => setValue("color", newColor)}

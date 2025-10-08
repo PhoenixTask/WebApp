@@ -64,10 +64,12 @@
 
 @theme {
   --font-IranYekan: var(--local-font-IranYekan), sans-serif;
-  --color-mint: var(--color-mint);
+
+  --color-sky: var(--color-sky);
   --color-ocean: var(--color-ocean);
-  --color-sun: var(--color-sun);
+  --color-mint: var(--color-mint);
   --color-forest: var(--color-forest);
+  --color-sun: var(--color-sun);
   --color-sand: var(--color-sand);
   --color-rose: var(--color-rose);
   --color-cherry: var(--color-cherry);

@@ -9,6 +9,7 @@ import {
   GetTasksByDeadlineType,
   EditTaskDeadlineType,
   EditTasksBoardAndOrderType,
+  CompleteTaskType,
 } from "@/types/task";
 import { BoardIdType } from "@/types/board";
 
@@ -16,6 +17,13 @@ export const GetTasksAPI = async ({
   id: boardId,
 }: BoardIdType): Promise<TaskType[]> => {
   const response = await Axios.get(`/v1/board/${boardId}/task`);
+  return response.data;
+};
+
+export const CompleteTaskAPI = async ({ id, isComplete }: CompleteTaskType) => {
+  const response = await Axios.patch(
+    `v1/task/complete/${id}?isComplete=${isComplete}`
+  );
   return response.data;
 };
 
@@ -61,9 +69,12 @@ export const GetTasksByDeadlineAPI = async ({
   Start,
   End,
 }: GetTasksByDeadlineType) => {
-  const response = await Axios.get("/v1/task/get-by-deadline", {
-    params: { ProjectId, Start, End },
-  });
+  const response = await Axios.get(
+    "/v1/task/get-by-deadline?IncludeCompleted=false",
+    {
+      params: { ProjectId, Start, End },
+    }
+  );
   return response.data;
 };
 

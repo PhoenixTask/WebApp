@@ -3,8 +3,7 @@
 import Image from "next/image";
 import { Link } from "@/components/UI";
 import { routeType } from "@/i18n/routing";
-import { useGetProfile } from "@/hooks/useUser";
-import { getUserId } from "@/functions/tokenManager";
+import { useGetProfile, useUserInfo } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 import { useTranslations } from "next-intl";
@@ -24,8 +23,8 @@ export default function LandingNavbar() {
     { label: t("MainPage.calendarLink"), href: "/calendar" },
   ];
 
-  const userId = getUserId();
-  const { data: userProfileURL } = useGetProfile(userId);
+  const { data: userInfo } = useUserInfo();
+  const { data: userProfileURL } = useGetProfile(userInfo?.id);
 
   return (
     <div className="navbar bg-base-300 shadow-sm px-5 fixed top-0 z-20">

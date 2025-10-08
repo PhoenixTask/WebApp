@@ -50,6 +50,7 @@
     "newBoard": "Create New Board",
     "newTask": "Create New Task",
     "ListPage": {
+      "complete": "status",
       "title": "Title",
       "priority": "Priority",
       "deadline": "Deadline",
@@ -93,7 +94,6 @@
         "title": "Create New Task",
         "name": "Task Name",
         "description": "Task Description",
-        "selectBoard": "Select Board",
         "priorities": "No Priority,Low,Medium,High,Urgent",
         "button": "Create"
       }
@@ -118,7 +118,6 @@
         "title": "Edit Task",
         "name": "Task Name",
         "description": "Task Description",
-        "selectBoard": "Select Board",
         "priorities": "No Priority,Low,Medium,High,Urgent",
         "button": "Edit"
       }

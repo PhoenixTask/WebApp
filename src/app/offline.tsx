@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, Heading, FuzzyText } from "@/components/UI";
+import { Button, Heading } from "@/components/UI";
 import { localeType } from "@/i18n/locales";
 import { useRouter } from "next/navigation";
 
-export default function NotFound() {
+export default function Offline() {
   const router = useRouter();
   const locale =
     typeof window !== "undefined"
@@ -13,18 +13,21 @@ export default function NotFound() {
 
   const messages = {
     en: {
-      title: "This page doesn't exist!😓",
+      title: "You're offline!🥶",
+      subtitle: "Some features may be unavailable.",
       button: "Back to home page",
       dir: "ltr",
     },
     fa: {
-      title: "این صفحه وجود ندارد!😓",
+      title: "شما آفلاین هستید!🥶",
+      subtitle: "برخی امکانات ممکن است در دسترس نباشند.",
       button: "بازگشت به صفحه اصلی",
       dir: "rtl",
     },
   };
 
-  const { title, button, dir } = messages[locale as localeType] || messages.en;
+  const { title, subtitle, button, dir } =
+    messages[locale as localeType] || messages.en;
 
   return (
     <div
@@ -33,19 +36,11 @@ export default function NotFound() {
     >
       <div className="card w-full max-w-lg bg-base-300 shadow-xl p-8 text-center">
         <div className="card-body items-center text-center">
-          <FuzzyText
-            fontSize="clamp(3rem, 10vw, 8rem)"
-            fontWeight={900}
-            color="#ef4444"
-            baseIntensity={0.15}
-            hoverIntensity={0.45}
-          >
-            404
-          </FuzzyText>
-
-          <Heading as="h1" className="text-3xl font-semibold mb-4 mt-2">
+          <Heading as="h1" className="text-3xl font-semibold mb-2 mt-2">
             {title}
           </Heading>
+
+          <p className="mb-6 text-lg">{subtitle}</p>
 
           <div className="card-actions justify-center">
             <Button

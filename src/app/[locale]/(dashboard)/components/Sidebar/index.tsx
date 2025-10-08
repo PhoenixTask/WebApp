@@ -7,7 +7,6 @@ import { useWorkspaces } from "@/hooks/useWorkspaces";
 import WorkspaceMenu from "./WorkspaceMenu";
 import useModal from "@/store/useModal";
 import { useGetProfile, useUserInfo } from "@/hooks/useUser";
-import { getUserId } from "@/functions/tokenManager";
 import { useLocale, useTranslations } from "next-intl";
 import PhoenixTask from "@/components/PhoenixTask";
 import { useProtect } from "@/providers/ProtectContext";
@@ -25,10 +24,8 @@ export default function DashboardSidebar() {
 
   const { data: workspaces, isLoading, isError } = useWorkspaces();
 
-  const userId = getUserId();
-  const { data: userProfileURL } = useGetProfile(userId!);
-
   const { data: userInfo } = useUserInfo();
+  const { data: userProfileURL } = useGetProfile(userInfo?.id);
 
   return (
     <Flex
@@ -85,7 +82,7 @@ export default function DashboardSidebar() {
             ? `${userInfo.firstName} ${userInfo.lastName}`
             : t("Dashboard.noName")}
 
-          <div className="relative w-10 h-10 overflow-hidden bg-base-300 text-base-content flex justify-center items-center rounded-full">
+          <div className="relative w-10 h-10 overflow-hidden bg-primary-content text-base-content flex justify-center items-center rounded-full">
             {userProfileURL && (
               <Image
                 src={userProfileURL}

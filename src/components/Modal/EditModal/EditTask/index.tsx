@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Button,
-  ErrorMessage,
   Heading,
   Input,
   Modal,
@@ -19,6 +18,8 @@ import { DateObject } from "react-multi-date-picker";
 import { DateToString, ChangeFormStrDate } from "@/functions/date";
 import { GetOneTaskAPI } from "@/services/task";
 import { useSchema } from "@/hooks/useSchema";
+import BoardSelectorPopover from "@/components/BoardSelectorPopover";
+import { useBoards } from "@/hooks/useBoards";
 
 type EditTaskModalProps = {
   onClose: () => void;
@@ -42,8 +43,11 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
     mode: "onChange",
   });
 
+  const [openBoardPopover, setOpenBoardPopover] = useState(false);
+  const boardButtonRef = useRef<HTMLDivElement>(null);
+
   const [openPopover, setOpenPopover] = useState(false);
-  const buttonRef = useRef<HTMLDivElement>(null);
+  const priorityButtonRef = useRef<HTMLDivElement>(null);
 
   const priority = watch("priority") ?? 0;
   const deadLine = watch("deadLine");
@@ -56,8 +60,11 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
     "text-error",
   ];
 
-  const { activeTaskId, activeBoardId } = useActiveState();
+  const { activeBoardId, activeTaskId, storeActiveBoard, activeProjectId } =
+    useActiveState();
   const { mutateAsync: EditTaskAPI } = useEditTask();
+  const { data: boardsData } = useBoards(activeProjectId);
+  const boards = boardsData || [];
 
   const orderRef = useRef<number>(0);
 
@@ -93,26 +100,52 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
         {t("title")}
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-control mb-4 w-52">
-          <Input withLabel={false} label={t("name")} {...register("name")} />
-          <ErrorMessage error={errors.name} />
+        <div className="flex justify-between items-center mb-4">
+          <div className="relative">
+            <div
+              ref={boardButtonRef}
+              className="px-5 py-2 cursor-pointer shadow border border-base-300 rounded-2xl hover:bg-base-300"
+              onClick={() => setOpenBoardPopover((p) => !p)}
+            >
+              {boards?.find((b) => b.id === activeBoardId)?.name ||
+                "انتخاب بورد"}
+            </div>
+
+            <BoardSelectorPopover
+              anchorRef={boardButtonRef}
+              openPopover={openBoardPopover}
+              boards={boards}
+              activeBoardId={activeBoardId}
+              onSelect={(id) => storeActiveBoard(id)}
+              onClose={() => setOpenBoardPopover(false)}
+            />
+          </div>
+
+          <div className="w-52">
+            <Input
+              withLabel={false}
+              label={t("name")}
+              {...register("name")}
+              error={errors.name}
+            />
+          </div>
         </div>
-        <div className="form-control mb-4">
+        <div className="mb-4">
           <Input
             className="resize-none h-20"
             withLabel={false}
             type="textarea"
             label={t("description")}
             {...register("description")}
+            error={errors.description}
           />
-          <ErrorMessage error={errors.description} />
         </div>
         <input type="hidden" {...register("priority")} />
         <div className="modal-action flex justify-between relative">
           <div className="relative">
             <div
               className="flex items-center gap-1 p-1 cursor-pointer shadow border border-base-300 rounded-2xl hover:bg-base-300"
-              ref={buttonRef}
+              ref={priorityButtonRef}
               onClick={() => setOpenPopover((prev) => !prev)}
             >
               <Icon iconName="Flag" className={priorityColors[priority]} />
@@ -120,7 +153,7 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
             </div>
 
             <PriorityPopover
-              anchorRef={buttonRef}
+              anchorRef={priorityButtonRef}
               openPopover={openPopover}
               prioritiesLabel={prioritiesLabel}
               onClose={() => setOpenPopover(false)}

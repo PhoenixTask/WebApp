@@ -3,12 +3,6 @@ export type LoginType = {
   password: string;
 };
 
-export type LoginReturnsType = {
-  userId: string;
-  token: string;
-  refreshToken: string;
-};
-
 export type RegisterType = {
   username: string;
   email: string;
@@ -17,9 +11,12 @@ export type RegisterType = {
   lastName: string;
 };
 
+export type GoogleLoginType = {
+  tokenId: string;
+};
+
 export type RefreshType = {
   userId: string;
-  refreshToken: string;
 };
 
 export type UserInfoType = {

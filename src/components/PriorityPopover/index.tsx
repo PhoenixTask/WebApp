@@ -46,7 +46,7 @@ export default function PriorityPopover({
           top: position.top,
           left: position.left,
         }}
-        className="absolute bg-base-100 overflow-hidden rounded-xl shadow-2xl border border-zinc-400 mt-2 z-50"
+        className="absolute bg-base-100 overflow-hidden rounded-xl shadow-2xl border mt-2 z-50"
         onClick={onClose}
       >
         <ul className="menu">

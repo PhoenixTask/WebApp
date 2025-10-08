@@ -1,11 +1,14 @@
 import { forwardRef, InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { fontSize } from "../sharedStyles";
 import clsx from "clsx";
+import ErrorMessage from "../ErrorMessage";
+import { FieldError } from "react-hook-form";
 
 type CommonProps = {
   label: string;
   withLabel?: false;
   textSize?: keyof typeof fontSize;
+  error?: FieldError | undefined;
   type?: "text" | "email" | "password" | "textarea";
 };
 
@@ -25,6 +28,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, Props>(
       withLabel = true,
       label,
       textSize = "S",
+      error,
       ...rest
     },
     ref
@@ -46,7 +50,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, Props>(
     };
 
     return (
-      <div className="w-full flex flex-col gap-2 select-none">
+      <div className="w-full flex flex-col gap-2 select-none relative">
         {withLabel && inputId && (
           <label
             className={clsx("block", fontSize[textSize])}
@@ -65,6 +69,8 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, Props>(
             {...(commonProps as InputHTMLAttributes<HTMLInputElement>)}
           />
         )}
+
+        {error ? <ErrorMessage error={error} /> : null}
       </div>
     );
   }
