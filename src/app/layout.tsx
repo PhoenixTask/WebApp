@@ -78,7 +78,6 @@ export const metadata: Metadata = {
     ],
   },
   manifest: "/manifest.json",
-  themeColor: "#0ea5a4",
 };
 
 type RootLayoutProps = {

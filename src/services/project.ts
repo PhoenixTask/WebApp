@@ -38,8 +38,11 @@ export const GetOneProjectAPI = async ({ id }: ProjectIdType) => {
 export const GetAllTasksInProjectAPI = async ({
   id: projectId,
 }: ProjectIdType): Promise<AllTasksInProjectType[]> => {
-  const response = await Axios.get("/v1/task/tasks-with-board", {
-    params: { projectId },
-  });
+  const response = await Axios.get(
+    "/v1/task/tasks-with-board?IncludeCompleted=false",
+    {
+      params: { projectId },
+    }
+  );
   return response.data;
 };

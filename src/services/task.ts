@@ -69,9 +69,12 @@ export const GetTasksByDeadlineAPI = async ({
   Start,
   End,
 }: GetTasksByDeadlineType) => {
-  const response = await Axios.get("/v1/task/get-by-deadline", {
-    params: { ProjectId, Start, End },
-  });
+  const response = await Axios.get(
+    "/v1/task/get-by-deadline?IncludeCompleted=false",
+    {
+      params: { ProjectId, Start, End },
+    }
+  );
   return response.data;
 };
 
