@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Button,
-  ErrorMessage,
   Heading,
   Input,
   Modal,
@@ -19,6 +18,7 @@ import { DateObject } from "react-multi-date-picker";
 import { DateToString } from "@/functions/date";
 import { useBoards } from "@/hooks/useBoards";
 import { useSchema } from "@/hooks/useSchema";
+import BoardSelectorPopover from "@/components/BoardSelectorPopover";
 
 type CreateTaskModalProps = {
   onClose: () => void;
@@ -50,8 +50,12 @@ export default function CreateTaskModal({
     },
     mode: "onChange",
   });
+
+  const [openBoardPopover, setOpenBoardPopover] = useState(false);
+  const boardButtonRef = useRef<HTMLDivElement>(null);
+
   const [openPopover, setOpenPopover] = useState(false);
-  const buttonRef = useRef<HTMLDivElement>(null);
+  const priorityButtonRef = useRef<HTMLDivElement>(null);
 
   const priority = watch("priority") ?? 0;
 
@@ -79,47 +83,52 @@ export default function CreateTaskModal({
         {t("title")}
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-row items-center mb-2">
-          <label
-            htmlFor="board-select"
-            className="ml-2 text-sm font-medium text-gray-700"
-          >
-            {t("selectBoard")}
-          </label>
-          <select
-            id="board-select"
-            value={activeBoardId || ""}
-            onChange={(e) => storeActiveBoard(e.target.value)}
-            className="w-52 px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-          >
-            {boards?.map((board) => (
-              <option key={board.id} value={String(board.id)}>
-                {board.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className="flex justify-between items-center mb-4">
+          <div className="relative">
+            <div
+              ref={boardButtonRef}
+              className="px-5 py-2 cursor-pointer shadow border border-base-300 rounded-2xl hover:bg-base-300"
+              onClick={() => setOpenBoardPopover((p) => !p)}
+            >
+              {boards?.find((b) => b.id === activeBoardId)?.name ||
+                "انتخاب بورد"}
+            </div>
 
-        <div className="form-control mb-4 w-52">
-          <Input withLabel={false} label={t("name")} {...register("name")} />
-          <ErrorMessage error={errors.name} />
+            <BoardSelectorPopover
+              anchorRef={boardButtonRef}
+              openPopover={openBoardPopover}
+              boards={boards}
+              activeBoardId={activeBoardId}
+              onSelect={(id) => storeActiveBoard(id)}
+              onClose={() => setOpenBoardPopover(false)}
+            />
+          </div>
+
+          <div className="w-52">
+            <Input
+              withLabel={false}
+              label={t("name")}
+              {...register("name")}
+              error={errors.name}
+            />
+          </div>
         </div>
-        <div className="form-control mb-4">
+        <div className="mb-4">
           <Input
             className="resize-none h-20"
             withLabel={false}
             type="textarea"
             label={t("description")}
             {...register("description")}
+            error={errors.description}
           />
-          <ErrorMessage error={errors.description} />
         </div>
         <input type="hidden" {...register("priority")} />
         <div className="modal-action flex justify-between relative">
           <div className="relative">
             <div
               className="flex items-center gap-1 p-1 cursor-pointer shadow border border-base-300 rounded-2xl hover:bg-base-300"
-              ref={buttonRef}
+              ref={priorityButtonRef}
               onClick={() => setOpenPopover((prev) => !prev)}
             >
               <Icon iconName="Flag" className={priorityColors[priority]} />
@@ -127,7 +136,7 @@ export default function CreateTaskModal({
             </div>
 
             <PriorityPopover
-              anchorRef={buttonRef}
+              anchorRef={priorityButtonRef}
               openPopover={openPopover}
               prioritiesLabel={prioritiesLabel}
               onClose={() => setOpenPopover(false)}
@@ -144,7 +153,6 @@ export default function CreateTaskModal({
             value={selectedDate && DateToString(selectedDate)}
             onChange={handleDatePickerChange}
           />
-          <ErrorMessage error={errors.deadLine} />
 
           <Button
             type="submit"

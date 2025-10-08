@@ -4,11 +4,10 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSchema, schemaType } from "@/schemas/register";
-import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
+import { Button, Flex, Heading, Input } from "@/components/UI";
 import { useAuth } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
-import { direction } from "@/functions/languageHandler";
 import { useProtect } from "@/providers/ProtectContext";
 import { chooseRandomName } from "@/functions/chooseRandomName";
 
@@ -56,32 +55,32 @@ export default function RegisterPage() {
             id="username"
             label={t("userName")}
             {...register("username")}
+            error={errors.username}
           />
-          <ErrorMessage {...direction(locale)} error={errors.username} />
 
           <Input
             id="email"
             label={t("email")}
             type="email"
             {...register("email")}
+            error={errors.email}
           />
-          <ErrorMessage {...direction(locale)} error={errors.email} />
 
           <Input
             id="password"
             label={t("password")}
             type="password"
             {...register("password")}
+            error={errors.password}
           />
-          <ErrorMessage {...direction(locale)} error={errors.password} />
 
           <Input
             id="confirmPassword"
             label={t("confirmPassword")}
             type="password"
             {...register("confirmPassword")}
+            error={errors.confirmPassword}
           />
-          <ErrorMessage {...direction(locale)} error={errors.confirmPassword} />
 
           <Button
             disabled={isLoading}

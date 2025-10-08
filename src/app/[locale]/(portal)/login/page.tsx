@@ -4,11 +4,10 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSchema, schemaType } from "@/schemas/login";
-import { Button, Flex, Heading, Input, ErrorMessage } from "@/components/UI";
+import { Button, Flex, Heading, Input } from "@/components/UI";
 import { useAuth } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
-import { direction } from "@/functions/languageHandler";
 import { useProtect } from "@/providers/ProtectContext";
 import GoogleAuth from "@/components/GoogleAuth";
 
@@ -58,8 +57,8 @@ export default function LoginPage() {
               id="username"
               label={t("userName")}
               {...register("username")}
+              error={errors.username}
             />
-            <ErrorMessage {...direction(locale)} error={errors.username} />
 
             <Flex direction="col">
               <Input
@@ -67,8 +66,8 @@ export default function LoginPage() {
                 id="password"
                 type="password"
                 label={t("password")}
+                error={errors.password}
               />
-              <ErrorMessage {...direction(locale)} error={errors.password} />
             </Flex>
 
             <Flex justifyContent="center">
