@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import errorToast from "@/functions/errorToast";
 import successToast from "@/functions/successToast";
 import { convertFileToBase64 } from "@/functions/convertFileToBase64";
+import { setUserId } from "@/functions/userIdManager";
 
 type AuthCallbacks = {
   onSuccess?: () => void;
@@ -69,7 +70,11 @@ export const useAuth = () => {
 export const useUserInfo = () => {
   return useQuery({
     queryKey: ["user-settings"],
-    queryFn: () => GetUserInfoAPI(),
+    queryFn: async () => {
+      const userInfo = await GetUserInfoAPI();
+      setUserId(userInfo.id);
+      return userInfo;
+    },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
@@ -111,14 +116,16 @@ export const useUploadProfile = () => {
   });
 };
 
-export const useGetProfile = (userId: string | null) => {
+export const useGetProfile = (userId: string | null | undefined) => {
   return useQuery({
     queryKey: ["user-profile", userId],
     queryFn: async () => {
-      if (!userId) return null;
+      const defaultProfile = "/default-profile.svg";
+
+      if (!userId) return defaultProfile;
 
       const userProfile = await GetProfileAPI(userId);
-      if (userProfile.size === 0) return "/default-profile.svg";
+      if (userProfile.size === 0) return defaultProfile;
 
       const imageUrl = URL.createObjectURL(userProfile as Blob);
 

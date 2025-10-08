@@ -1,8 +1,8 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import errorToast from "./errorToast";
 import { getLocale } from "./languageHandler";
-import { getUserId, removeUserId } from "./userIdManager";
 import { RefreshAPI } from "@/services/user";
+import { getUserId } from "./userIdManager";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_END_POINT;
 
@@ -11,7 +11,6 @@ const Axios = axios.create({
   withCredentials: true,
 });
 
-// Refresh Queue Logic
 let isRefreshing = false;
 let failedQueue: {
   resolve: (value?: any) => void;
@@ -48,21 +47,11 @@ Axios.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const userId = getUserId();
-
-      if (!userId) {
-        processQueue(error);
-        redirectToLogin();
-        isRefreshing = false;
-        return Promise.reject(error);
-      }
-
       try {
-        await RefreshAPI({ userId });
+        await RefreshAPI({ userId: getUserId() });
         processQueue(null);
         return Axios(originalRequest);
       } catch (refreshError) {
-        removeUserId();
         processQueue(refreshError as AxiosError);
         redirectToLogin();
         return Promise.reject(refreshError);
