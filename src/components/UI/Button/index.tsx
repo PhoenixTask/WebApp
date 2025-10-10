@@ -16,6 +16,8 @@ const sizeStyles = {
   default: "py-2 px-4",
   full: "w-full py-3",
   small: "w-32 py-1 text-sm",
+  medium: "w-64 h-12 py-1",
+  classBase: "",
 };
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -45,7 +47,7 @@ const Button = forwardRef<HTMLButtonElement, Props>(
     ref
   ) => {
     const classes = clsx(
-      "inline-flex items-center justify-center gap-1 rounded-md font-black transition-all duration-300 cursor-pointer select-none",
+      "flex items-center justify-center gap-1 rounded-md font-black transition-all duration-300 cursor-pointer select-none",
       variantStyles[variant],
       sizeStyles[size],
       fontSize[textSize],

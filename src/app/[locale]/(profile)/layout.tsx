@@ -1,12 +1,16 @@
 import { Flex } from "@/components/UI";
 import ProfileSidebar from "./components/Sidebar";
+import MobileSidebar from "./components/MobileSidebar";
 
 type ProfileLayoutProps = {
   children: React.ReactNode;
-}
+};
 export default function ProfileLayout({ children }: ProfileLayoutProps) {
   return (
     <div className="h-screen grid 2xl:grid-cols-12 2xl:grid-rows-12">
+      <div className="col-span-full 2xl:hidden">
+        <MobileSidebar />
+      </div>
       <div className="2xl:col-span-2 2xl:row-span-12 2xl:block hidden">
         <ProfileSidebar />
       </div>

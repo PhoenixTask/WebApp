@@ -19,7 +19,7 @@ export default function ProfileSidebar() {
       alignItems="center"
       className="h-screen py-10 shadow-lg border-l border-neutral"
     >
-      <div className="flex flex-col justify-center gap-2 w-72">
+      <div className="flex flex-col justify-center gap-2 w-72 px-5">
         <PhoenixTask />
 
         <Button onClick={() => router.push(`/${locale}/list`)}>

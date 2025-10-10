@@ -24,8 +24,8 @@ export default function DashboardHeader() {
       <div className="relative">
         <div className="flex items-center justify-between px-4 gap-x-5 mt-2 absolute">
           {/* logo or menu */}
-          <div className="2xl:hidden">
-            <MobileSidebar />
+          <div>
+            <MobileSidebar />2xl:hidde
           </div>
 
           {/* actions */}

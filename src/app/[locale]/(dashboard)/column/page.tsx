@@ -117,7 +117,8 @@ export default function ColumnViewPage() {
       <Button
         onClick={handleCreateBoard}
         variant="secondary"
-        className="w-64 h-12 shadow-elevated"
+        size="medium"
+        className="shadow-elevated flex-shrink-0"
       >
         {t("newBoard")}
       </Button>
