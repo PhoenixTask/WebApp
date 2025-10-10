@@ -2,7 +2,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import errorToast from "./errorToast";
 import { getLocale } from "./languageHandler";
 import { RefreshAPI } from "@/services/user";
-import { getUserId } from "./userIdManager";
+import { getUserId, removeUserId } from "./userIdManager";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_END_POINT;
 
@@ -53,6 +53,7 @@ Axios.interceptors.response.use(
         return Axios(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError as AxiosError);
+        removeUserId();
         redirectToLogin();
         return Promise.reject(refreshError);
       } finally {
