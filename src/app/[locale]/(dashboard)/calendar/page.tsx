@@ -65,7 +65,7 @@ export default function CalendarViewPage() {
     if (!isAuthenticated) {
       router.push(`/${locale}/login`);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, locale]);
 
   if (!activeProjectId || !activeWorkspaceId) return <NoProject />;
 
