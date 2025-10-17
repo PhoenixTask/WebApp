@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSchema, schemaType } from "@/schemas/register";
 import { Button, Flex, Heading, Input } from "@/components/UI";
-import { useAuth } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
 import { useProtect } from "@/providers/ProtectContext";
@@ -18,7 +17,7 @@ export default function RegisterPage() {
 
   const { t, locale, schema } = useSchema(getSchema, "Portal");
 
-  const { isAuthenticated, registerFunction } = useProtect();
+  const { isAuthenticated, isLoading, registerFunction } = useProtect();
 
   const {
     register,
@@ -26,7 +25,6 @@ export default function RegisterPage() {
     formState: { errors },
     setFocus,
   } = useForm<schemaType>({ resolver: zodResolver(schema) });
-  const { isLoading } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {

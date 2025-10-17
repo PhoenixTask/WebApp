@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 type ProtectContextType = {
   isAuthenticated: boolean;
+  isLoading: boolean;
   loginFunction: (formData: LoginType, locale: string) => Promise<void>;
   registerFunction: (formData: RegisterType, locale: string) => Promise<void>;
   logout: () => void;
@@ -51,7 +52,13 @@ export const ProtectProvider = ({
 
   return (
     <ProtectContext.Provider
-      value={{ isAuthenticated, loginFunction, registerFunction, logout }}
+      value={{
+        isAuthenticated,
+        isLoading,
+        loginFunction,
+        registerFunction,
+        logout,
+      }}
     >
       {children}
     </ProtectContext.Provider>

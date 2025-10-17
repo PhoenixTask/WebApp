@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { LoginType, RegisterType, EditUserInfoType } from "@/types/user";
 import {
   EditUserInfoAPI,
@@ -21,19 +20,13 @@ type AuthCallbacks = {
 };
 
 export const useAuth = () => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const loginHandler = async (data: LoginType, callbacks?: AuthCallbacks) => {
-    setIsLoading(true);
-
     try {
       const response = await LoginAPI(data);
       callbacks?.onSuccess?.();
       return response;
     } catch (err) {
       callbacks?.onError?.(err);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -41,8 +34,6 @@ export const useAuth = () => {
     data: RegisterType,
     callbacks?: AuthCallbacks
   ) => {
-    setIsLoading(true);
-
     try {
       const response = await RegisterAPI(data);
 
@@ -50,8 +41,6 @@ export const useAuth = () => {
       return response;
     } catch (err) {
       callbacks?.onError?.(err);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -63,7 +52,6 @@ export const useAuth = () => {
     loginHandler,
     logoutHandler,
     registerHandler,
-    isLoading,
   };
 };
 
