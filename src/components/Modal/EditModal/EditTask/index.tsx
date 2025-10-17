@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Heading,
-  Input,
-  Modal,
-  Icon,
-} from "@/components/UI";
+import { Button, Heading, Input, Modal, Icon } from "@/components/UI";
 import { getSchema, schemaType } from "@/schemas/modals/task";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -140,39 +134,41 @@ export default function EditTaskModal({ onClose }: EditTaskModalProps) {
             error={errors.description}
           />
         </div>
-        <input type="hidden" {...register("priority")} />
-        <div className="modal-action flex justify-between relative">
-          <div className="relative">
-            <div
-              className="flex items-center gap-1 p-1 cursor-pointer shadow border border-base-300 rounded-2xl hover:bg-base-300"
-              ref={priorityButtonRef}
-              onClick={() => setOpenPopover((prev) => !prev)}
-            >
-              <Icon iconName="Flag" className={priorityColors[priority]} />
-              <span className="ml-2">{prioritiesLabel[priority]}</span>
-            </div>
+        <div className="space-y-5">
+          <input type="hidden" {...register("priority")} />
+          <div className="modal-action flex justify-between relative">
+            <div className="relative">
+              <div
+                className="flex items-center gap-1 p-1 cursor-pointer shadow border border-base-300 rounded-2xl hover:bg-base-300"
+                ref={priorityButtonRef}
+                onClick={() => setOpenPopover((prev) => !prev)}
+              >
+                <Icon iconName="Flag" className={priorityColors[priority]} />
+                <span className="ml-2">{prioritiesLabel[priority]}</span>
+              </div>
 
-            <PriorityPopover
-              anchorRef={priorityButtonRef}
-              openPopover={openPopover}
-              prioritiesLabel={prioritiesLabel}
-              onClose={() => setOpenPopover(false)}
-              onSelect={(val) => {
-                setValue("priority", val, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                });
-                setOpenPopover(false);
-              }}
+              <PriorityPopover
+                anchorRef={priorityButtonRef}
+                openPopover={openPopover}
+                prioritiesLabel={prioritiesLabel}
+                onClose={() => setOpenPopover(false)}
+                onSelect={(val) => {
+                  setValue("priority", val, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                  setOpenPopover(false);
+                }}
+              />
+            </div>
+            <PersianDatePicker
+              value={deadLine}
+              onChange={handleDatePickerChange}
             />
           </div>
-          <PersianDatePicker
-            value={deadLine}
-            onChange={handleDatePickerChange}
-          />
           <Button
             type="submit"
-            size="small"
+            size="full"
             variant="primary"
             disabled={!isValid}
           >
