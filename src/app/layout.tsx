@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import "@/assets/globals.css";
 import { ThemeProvider } from "@/providers/ThemeContext";
 import { ProtectProvider } from "@/providers/ProtectContext";
+import Loading from "@/components/Loading";
 
 const IranYekan = localFont({
   src: [
@@ -100,6 +101,7 @@ export default async function RootLayout({
     >
       <body className="font-IranYekan">
         <Toaster position="top-left" />
+        <Loading />
         <ThemeProvider>
           <QueryProvider>
             <ProtectProvider>{children}</ProtectProvider>

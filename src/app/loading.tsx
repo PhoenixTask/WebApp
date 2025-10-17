@@ -1,4 +1,5 @@
 import { TextShimmer } from "./components/TextShimmer";
+import { Icon } from "@/components/UI";
 
 export default function Loading() {
   return (
@@ -9,7 +10,7 @@ export default function Loading() {
       <TextShimmer className="font-black text-3xl p-2" duration={1}>
         Loading...
       </TextShimmer>
-      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-base-content" />
+      <Icon width={60} height={60} iconName="Loading" />
     </div>
   );
 }

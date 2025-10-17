@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LoginType, RegisterType, EditUserInfoType } from "@/types/user";
 import {
   EditUserInfoAPI,
@@ -8,7 +10,6 @@ import {
   RegisterAPI,
   UploadProfileAPI,
 } from "@/services/user";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import errorToast from "@/functions/errorToast";
 import successToast from "@/functions/successToast";
 import { convertFileToBase64 } from "@/functions/convertFileToBase64";
@@ -20,16 +21,23 @@ type AuthCallbacks = {
 };
 
 export const useAuth = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const loginHandler = async (data: LoginType, callbacks?: AuthCallbacks) => {
     try {
+      setIsLoading(true);
+
       const response = await LoginAPI(data);
       callbacks?.onSuccess?.();
+      
       successToast("loginSuccess");
 
       return response;
     } catch (error) {
       callbacks?.onError?.(error);
       errorToast(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -38,15 +46,19 @@ export const useAuth = () => {
     callbacks?: AuthCallbacks
   ) => {
     try {
-      const response = await RegisterAPI(data);
+      setIsLoading(true);
 
+      const response = await RegisterAPI(data);
       callbacks?.onSuccess?.();
+
       successToast("registerSuccess");
 
       return response;
     } catch (error) {
       callbacks?.onError?.(error);
       errorToast(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,6 +70,7 @@ export const useAuth = () => {
     loginHandler,
     logoutHandler,
     registerHandler,
+    isLoading,
   };
 };
 

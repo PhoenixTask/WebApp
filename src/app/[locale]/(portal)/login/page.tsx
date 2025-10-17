@@ -17,7 +17,7 @@ export default function LoginPage() {
 
   const { t, locale, schema } = useSchema(getSchema, "Portal");
 
-  const { isAuthenticated, isLoading, loginFunction } = useProtect();
+  const { isAuthenticated, loginFunction, isLoading } = useProtect();
 
   const {
     register,

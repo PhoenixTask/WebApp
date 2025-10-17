@@ -3,7 +3,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getUserId, removeUserId } from "@/functions/userIdManager";
 import { useQueryClient } from "@tanstack/react-query";
-import Loading from "@/app/loading";
 import { useAuth } from "@/hooks/useUser";
 import { LoginType, RegisterType } from "@/types/user";
 import { useRouter } from "next/navigation";
@@ -31,22 +30,16 @@ export const ProtectProvider = ({
   children: React.ReactNode;
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   const queryClient = useQueryClient();
 
-  const { loginHandler, logoutHandler, registerHandler } = useAuth();
+  const { loginHandler, logoutHandler, registerHandler, isLoading } = useAuth();
 
   const router = useRouter();
 
   useEffect(() => {
     checkAuth();
-    setIsLoading(false);
   }, []);
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <ProtectContext.Provider
