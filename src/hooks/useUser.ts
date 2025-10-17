@@ -24,9 +24,12 @@ export const useAuth = () => {
     try {
       const response = await LoginAPI(data);
       callbacks?.onSuccess?.();
+      successToast("loginSuccess");
+
       return response;
-    } catch (err) {
-      callbacks?.onError?.(err);
+    } catch (error) {
+      callbacks?.onError?.(error);
+      errorToast(error);
     }
   };
 
@@ -38,9 +41,12 @@ export const useAuth = () => {
       const response = await RegisterAPI(data);
 
       callbacks?.onSuccess?.();
+      successToast("registerSuccess");
+
       return response;
-    } catch (err) {
-      callbacks?.onError?.(err);
+    } catch (error) {
+      callbacks?.onError?.(error);
+      errorToast(error);
     }
   };
 

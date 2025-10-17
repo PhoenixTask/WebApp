@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSchema, schemaType } from "@/schemas/login";
 import { Button, Flex, Heading, Input } from "@/components/UI";
-import { useAuth } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { useSchema } from "@/hooks/useSchema";
 import { useProtect } from "@/providers/ProtectContext";
