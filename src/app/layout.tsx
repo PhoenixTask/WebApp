@@ -81,14 +81,15 @@ export const metadata: Metadata = {
 
 type RootLayoutProps = {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale?: string }>;
 };
 
 export default async function RootLayout({
   children,
   params,
 }: Readonly<RootLayoutProps>) {
-  const { locale } = await params;
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale || "en";
 
   return (
     <html
