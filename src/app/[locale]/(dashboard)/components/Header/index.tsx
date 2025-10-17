@@ -7,7 +7,7 @@ import TodayDateTime from "./TodayDateTime";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import MobileSidebar from "./MobileSidebar";
+import MobileSidebar from "../Sidebar/MobileSidebar";
 
 export default function DashboardHeader() {
   const location = usePathname().slice(1);
