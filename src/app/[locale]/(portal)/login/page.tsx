@@ -71,7 +71,7 @@ export default function LoginPage() {
             </Flex>
 
             <Flex justifyContent="center">
-              <GoogleAuth locale={locale} />
+              <GoogleAuth />
             </Flex>
           </Flex>
           <Flex gap="M" direction="col">

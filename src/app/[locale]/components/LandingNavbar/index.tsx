@@ -30,7 +30,7 @@ export default function LandingNavbar() {
     <div className="navbar bg-base-300 shadow-sm px-5 fixed top-0 z-20">
       <div className="flex-1">
         <div className="md:hidden">
-          {userProfileURL && (
+          {isAuthenticated && userProfileURL && (
             <div className="dropdown dropdown-start">
               <div
                 tabIndex={0}
@@ -88,7 +88,7 @@ export default function LandingNavbar() {
         </div>
         <div>
           <div className="hidden md:flex items-center gap-4">
-            {userProfileURL && (
+            {isAuthenticated && userProfileURL && (
               <>
                 <div className="dropdown dropdown-start">
                   <div

@@ -66,7 +66,7 @@
   "Profile": {
     "back": "Back",
     "changeProfile": "Change Profile",
-    "profileSubWarning": "Everyone can see this picture 🤭",
+    "profileSubWarning": "In the trial version, uploading for host management is disabled.",
     "userName": "Username",
     "email": "Email",
     "firstName": "First Name",
