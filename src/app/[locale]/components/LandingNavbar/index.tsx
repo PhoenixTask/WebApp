@@ -7,7 +7,6 @@ import { useGetProfile, useUserInfo } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 import { useTranslations } from "next-intl";
-import PhoenixTask from "@/components/PhoenixTask";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useProtect } from "@/providers/ProtectContext";
 
@@ -161,7 +160,6 @@ export default function LandingNavbar() {
       <div className="flex items-center gap-2">
         <LanguageSwitcher />
         <ChangeModeButton />
-        <PhoenixTask />
       </div>
     </div>
   );

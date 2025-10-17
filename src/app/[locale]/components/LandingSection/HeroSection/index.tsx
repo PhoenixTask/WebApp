@@ -13,7 +13,7 @@ export default function HeroSection() {
       direction="col"
       justifyContent="center"
       alignItems="center"
-      className="my-20 w-full"
+      className="my-20 px-5 w-full"
     >
       <Flex
         direction="col"
@@ -23,7 +23,7 @@ export default function HeroSection() {
       >
         <Image src="/logo/Original.svg" alt="Origin" width={500} height={500} />
       </Flex>
-      <Heading as="h1" size="XL" weight="900">
+      <Heading as="h1" size="XL" weight="900" align="center">
         {t("heroTitle")}
       </Heading>
       <Heading
