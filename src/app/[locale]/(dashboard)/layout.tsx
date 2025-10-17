@@ -10,7 +10,7 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr] 2xl:grid-cols-12 2xl:grid-rows-12">
       <Modal />
-      <div className="hidden 2xl:block 2xl:col-span-2 2xl:row-span-12 border-l border-neutral shadow-lg">
+      <div className="hidden 2xl:block 2xl:col-span-2 2xl:row-span-12 border-l border-neutral shadow-lg overflow-hidden">
         <DashboardSidebar />
       </div>
       <div className="col-span-full 2xl:col-span-10 2xl:row-span-2">

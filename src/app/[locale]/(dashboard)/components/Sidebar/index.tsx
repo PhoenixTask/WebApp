@@ -15,17 +15,18 @@ import { direction } from "@/functions/languageHandler";
 export default function DashboardSidebar() {
   const router = useRouter();
   const { logout } = useProtect();
-  ``;
-
   const { openModal } = useModal();
-
   const locale = useLocale();
   const t = useTranslations();
 
   const { data: workspaces, isLoading, isError } = useWorkspaces();
-
   const { data: userInfo } = useUserInfo();
   const { data: userProfileURL } = useGetProfile(userInfo?.id);
+
+  const fullName =
+    userInfo?.firstName && userInfo?.lastName
+      ? `${userInfo.firstName} ${userInfo.lastName}`
+      : t("Dashboard.noName");
 
   return (
     <Flex
@@ -33,56 +34,59 @@ export default function DashboardSidebar() {
       direction="col"
       justifyContent="between"
       alignItems="center"
-      className="h-screen overflow-x-hidden py-5"
+      className="h-screen w-72"
     >
-      <div className="flex flex-col justify-center w-72 px-2">
-        <PhoenixTask />
+      {/* Header Section(Logo & New Workspace) */}
+      <div className="flex flex-col justify-center w-full p-4 gap-4">
+        <div className="flex justify-center mb-2">
+          <PhoenixTask />
+        </div>
 
-        {/* create new workspace */}
         <Button
           onClick={() => openModal("create-workspace")}
           variant="primary"
           size="full"
-          className="flex items-center"
+          className="flex items-center justify-center gap-2"
         >
           <Icon iconName="SquarePlus" />
           <span>{t("Dashboard.newWorkspace")}</span>
         </Button>
+      </div>
 
-        <div
-          className="h-[670px] overflow-y-auto"
-          dir="ltr"
-          style={{ scrollbarGutter: "stable" }}
-        >
-          <div dir="rtl">
-            {/* Loading/Error */}
-            {isLoading && <Icon iconName="Loading" />}
-            {isError && (
-              <div
-                {...direction(locale)}
-                className="mt-10 font-bold text-error"
-              >
-                {t("Dashboard.serverError")}
-              </div>
-            )}
-            {workspaces && <WorkspaceMenu workspaces={workspaces} />}
-          </div>
+      {/* Main Section(Workspaces & Projects) */}
+      <div
+        className="flex-1 w-full overflow-y-auto px-3"
+        dir="ltr"
+        style={{ scrollbarGutter: "stable" }}
+      >
+        <div dir="rtl" className="pb-20">
+          {isLoading && (
+            <div className="flex justify-center py-10">
+              <Icon iconName="Loading" className="animate-spin" />
+            </div>
+          )}
+          {isError && (
+            <div
+              {...direction(locale)}
+              className="mt-10 font-bold text-error text-center"
+            >
+              {t("Dashboard.serverError")}
+            </div>
+          )}
+          {workspaces && <WorkspaceMenu workspaces={workspaces} />}
         </div>
       </div>
 
-      <div>
+      {/* Footer Section (Profile + Logout) */}
+      <div className="w-full pb-10 px-5 flex flex-col justify-center items-center">
         <Link
           i18n
-          className="flex items-center gap-2"
+          className="flex items-center gap-3 hover:bg-base-300/30 p-2 rounded-xl transition-all duration-200"
           weight="800"
           textSize="M"
           to="/personal-info"
         >
-          {userInfo && userInfo.firstName && userInfo.lastName
-            ? `${userInfo.firstName} ${userInfo.lastName}`
-            : t("Dashboard.noName")}
-
-          <div className="relative w-10 h-10 overflow-hidden bg-primary-content text-base-content flex justify-center items-center rounded-full">
+          <div className="relative w-10 h-10 overflow-hidden bg-primary-content text-base-content flex justify-center items-center rounded-full ring-2 ring-primary/30">
             {userProfileURL && (
               <Image
                 src={userProfileURL}
@@ -93,15 +97,16 @@ export default function DashboardSidebar() {
               />
             )}
           </div>
+          <span className="truncate font-semibold">{fullName}</span>
         </Link>
 
         <Button
           mode="child"
-          className="w-fit mt-5 flex items-center gap-2 text-base font-extrabold text-error hover:text-error/60 transition-colors duration-300"
+          className="mt-4 flex items-center gap-2 text-error font-bold"
           onClick={logoutHandler}
         >
-          {t("logoutLink")}
           <Icon width={16} iconName="Logout" />
+          {t("logoutLink")}
         </Button>
       </div>
     </Flex>
