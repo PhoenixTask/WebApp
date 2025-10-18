@@ -67,7 +67,7 @@ export default function LanguageSwitcher() {
       </label>
       <ul
         tabIndex={0}
-        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-40"
+        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box"
       >
         {routing.locales.map((lang) => {
           const isActive = locale === lang;
