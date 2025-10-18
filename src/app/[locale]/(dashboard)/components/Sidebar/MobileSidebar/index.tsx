@@ -4,7 +4,7 @@ import ChangeModeButton from "@/components/ChangeThemeMode";
 
 export default function MobileSidebar() {
   return (
-    <div className="drawer drawer-start 2xl:hidden z-40">
+    <div className="drawer drawer-start 2xl:hidden z-30">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}

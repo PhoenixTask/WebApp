@@ -29,7 +29,7 @@ export const useAuth = () => {
 
       const response = await LoginAPI(data);
       callbacks?.onSuccess?.();
-      
+
       successToast("loginSuccess");
 
       return response;
@@ -127,7 +127,7 @@ export const useGetProfile = (userId: string | null | undefined) => {
   return useQuery({
     queryKey: ["user-profile", userId],
     queryFn: async () => {
-      const defaultProfile = "/default-profile.svg";
+      const defaultProfile = "/default-profile.png";
 
       if (!userId) return defaultProfile;
 

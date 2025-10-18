@@ -91,7 +91,7 @@ export default function PersonalInfoPage() {
                 id="img"
                 onChange={handleProfileImageUpload}
               />{" "}
-              <span className="text-xs text-neutral">
+              <span {...direction(locale)} className="text-xs text-neutral">
                 {t("Profile.profileSubWarning")}
               </span>
             </Flex>
