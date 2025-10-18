@@ -6,7 +6,7 @@ const messages = {
     syncing: "Syncing data...",
   },
   fa: {
-    syncing: "در حال همگام‌سازی...",
+    syncing: "...در حال همگام‌سازی",
   },
 };
 
