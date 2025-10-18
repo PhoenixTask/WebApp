@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CreateBoardAPI,
@@ -12,11 +13,10 @@ import {
   EditBoardType,
   EditBoardOrdersType,
 } from "@/types/board";
-import errorToast from "@/functions/errorToast";
-import successToast from "@/functions/successToast";
+import { errorToast, successToast, loadingToast } from "@/functions/toast";
 
 export const useBoards = (projectId: string | null) => {
-  return useQuery<BoardType[] | []>({
+  const query = useQuery<BoardType[] | []>({
     queryKey: ["boards", projectId],
     queryFn: () => {
       if (projectId === null) {
@@ -24,9 +24,20 @@ export const useBoards = (projectId: string | null) => {
       }
       return GetBoardsAPI({ id: projectId });
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10,
     select: (boards) => boards.sort((a, b) => a.order - b.order),
   });
+
+  // background fetch
+  useEffect(() => {
+    if (query.isFetching && !query.isPending) {
+      loadingToast();
+    } else if (!query.isFetching) {
+      loadingToast.finish();
+    }
+  }, [query.isFetching, query.isPending]);
+
+  return query;
 };
 
 export const useCreateBoard = () => {

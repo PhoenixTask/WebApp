@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CreateTaskAPI,
@@ -22,16 +23,26 @@ import {
   EditTasksBoardAndOrderType,
   CompleteTaskType,
 } from "@/types/task";
-import errorToast from "@/functions/errorToast";
-import successToast from "@/functions/successToast";
+import { errorToast, successToast, loadingToast } from "@/functions/toast";
 
 export const useTasks = (boardId: string) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ["tasks", boardId],
     queryFn: () => GetTasksAPI({ id: boardId }),
     staleTime: 1000 * 60 * 5,
     select: (tasks) => tasks.sort((a, b) => a.order - b.order),
   });
+
+  // background fetch
+  useEffect(() => {
+    if (query.isFetching && !query.isPending) {
+      loadingToast();
+    } else if (!query.isFetching) {
+      loadingToast.finish();
+    }
+  }, [query.isFetching, query.isPending]);
+
+  return query;
 };
 
 export const useCompleteTask = () => {

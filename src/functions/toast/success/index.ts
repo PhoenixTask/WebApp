@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { getLocale } from "./languageHandler";
+import { getLocale } from "@/functions/languageHandler";
 
 const messages = {
   en: {
@@ -44,6 +44,7 @@ const successToast = (key: keyof (typeof messages)["en"]) => {
   const locale = getLocale();
   const localeMessages = messages[locale];
   const message = localeMessages[key];
+  
   toast.success(message);
 };
 

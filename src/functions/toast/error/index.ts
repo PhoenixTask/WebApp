@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import axios from "axios";
-import { getLocale } from "./languageHandler";
+import { getLocale } from "@/functions/languageHandler";
 
 const messages = {
   en: {

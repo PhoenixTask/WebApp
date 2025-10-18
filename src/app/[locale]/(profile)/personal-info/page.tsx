@@ -79,12 +79,13 @@ export default function PersonalInfoPage() {
             </div>
             <Flex direction="col" justifyContent="center" gap="S">
               <label
-                className="border border-primary rounded-lg p-2 cursor-pointer grid place-content-center text-xl text-primary"
+                className="text-neutral border border-neutral rounded-lg p-2 cursor-pointer grid place-content-center text-xl"
                 htmlFor="img"
               >
                 {t("Profile.changeProfile")}
               </label>
               <input
+                disabled
                 hidden
                 type="file"
                 accept="image/*"

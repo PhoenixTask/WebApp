@@ -4,14 +4,12 @@ import Image from "next/image";
 import { Link } from "@/components/UI";
 import { routeType } from "@/i18n/routing";
 import { useGetProfile, useUserInfo } from "@/hooks/useUser";
-import { useRouter } from "next/navigation";
 import ChangeModeButton from "@/components/ChangeThemeMode";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useProtect } from "@/providers/ProtectContext";
 
 export default function LandingNavbar() {
-  const router = useRouter();
   const { isAuthenticated, logout } = useProtect();
 
   const t = useTranslations();
@@ -76,7 +74,7 @@ export default function LandingNavbar() {
                 <li>
                   <a
                     className="text-error font-semibold text-sm"
-                    onClick={logoutHandler}
+                    onClick={logout}
                   >
                     {t("logoutLink")}
                   </a>
@@ -121,7 +119,7 @@ export default function LandingNavbar() {
                     <li>
                       <a
                         className="text-error font-semibold text-sm"
-                        onClick={logoutHandler}
+                        onClick={logout}
                       >
                         {t("logoutLink")}
                       </a>
@@ -163,9 +161,4 @@ export default function LandingNavbar() {
       </div>
     </div>
   );
-
-  function logoutHandler() {
-    logout();
-    router.refresh();
-  }
 }

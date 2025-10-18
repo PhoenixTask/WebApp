@@ -1,7 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import errorToast from "./errorToast";
-import { getLocale } from "./languageHandler";
 import { RefreshAPI } from "@/services/user";
+import { errorToast } from "./toast";
+import { getLocale } from "./languageHandler";
 import { getUserId, removeUserId } from "./userIdManager";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_END_POINT;

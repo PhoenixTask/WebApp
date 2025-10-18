@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   CreateWorkspaceAPI,
@@ -6,16 +7,25 @@ import {
   EditWorkspaceAPI,
 } from "@/services/workspace";
 import { CreateWorkspaceType, EditWorkspaceType } from "@/types/workspace";
-import toast from "react-hot-toast";
-import errorToast from "@/functions/errorToast";
-import successToast from "@/functions/successToast";
+import { errorToast, successToast, loadingToast } from "@/functions/toast";
 
 export const useWorkspaces = () => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ["workspaces"],
     queryFn: () => GetWorkspacesAPI(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 30,
   });
+
+  // background fetch
+  useEffect(() => {
+    if (query.isFetching && !query.isPending) {
+      loadingToast();
+    } else if (!query.isFetching) {
+      loadingToast.finish();
+    }
+  }, [query.isFetching, query.isPending]);
+
+  return query;
 };
 
 export const useCreateWorkspace = () => {

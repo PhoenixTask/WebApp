@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Flex, Link, Button, Icon } from "@/components/UI";
 import { useWorkspaces } from "@/hooks/useWorkspaces";
@@ -13,7 +12,6 @@ import { useProtect } from "@/providers/ProtectContext";
 import { direction } from "@/functions/languageHandler";
 
 export default function DashboardSidebar() {
-  const router = useRouter();
   const { logout } = useProtect();
   const { openModal } = useModal();
   const locale = useLocale();
@@ -103,7 +101,7 @@ export default function DashboardSidebar() {
         <Button
           mode="child"
           className="mt-4 flex items-center gap-2 text-error font-bold"
-          onClick={logoutHandler}
+          onClick={logout}
         >
           <Icon width={16} iconName="Logout" />
           {t("logoutLink")}
@@ -111,9 +109,4 @@ export default function DashboardSidebar() {
       </div>
     </Flex>
   );
-
-  function logoutHandler() {
-    logout();
-    router.push(`/${locale}/login`);
-  }
 }

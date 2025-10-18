@@ -10,8 +10,7 @@ import {
   RegisterAPI,
   UploadProfileAPI,
 } from "@/services/user";
-import errorToast from "@/functions/errorToast";
-import successToast from "@/functions/successToast";
+import { errorToast, successToast } from "@/functions/toast";
 import { convertFileToBase64 } from "@/functions/convertFileToBase64";
 import { setUserId } from "@/functions/userIdManager";
 
@@ -62,9 +61,7 @@ export const useAuth = () => {
     }
   };
 
-  const logoutHandler = async () => {
-    await LogoutAPI();
-  };
+  const logoutHandler = async () => await LogoutAPI();
 
   return {
     loginHandler,

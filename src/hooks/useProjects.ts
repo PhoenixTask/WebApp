@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CreateProjectAPI,
@@ -11,11 +12,10 @@ import {
   CreateProjectType,
   EditProjectType,
 } from "@/types/project";
-import errorToast from "@/functions/errorToast";
-import successToast from "@/functions/successToast";
+import { errorToast, successToast, loadingToast } from "@/functions/toast";
 
 export const useProjects = (workspaceId: string | null) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ["projects", workspaceId],
     queryFn: () => {
       if (workspaceId === null) {
@@ -23,8 +23,19 @@ export const useProjects = (workspaceId: string | null) => {
       }
       return GetProjectsAPI({ id: workspaceId });
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 20,
   });
+
+  // background fetch
+  useEffect(() => {
+    if (query.isFetching && !query.isPending) {
+      loadingToast();
+    } else if (!query.isFetching) {
+      loadingToast.finish();
+    }
+  }, [query.isFetching, query.isPending]);
+
+  return query;
 };
 
 export const useCreateProject = () => {
